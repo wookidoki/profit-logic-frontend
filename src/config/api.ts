@@ -1,6 +1,15 @@
 import { config } from './index';
+import type { CalculateRequest, CalculateResponse, ErrorResponse } from '../types';
 
 const API_BASE_URL = config.apiBaseUrl;
+
+async function handleResponse<T>(response: Response): Promise<T> {
+  if (!response.ok) {
+    const error: ErrorResponse = await response.json();
+    throw new Error(error.message || `Request failed: ${response.status}`);
+  }
+  return response.json();
+}
 
 export const apiClient = {
   get: async <T>(endpoint: string): Promise<T> => {
@@ -9,8 +18,7 @@ export const apiClient = {
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
     });
-    if (!response.ok) throw new Error(`GET ${endpoint} failed: ${response.status}`);
-    return response.json();
+    return handleResponse<T>(response);
   },
 
   post: async <T>(endpoint: string, body?: unknown): Promise<T> => {
@@ -20,8 +28,7 @@ export const apiClient = {
       credentials: 'include',
       body: body ? JSON.stringify(body) : undefined,
     });
-    if (!response.ok) throw new Error(`POST ${endpoint} failed: ${response.status}`);
-    return response.json();
+    return handleResponse<T>(response);
   },
 
   put: async <T>(endpoint: string, body?: unknown): Promise<T> => {
@@ -31,8 +38,7 @@ export const apiClient = {
       credentials: 'include',
       body: body ? JSON.stringify(body) : undefined,
     });
-    if (!response.ok) throw new Error(`PUT ${endpoint} failed: ${response.status}`);
-    return response.json();
+    return handleResponse<T>(response);
   },
 
   delete: async <T>(endpoint: string): Promise<T> => {
@@ -41,7 +47,12 @@ export const apiClient = {
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
     });
-    if (!response.ok) throw new Error(`DELETE ${endpoint} failed: ${response.status}`);
-    return response.json();
+    return handleResponse<T>(response);
   },
+};
+
+/** 프로젝트 계산 API */
+export const projectApi = {
+  calculate: (request: CalculateRequest): Promise<CalculateResponse> =>
+    apiClient.post<CalculateResponse>('/v1/projects/calculate', request),
 };
