@@ -1,64 +1,48 @@
+/** 백엔드 통합 응답 래퍼 (ResponseData<T>) */
+export interface ResponseData<T> {
+  success: boolean;
+  data: T | null;
+  message: string | null;
+  timestamp: string;
+}
+
 /** 사업 유형 */
 export type BizType = 'CREATOR' | 'SELLER' | 'DEVELOPER';
+
+/** 사용자 역할 */
+export type Role = 'ROLE_USER' | 'ROLE_ADMIN';
 
 /** 사용자 */
 export interface User {
   id: number;
   email: string;
-  bizType: BizType;
-  createdAt: string;
-  updatedAt: string;
+  nickname: string;
+  role: Role;
+  biz_type: BizType | null;
+  created_at: string;
+  updated_at: string;
 }
 
-/** 프로젝트 (사업 단위) */
+/** 프로젝트 (분석 단위) */
 export interface Project {
   id: number;
-  userId: number;
+  user_id: number;
   title: string;
   price: number;
-  variableCost: number;
-  fixedCost: number;
-  workHours: number;
-  hourlyWage: number;
-  createdAt: string;
-  updatedAt: string;
+  variable_cost: number;
+  fixed_cost: number;
+  work_hours: number;
+  hourly_wage: number;
+  created_at: string;
+  updated_at: string;
 }
 
 /** 시뮬레이션 기록 */
-export interface Simulation {
+export interface SimulationLog {
   id: number;
-  projectId: number;
-  scenarioName: string;
-  marginRate: number;
-  isViable: boolean;
-  createdAt: string;
-}
-
-/** 계산 요청 DTO */
-export interface CalculateRequest {
-  price: number;
-  variableCost: number;
-  fixedCost: number;
-  workHours: number;
-  hourlyWage: number;
-  targetProfit: number;
-}
-
-/** 계산 응답 DTO */
-export interface CalculateResponse {
-  breakEvenPoint: number;
-  operatingProfit: number;
-  economicProfit: number;
-  targetQuantity: number;
-  marginRate: number;
-  contributionMargin: number;
-  isViable: boolean;
-}
-
-/** 에러 응답 */
-export interface ErrorResponse {
-  status: number;
-  message: string;
-  errors: string[];
-  timestamp: string;
+  project_id: number;
+  description: string;
+  result_json: string;
+  created_at: string;
+  updated_at: string;
 }
