@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
+import { MINIMUM_WAGE, DEFAULT_WORK_HOURS } from '../constants';
 import type { CalculateRequest } from '../types/finance';
 import AiParseModal from './AiParseModal';
 
@@ -14,8 +15,8 @@ const fields = [
   { name: 'price' as const, label: '판매가 (원)', placeholder: '예: 15000' },
   { name: 'variable_cost' as const, label: '변동비 (원)', placeholder: '예: 5000' },
   { name: 'fixed_cost' as const, label: '고정비 (원/월)', placeholder: '예: 500000' },
-  { name: 'work_hours' as const, label: '근무시간 (시간/월)', placeholder: '예: 160' },
-  { name: 'hourly_wage' as const, label: '시급 (원)', placeholder: '예: 9860' },
+  { name: 'work_hours' as const, label: '근무시간 (시간/월)', placeholder: `예: ${DEFAULT_WORK_HOURS}` },
+  { name: 'hourly_wage' as const, label: '시급 (원)', placeholder: `예: ${MINIMUM_WAGE}` },
   { name: 'target_profit' as const, label: '목표이익 (원/월)', placeholder: '예: 2000000' },
 ] as const;
 

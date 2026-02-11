@@ -7,6 +7,7 @@ import {
   CATEGORY_LABELS,
   CATEGORY_COLORS,
 } from './analysisHelper';
+import { MINIMUM_WAGE } from '../constants';
 import type { CostBreakdownDto, ShadowWageDto, ActionCardDto } from '../types';
 
 describe('toCostChartData', () => {
@@ -67,7 +68,7 @@ describe('isBelowMinimumWage', () => {
       total_hours: 100,
       operating_profit: 500000,
       real_shadow_wage: 5000,
-      minimum_wage: 9860,
+      minimum_wage: MINIMUM_WAGE,
       minimum_wage_ratio: 50.7,
       has_time_data: true,
     };
@@ -79,7 +80,7 @@ describe('isBelowMinimumWage', () => {
       total_hours: 100,
       operating_profit: 2000000,
       real_shadow_wage: 20000,
-      minimum_wage: 9860,
+      minimum_wage: MINIMUM_WAGE,
       minimum_wage_ratio: 202.8,
       has_time_data: true,
     };
@@ -91,7 +92,7 @@ describe('isBelowMinimumWage', () => {
       total_hours: 100,
       operating_profit: 986000,
       real_shadow_wage: 9860,
-      minimum_wage: 9860,
+      minimum_wage: MINIMUM_WAGE,
       minimum_wage_ratio: 100,
       has_time_data: true,
     };
@@ -134,7 +135,7 @@ describe('hasEnoughData', () => {
     };
     const wage: ShadowWageDto = {
       total_hours: 10, operating_profit: 0, real_shadow_wage: 0,
-      minimum_wage: 9860, minimum_wage_ratio: 0, has_time_data: true,
+      minimum_wage: MINIMUM_WAGE, minimum_wage_ratio: 0, has_time_data: true,
     };
     const result = hasEnoughData(breakdown, wage);
     expect(result.hasCostData).toBe(true);
@@ -147,7 +148,7 @@ describe('hasEnoughData', () => {
     };
     const wage: ShadowWageDto = {
       total_hours: 10, operating_profit: 0, real_shadow_wage: 0,
-      minimum_wage: 9860, minimum_wage_ratio: 0, has_time_data: true,
+      minimum_wage: MINIMUM_WAGE, minimum_wage_ratio: 0, has_time_data: true,
     };
     expect(hasEnoughData(breakdown, wage).hasCostData).toBe(false);
   });
@@ -158,7 +159,7 @@ describe('hasEnoughData', () => {
     };
     const wage: ShadowWageDto = {
       total_hours: 160, operating_profit: 0, real_shadow_wage: 0,
-      minimum_wage: 9860, minimum_wage_ratio: 0, has_time_data: false,
+      minimum_wage: MINIMUM_WAGE, minimum_wage_ratio: 0, has_time_data: false,
     };
     expect(hasEnoughData(breakdown, wage).hasTimeData).toBe(false);
   });

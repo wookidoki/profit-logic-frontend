@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { BackButton, ErrorBanner, FormGroup, FormLabel, FormInput, FormErrorMsg, PrimaryButton } from '../styles/shared';
+import { MINIMUM_WAGE, DEFAULT_WORK_HOURS } from '../constants';
 import { projectApi } from '../api/projectApi';
 import type { ProjectCreateRequest } from '../types';
 
@@ -11,8 +12,8 @@ const fields = [
   { name: 'price' as const, label: '판매가 (원)', placeholder: '예: 15000', type: 'number' },
   { name: 'variable_cost' as const, label: '변동비 (원)', placeholder: '예: 5000', type: 'number' },
   { name: 'fixed_cost' as const, label: '고정비 (원/월)', placeholder: '예: 500000', type: 'number' },
-  { name: 'work_hours' as const, label: '근무시간 (시간/월)', placeholder: '예: 160', type: 'number' },
-  { name: 'hourly_wage' as const, label: '시급 (원)', placeholder: '예: 9860', type: 'number' },
+  { name: 'work_hours' as const, label: '근무시간 (시간/월)', placeholder: `예: ${DEFAULT_WORK_HOURS}`, type: 'number' },
+  { name: 'hourly_wage' as const, label: '시급 (원)', placeholder: `예: ${MINIMUM_WAGE}`, type: 'number' },
 ] as const;
 
 export default function ProjectCreate() {
