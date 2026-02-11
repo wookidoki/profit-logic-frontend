@@ -10,7 +10,7 @@ import {
   ReferenceDot,
   ResponsiveContainer,
 } from 'recharts';
-import styled from 'styled-components';
+import { Card } from '../styles/shared';
 import type { CalculateRequest, CalculateResponse } from '../types/finance';
 
 interface Props {
@@ -122,13 +122,6 @@ export default function BepChart({ formData, result }: Props) {
     </Card>
   );
 }
-
-const Card = styled.div`
-  background: #fff;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
-`;
 
 const Title = styled.h3`
   font-size: 1rem;

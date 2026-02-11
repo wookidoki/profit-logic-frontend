@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
+import { ErrorBanner, LoadingText } from '../styles/shared';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { analysisApi } from '../api/analysisApi';
 import { formatKRW } from '../utils/formatNumber';
@@ -249,21 +250,6 @@ const SectionTitle = styled.h3`
   font-size: 1rem;
   font-weight: 600;
   color: #1a1a2e;
-`;
-
-const LoadingText = styled.div`
-  text-align: center;
-  color: #6c757d;
-  padding: 2rem 0;
-`;
-
-const ErrorBanner = styled.div`
-  padding: 0.75rem 1rem;
-  background: #fff5f5;
-  color: #ef476f;
-  border: 1px solid #ef476f;
-  border-radius: 8px;
-  font-size: 0.875rem;
 `;
 
 const InfoBanner = styled.div`

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { ErrorBanner } from '../styles/shared';
 import { useCalculate } from '../hooks/useCalculate';
 import ProjectInputForm from '../components/ProjectInputForm';
 import ResultCards from '../components/ResultCards';
@@ -75,15 +76,6 @@ const RightPanel = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-`;
-
-const ErrorBanner = styled.div`
-  padding: 0.75rem 1rem;
-  background: #fff5f5;
-  color: #ef476f;
-  border: 1px solid #ef476f;
-  border-radius: 8px;
-  font-size: 0.875rem;
 `;
 
 const EmptyState = styled.div`
