@@ -3,7 +3,6 @@ import GlobalStyle from './styles/GlobalStyle';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
-import ProjectInput from './pages/ProjectInput';
 import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
@@ -18,14 +17,6 @@ export default function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/project"
-          element={
-            <ProtectedRoute>
-              <ProjectInput />
             </ProtectedRoute>
           }
         />
