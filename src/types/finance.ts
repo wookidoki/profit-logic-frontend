@@ -16,7 +16,10 @@ export interface CalculateResponse {
   target_quantity: number;
   margin_rate: number;
   contribution_margin: number;
+  shadow_wage: number;
   is_viable: boolean;
+  zone: 'GREEN' | 'YELLOW' | 'RED';
+  applied_hourly_wage: number;
 }
 
 /** 회원가입 요청 */
