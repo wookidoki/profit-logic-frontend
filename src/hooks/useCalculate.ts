@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { projectApi } from '../api/projectApi';
+import { extractErrorMessage } from '../api/errorUtils';
 import type { CalculateRequest, CalculateResponse } from '../types/finance';
 
 export function useCalculate() {
@@ -18,12 +19,7 @@ export function useCalculate() {
         setError(response.data.message ?? '계산에 실패했습니다.');
       }
     } catch (err: unknown) {
-      if (err && typeof err === 'object' && 'response' in err) {
-        const axiosErr = err as { response?: { data?: { message?: string } } };
-        setError(axiosErr.response?.data?.message ?? '계산 요청에 실패했습니다.');
-      } else {
-        setError('계산 요청에 실패했습니다.');
-      }
+      setError(extractErrorMessage(err, '계산 요청에 실패했습니다.'));
     } finally {
       setLoading(false);
     }

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { BackButton, ErrorBanner, FormGroup, FormLabel, FormInput, FormErrorMsg, PrimaryButton } from '../styles/shared';
 import { MINIMUM_WAGE, DEFAULT_WORK_HOURS } from '../constants';
 import { projectApi } from '../api/projectApi';
+import { extractErrorMessage } from '../api/errorUtils';
 import type { ProjectCreateRequest } from '../types';
 
 const fields = [
@@ -38,12 +39,7 @@ export default function ProjectCreate() {
         setError(res.data.message || '프로젝트 생성에 실패했습니다.');
       }
     } catch (err: unknown) {
-      if (err && typeof err === 'object' && 'response' in err) {
-        const axiosErr = err as { response?: { data?: { message?: string } } };
-        setError(axiosErr.response?.data?.message ?? '프로젝트 생성에 실패했습니다.');
-      } else {
-        setError('프로젝트 생성에 실패했습니다.');
-      }
+      setError(extractErrorMessage(err, '프로젝트 생성에 실패했습니다.'));
     } finally {
       setSubmitting(false);
     }
