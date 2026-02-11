@@ -3,6 +3,7 @@ import GlobalStyle from './styles/GlobalStyle';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
+import ScriptAnalysis from './pages/ScriptAnalysis';
 import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/scripts" element={<ScriptAnalysis />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
