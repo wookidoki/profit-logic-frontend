@@ -26,15 +26,37 @@ export interface User {
 /** 프로젝트 (분석 단위) */
 export interface Project {
   id: number;
-  user_id: number;
   title: string;
   price: number;
   variable_cost: number;
   fixed_cost: number;
   work_hours: number;
   hourly_wage: number;
+  is_public: boolean;
   created_at: string;
   updated_at: string;
+}
+
+/** 프로젝트 생성 요청 */
+export interface ProjectCreateRequest {
+  title: string;
+  price: number;
+  variable_cost: number;
+  fixed_cost: number;
+  work_hours: number;
+  hourly_wage: number;
+  is_public?: boolean;
+}
+
+/** 프로젝트 수정 요청 */
+export interface ProjectUpdateRequest {
+  title: string;
+  price: number;
+  variable_cost: number;
+  fixed_cost: number;
+  work_hours: number;
+  hourly_wage: number;
+  is_public: boolean;
 }
 
 /** 시뮬레이션 기록 */
