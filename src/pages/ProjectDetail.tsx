@@ -6,10 +6,11 @@ import { formatKRW } from '../utils/formatNumber';
 import ResultCards from '../components/ResultCards';
 import BepChart from '../components/BepChart';
 import ScenarioSimulator from '../components/ScenarioSimulator';
+import CostDetailPanel from '../components/CostDetailPanel';
 import type { Project } from '../types';
 import type { CalculateRequest, CalculateResponse } from '../types/finance';
 
-type Tab = 'analysis' | 'simulation';
+type Tab = 'overview' | 'costs' | 'analysis' | 'simulation';
 
 export default function ProjectDetail() {
   const { id } = useParams<{ id: string }>();
@@ -19,7 +20,7 @@ export default function ProjectDetail() {
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [tab, setTab] = useState<Tab>('analysis');
+  const [tab, setTab] = useState<Tab>('overview');
 
   // Analysis state
   const [result, setResult] = useState<CalculateResponse | null>(null);
@@ -118,30 +119,13 @@ export default function ProjectDetail() {
         {project.is_public && <PublicBadge>공개</PublicBadge>}
       </ProjectHeader>
 
-      <InfoGrid>
-        <InfoItem>
-          <InfoLabel>판매가</InfoLabel>
-          <InfoValue>{formatKRW(project.price)}</InfoValue>
-        </InfoItem>
-        <InfoItem>
-          <InfoLabel>변동비</InfoLabel>
-          <InfoValue>{formatKRW(project.variable_cost)}</InfoValue>
-        </InfoItem>
-        <InfoItem>
-          <InfoLabel>고정비</InfoLabel>
-          <InfoValue>{formatKRW(project.fixed_cost)}</InfoValue>
-        </InfoItem>
-        <InfoItem>
-          <InfoLabel>근무시간</InfoLabel>
-          <InfoValue>{project.work_hours}시간/월</InfoValue>
-        </InfoItem>
-        <InfoItem>
-          <InfoLabel>시급</InfoLabel>
-          <InfoValue>{formatKRW(project.hourly_wage)}</InfoValue>
-        </InfoItem>
-      </InfoGrid>
-
       <TabBar>
+        <TabItem $active={tab === 'overview'} onClick={() => setTab('overview')}>
+          개요
+        </TabItem>
+        <TabItem $active={tab === 'costs'} onClick={() => setTab('costs')}>
+          비용 상세
+        </TabItem>
         <TabItem $active={tab === 'analysis'} onClick={() => setTab('analysis')}>
           분석 결과
         </TabItem>
@@ -151,6 +135,35 @@ export default function ProjectDetail() {
       </TabBar>
 
       <TabContent>
+        {tab === 'overview' && (
+          <InfoGrid>
+            <InfoItem>
+              <InfoLabel>판매가</InfoLabel>
+              <InfoValue>{formatKRW(project.price)}</InfoValue>
+            </InfoItem>
+            <InfoItem>
+              <InfoLabel>변동비</InfoLabel>
+              <InfoValue>{formatKRW(project.variable_cost)}</InfoValue>
+            </InfoItem>
+            <InfoItem>
+              <InfoLabel>고정비</InfoLabel>
+              <InfoValue>{formatKRW(project.fixed_cost)}</InfoValue>
+            </InfoItem>
+            <InfoItem>
+              <InfoLabel>근무시간</InfoLabel>
+              <InfoValue>{project.work_hours}시간/월</InfoValue>
+            </InfoItem>
+            <InfoItem>
+              <InfoLabel>시급</InfoLabel>
+              <InfoValue>{formatKRW(project.hourly_wage)}</InfoValue>
+            </InfoItem>
+          </InfoGrid>
+        )}
+
+        {tab === 'costs' && (
+          <CostDetailPanel projectId={projectId} />
+        )}
+
         {tab === 'analysis' && (
           analyzing ? (
             <LoadingText>분석 중...</LoadingText>
@@ -286,7 +299,6 @@ const InfoGrid = styled.div`
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  margin-bottom: 1.5rem;
 `;
 
 const InfoItem = styled.div`
