@@ -59,6 +59,40 @@ export interface ProjectUpdateRequest {
   is_public: boolean;
 }
 
+/** 비용 카테고리 */
+export type CostCategory =
+  | 'API_USAGE'
+  | 'SERVER'
+  | 'TOOL_SUBSCRIPTION'
+  | 'MATERIAL'
+  | 'MARKETING'
+  | 'OUTSOURCING'
+  | 'OTHER';
+
+/** 비용 유형 */
+export type CostType = 'FIXED' | 'VARIABLE';
+
+/** 비용 상세 항목 */
+export interface CostDetail {
+  id: number;
+  project_id: number;
+  category: CostCategory;
+  cost_name: string;
+  cost_type: CostType;
+  amount: number;
+  memo: string | null;
+  created_at: string;
+}
+
+/** 비용 생성 요청 */
+export interface CostDetailCreateRequest {
+  category: CostCategory;
+  cost_name: string;
+  cost_type: CostType;
+  amount: number;
+  memo?: string;
+}
+
 /** 시뮬레이션 기록 */
 export interface SimulationLog {
   id: number;
