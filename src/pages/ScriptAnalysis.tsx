@@ -27,7 +27,7 @@ export default function ScriptAnalysis() {
 
   // Step 1
   const [categories, setCategories] = useState<CategoryInfo[]>([]);
-  const [catLoading, setCatLoading] = useState(false);
+  const [catLoading, setCatLoading] = useState(true);
 
   // Step 2
   const [selectedCategory, setSelectedCategory] = useState<CreatorCategory | null>(null);
@@ -43,7 +43,6 @@ export default function ScriptAnalysis() {
 
   // Fetch categories on mount
   useEffect(() => {
-    setCatLoading(true);
     scriptApi
       .getCategories()
       .then((res) => {
