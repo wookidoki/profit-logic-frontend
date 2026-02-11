@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { scriptApi } from '../api/scriptApi';
 import ResultCards from '../components/ResultCards';
 import BepChart from '../components/BepChart';
-import type { CalculateResponse } from '../types/finance';
 import type {
   CreatorCategory,
   CategoryInfo,
