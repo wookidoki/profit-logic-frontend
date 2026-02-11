@@ -112,6 +112,49 @@ export interface TimeLogCreateRequest {
   memo?: string;
 }
 
+/** 프로젝트 종합 분석 응답 */
+export interface ProjectAnalysisResponse {
+  project_id: number;
+  project_title: string;
+  cost_breakdown: CostBreakdownDto;
+  shadow_wage: ShadowWageDto;
+  bep: BepDto;
+  action_cards: ActionCardDto[];
+}
+
+export interface CostBreakdownDto {
+  total_fixed_cost: number;
+  total_variable_cost: number;
+  total_cost: number;
+  category_ratio: Partial<Record<CostCategory, number>>;
+}
+
+export interface ShadowWageDto {
+  total_hours: number;
+  operating_profit: number;
+  real_shadow_wage: number;
+  minimum_wage: number;
+  minimum_wage_ratio: number;
+  has_time_data: boolean;
+}
+
+export interface BepDto {
+  enhanced_fixed_cost: number;
+  bep: number;
+  price: number;
+  variable_cost_per_unit: number;
+  contribution_margin: number;
+}
+
+export type ActionCardType = 'WARNING' | 'POSITIVE' | 'SUGGESTION';
+
+export interface ActionCardDto {
+  type: ActionCardType;
+  title: string;
+  description: string;
+  priority: number;
+}
+
 /** 시뮬레이션 기록 */
 export interface SimulationLog {
   id: number;

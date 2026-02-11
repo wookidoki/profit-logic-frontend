@@ -1,10 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { projectApi } from '../api/projectApi';
 import { formatKRW } from '../utils/formatNumber';
-import ResultCards from '../components/ResultCards';
-import BepChart from '../components/BepChart';
+import EnhancedAnalysisPanel from '../components/EnhancedAnalysisPanel';
 import ScenarioSimulator from '../components/ScenarioSimulator';
 import CostDetailPanel from '../components/CostDetailPanel';
 import TimeLogPanel from '../components/TimeLogPanel';
@@ -23,56 +22,49 @@ export default function ProjectDetail() {
   const [error, setError] = useState('');
   const [tab, setTab] = useState<Tab>('overview');
 
-  // Analysis state
+  // Analysis state (for simulation tab)
   const [result, setResult] = useState<CalculateResponse | null>(null);
-  const [analyzing, setAnalyzing] = useState(false);
 
   // Delete state
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     if (!projectId) return;
-    projectApi
-      .getById(projectId)
-      .then((res) => {
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const res = await projectApi.getById(projectId);
+        if (cancelled) return;
         if (res.data.success && res.data.data) {
-          setProject(res.data.data);
+          const p = res.data.data;
+          setProject(p);
+
+          // Auto-analyze for simulation tab
+          const calcReq: CalculateRequest = {
+            price: p.price,
+            variable_cost: p.variable_cost,
+            fixed_cost: p.fixed_cost,
+            work_hours: p.work_hours,
+            hourly_wage: p.hourly_wage,
+            target_profit: 0,
+          };
+          const calcRes = await projectApi.calculate(calcReq);
+          if (!cancelled && calcRes.data.success && calcRes.data.data) {
+            setResult(calcRes.data.data);
+          }
         } else {
-          setError('프로젝트를 찾을 수 없습니다.');
+          if (!cancelled) setError('프로젝트를 찾을 수 없습니다.');
         }
-      })
-      .catch(() => setError('프로젝트를 불러올 수 없습니다.'))
-      .finally(() => setLoading(false));
-  }, [projectId]);
-
-  // Auto-analyze when project loads
-  const runAnalysis = useCallback(async (p: Project) => {
-    setAnalyzing(true);
-    try {
-      const calcReq: CalculateRequest = {
-        price: p.price,
-        variable_cost: p.variable_cost,
-        fixed_cost: p.fixed_cost,
-        work_hours: p.work_hours,
-        hourly_wage: p.hourly_wage,
-        target_profit: 0,
-      };
-      const res = await projectApi.calculate(calcReq);
-      if (res.data.success && res.data.data) {
-        setResult(res.data.data);
+      } catch {
+        if (!cancelled) setError('프로젝트를 불러올 수 없습니다.');
+      } finally {
+        if (!cancelled) setLoading(false);
       }
-    } catch {
-      // Analysis failure is non-critical
-    } finally {
-      setAnalyzing(false);
-    }
-  }, []);
+    })();
 
-  useEffect(() => {
-    if (project) {
-      runAnalysis(project);
-    }
-  }, [project, runAnalysis]);
+    return () => { cancelled = true; };
+  }, [projectId]);
 
   const handleDelete = async () => {
     if (!confirm('정말 이 프로젝트를 삭제하시겠습니까?')) return;
@@ -173,16 +165,10 @@ export default function ProjectDetail() {
         )}
 
         {tab === 'analysis' && (
-          analyzing ? (
-            <LoadingText>분석 중...</LoadingText>
-          ) : result && formData ? (
-            <AnalysisContent>
-              <ResultCards result={result} />
-              <BepChart formData={formData} result={result} />
-            </AnalysisContent>
-          ) : (
-            <LoadingText>분석 데이터를 불러올 수 없습니다.</LoadingText>
-          )
+          <EnhancedAnalysisPanel
+            projectId={projectId}
+            onNavigateTab={(t) => setTab(t as Tab)}
+          />
         )}
 
         {tab === 'simulation' && result && formData && (
@@ -349,12 +335,6 @@ const TabItem = styled.button<{ $active: boolean }>`
 `;
 
 const TabContent = styled.div``;
-
-const AnalysisContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-`;
 
 const LoadingText = styled.div`
   text-align: center;
