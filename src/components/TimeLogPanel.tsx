@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { timeLogApi } from '../api/timeLogApi';
+import { getDateRange, filterByDateRange } from '../utils/dateFilter';
+import type { DateFilterType } from '../utils/dateFilter';
 import type { TimeLog, TimeLogCreateRequest } from '../types';
 
 interface Props {
@@ -13,15 +15,19 @@ export default function TimeLogPanel({ projectId }: Props) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showForm, setShowForm] = useState(false);
+  const [dateFilter, setDateFilter] = useState<DateFilterType>('all');
 
-  const fetchData = useCallback(async () => {
+  const fetchData = useCallback(async (filter: DateFilterType) => {
+    setLoading(true);
     try {
+      const range = getDateRange(filter);
       const [logsRes, totalRes] = await Promise.all([
-        timeLogApi.getByProject(projectId),
+        timeLogApi.getByProject(projectId, range.from, range.to),
         timeLogApi.getTotal(projectId),
       ]);
       if (logsRes.data.success && logsRes.data.data) {
-        setLogs(logsRes.data.data);
+        // 서버 필터 + 클라이언트 fallback
+        setLogs(filterByDateRange(logsRes.data.data, range));
       }
       if (totalRes.data.success && totalRes.data.data != null) {
         setTotalHours(totalRes.data.data);
@@ -34,8 +40,8 @@ export default function TimeLogPanel({ projectId }: Props) {
   }, [projectId]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    fetchData(dateFilter);
+  }, [fetchData, dateFilter]);
 
   const handleDelete = async (logId: number) => {
     if (!confirm('이 작업시간 기록을 삭제하시겠습니까?')) return;
@@ -74,6 +80,8 @@ export default function TimeLogPanel({ projectId }: Props) {
 
   const sortedDates = Object.keys(grouped).sort((a, b) => b.localeCompare(a));
 
+  const filteredHours = logs.reduce((sum, l) => sum + l.hours_spent, 0);
+
   if (loading) return <LoadingText>작업시간 로딩 중...</LoadingText>;
 
   return (
@@ -82,9 +90,24 @@ export default function TimeLogPanel({ projectId }: Props) {
         <PanelLeft>
           <PanelTitle>작업시간 기록</PanelTitle>
           <TotalBadge>누적 {totalHours.toFixed(1)}시간</TotalBadge>
+          {dateFilter !== 'all' && (
+            <FilteredBadge>필터 {filteredHours.toFixed(1)}시간</FilteredBadge>
+          )}
         </PanelLeft>
         <AddButton onClick={() => setShowForm(true)}>+ 시간 기록</AddButton>
       </PanelHeader>
+
+      <FilterBar>
+        <FilterButton $active={dateFilter === 'all'} onClick={() => setDateFilter('all')}>
+          전체
+        </FilterButton>
+        <FilterButton $active={dateFilter === 'month'} onClick={() => setDateFilter('month')}>
+          이번 달
+        </FilterButton>
+        <FilterButton $active={dateFilter === 'week'} onClick={() => setDateFilter('week')}>
+          이번 주
+        </FilterButton>
+      </FilterBar>
 
       {error && <ErrorBanner>{error}</ErrorBanner>}
 
@@ -260,6 +283,39 @@ const TotalBadge = styled.span`
   border-radius: 12px;
   font-size: 0.75rem;
   font-weight: 600;
+`;
+
+const FilteredBadge = styled.span`
+  padding: 0.25rem 0.625rem;
+  background: #06d6a015;
+  color: #06d6a0;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+`;
+
+const FilterBar = styled.div`
+  display: flex;
+  gap: 0.25rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 0.25rem;
+  width: fit-content;
+`;
+
+const FilterButton = styled.button<{ $active: boolean }>`
+  padding: 0.375rem 0.75rem;
+  background: ${({ $active }) => ($active ? '#fff' : 'transparent')};
+  color: ${({ $active }) => ($active ? '#4361ee' : '#6c757d')};
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: ${({ $active }) => ($active ? '600' : '400')};
+  box-shadow: ${({ $active }) => ($active ? '0 1px 3px rgba(0,0,0,0.1)' : 'none')};
+  transition: all 0.2s;
+
+  &:hover {
+    color: #4361ee;
+  }
 `;
 
 const AddButton = styled.button`
