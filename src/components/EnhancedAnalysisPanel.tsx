@@ -172,7 +172,7 @@ export default function EnhancedAnalysisPanel({ projectId, onNavigateTab }: Prop
                     ))}
                   </Pie>
                   <Tooltip
-                    formatter={(value: number) => `${value.toFixed(1)}%`}
+                    formatter={(value) => `${Number(value).toFixed(1)}%`}
                   />
                   <Legend />
                 </PieChart>
