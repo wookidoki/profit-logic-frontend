@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authApi } from '../api/authApi';
+import { extractErrorMessage } from '../api/errorUtils';
 import { useAuthStore } from '../store/authStore';
-import type { SignupRequest, LoginRequest } from '../types/finance';
+import type { SignupRequest, LoginRequest } from '../types/auth';
 
 export function useAuth() {
   const [loading, setLoading] = useState(false);
@@ -17,12 +18,7 @@ export function useAuth() {
       await authApi.signup(data);
       navigate('/login');
     } catch (err: unknown) {
-      if (err && typeof err === 'object' && 'response' in err) {
-        const axiosErr = err as { response?: { data?: { message?: string } } };
-        setError(axiosErr.response?.data?.message ?? '회원가입에 실패했습니다.');
-      } else {
-        setError('회원가입에 실패했습니다.');
-      }
+      setError(extractErrorMessage(err, '회원가입에 실패했습니다.'));
     } finally {
       setLoading(false);
     }
@@ -39,12 +35,7 @@ export function useAuth() {
         navigate('/');
       }
     } catch (err: unknown) {
-      if (err && typeof err === 'object' && 'response' in err) {
-        const axiosErr = err as { response?: { data?: { message?: string } } };
-        setError(axiosErr.response?.data?.message ?? '로그인에 실패했습니다.');
-      } else {
-        setError('로그인에 실패했습니다.');
-      }
+      setError(extractErrorMessage(err, '로그인에 실패했습니다.'));
     } finally {
       setLoading(false);
     }

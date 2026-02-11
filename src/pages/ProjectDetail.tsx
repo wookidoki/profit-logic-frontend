@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { BackButton } from '../styles/shared';
 import { projectApi } from '../api/projectApi';
 import { formatKRW } from '../utils/formatNumber';
 import EnhancedAnalysisPanel from '../components/EnhancedAnalysisPanel';
@@ -206,21 +207,6 @@ const HeaderRow = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
-`;
-
-const BackButton = styled.button`
-  padding: 0.375rem 0.75rem;
-  background: transparent;
-  color: #6c757d;
-  border: 1px solid #dee2e6;
-  border-radius: 6px;
-  font-size: 0.8125rem;
-  transition: all 0.2s;
-
-  &:hover {
-    border-color: #4361ee;
-    color: #4361ee;
-  }
 `;
 
 const HeaderRight = styled.div`

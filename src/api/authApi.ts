@@ -1,6 +1,6 @@
 import api from './axios';
 import type { ResponseData } from '../types';
-import type { SignupRequest, LoginRequest, LoginResponse } from '../types/finance';
+import type { SignupRequest, LoginRequest, LoginResponse } from '../types/auth';
 
 export const authApi = {
   signup: (data: SignupRequest) =>

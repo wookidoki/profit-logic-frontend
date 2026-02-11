@@ -2,7 +2,10 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
+import { BackButton, ErrorBanner, FormGroup, FormLabel, FormInput, FormErrorMsg, PrimaryButton } from '../styles/shared';
+import { MINIMUM_WAGE, DEFAULT_WORK_HOURS } from '../constants';
 import { projectApi } from '../api/projectApi';
+import { extractErrorMessage } from '../api/errorUtils';
 import type { ProjectUpdateRequest } from '../types';
 
 const fields = [
@@ -10,8 +13,8 @@ const fields = [
   { name: 'price' as const, label: '판매가 (원)', placeholder: '예: 15000', type: 'number' },
   { name: 'variable_cost' as const, label: '변동비 (원)', placeholder: '예: 5000', type: 'number' },
   { name: 'fixed_cost' as const, label: '고정비 (원/월)', placeholder: '예: 500000', type: 'number' },
-  { name: 'work_hours' as const, label: '근무시간 (시간/월)', placeholder: '예: 160', type: 'number' },
-  { name: 'hourly_wage' as const, label: '시급 (원)', placeholder: '예: 9860', type: 'number' },
+  { name: 'work_hours' as const, label: '근무시간 (시간/월)', placeholder: `예: ${DEFAULT_WORK_HOURS}`, type: 'number' },
+  { name: 'hourly_wage' as const, label: '시급 (원)', placeholder: `예: ${MINIMUM_WAGE}`, type: 'number' },
 ] as const;
 
 export default function ProjectEdit() {
@@ -65,12 +68,7 @@ export default function ProjectEdit() {
         setError(res.data.message || '수정에 실패했습니다.');
       }
     } catch (err: unknown) {
-      if (err && typeof err === 'object' && 'response' in err) {
-        const axiosErr = err as { response?: { data?: { message?: string } } };
-        setError(axiosErr.response?.data?.message ?? '수정에 실패했습니다.');
-      } else {
-        setError('수정에 실패했습니다.');
-      }
+      setError(extractErrorMessage(err, '수정에 실패했습니다.'));
     } finally {
       setSubmitting(false);
     }
@@ -89,8 +87,8 @@ export default function ProjectEdit() {
         <Form onSubmit={handleSubmit(onSubmit)}>
           {fields.map(({ name, label, placeholder, type }) => (
             <FormGroup key={name}>
-              <Label>{label}</Label>
-              <Input
+              <FormLabel>{label}</FormLabel>
+              <FormInput
                 type={type}
                 step={type === 'number' ? 'any' : undefined}
                 placeholder={placeholder}
@@ -105,7 +103,7 @@ export default function ProjectEdit() {
                     : {}),
                 })}
               />
-              {errors[name] && <ErrorMsg>{errors[name]?.message}</ErrorMsg>}
+              {errors[name] && <FormErrorMsg>{errors[name]?.message}</FormErrorMsg>}
             </FormGroup>
           ))}
 
@@ -135,22 +133,6 @@ const LoadingContainer = styled.div`
   padding: 4rem 0;
 `;
 
-const BackButton = styled.button`
-  padding: 0.375rem 0.75rem;
-  background: transparent;
-  color: #6c757d;
-  border: 1px solid #dee2e6;
-  border-radius: 6px;
-  font-size: 0.8125rem;
-  margin-bottom: 1rem;
-  transition: all 0.2s;
-
-  &:hover {
-    border-color: #4361ee;
-    color: #4361ee;
-  }
-`;
-
 const FormCard = styled.div`
   background: #fff;
   border-radius: 12px;
@@ -164,55 +146,10 @@ const FormTitle = styled.h2`
   margin-bottom: 1.25rem;
 `;
 
-const ErrorBanner = styled.div`
-  padding: 0.75rem 1rem;
-  background: #fff5f5;
-  color: #ef476f;
-  border: 1px solid #ef476f;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  margin-bottom: 1rem;
-`;
-
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 0.875rem;
-`;
-
-const FormGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-`;
-
-const Label = styled.label`
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: #6c757d;
-`;
-
-const Input = styled.input<{ $hasError?: boolean }>`
-  padding: 0.625rem 0.75rem;
-  border: 1px solid ${({ $hasError }) => ($hasError ? '#ef476f' : '#dee2e6')};
-  border-radius: 8px;
-  font-size: 0.9375rem;
-  transition: border-color 0.2s;
-
-  &:focus {
-    border-color: ${({ $hasError }) => ($hasError ? '#ef476f' : '#4361ee')};
-    box-shadow: 0 0 0 3px ${({ $hasError }) =>
-      $hasError ? 'rgba(239,71,111,0.15)' : 'rgba(67,97,238,0.15)'};
-  }
-
-  &::placeholder {
-    color: #adb5bd;
-  }
-`;
-
-const ErrorMsg = styled.span`
-  font-size: 0.75rem;
-  color: #ef476f;
 `;
 
 const CheckboxGroup = styled.div`
@@ -228,22 +165,6 @@ const CheckboxLabel = styled.label`
   cursor: pointer;
 `;
 
-const SubmitButton = styled.button`
+const SubmitButton = styled(PrimaryButton)`
   margin-top: 0.5rem;
-  padding: 0.75rem;
-  background: #4361ee;
-  color: #fff;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: background 0.2s;
-
-  &:hover:not(:disabled) {
-    background: #3a56d4;
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
 `;

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { ErrorBanner } from '../styles/shared';
 import { projectApi } from '../api/projectApi';
 import { formatKRW } from '../utils/formatNumber';
 import type { Project } from '../types';
@@ -113,16 +114,6 @@ const CreateButton = styled.button`
   &:hover {
     background: #3a56d4;
   }
-`;
-
-const ErrorBanner = styled.div`
-  padding: 0.75rem 1rem;
-  background: #fff5f5;
-  color: #ef476f;
-  border: 1px solid #ef476f;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  margin-bottom: 1rem;
 `;
 
 const LoadingText = styled.div`

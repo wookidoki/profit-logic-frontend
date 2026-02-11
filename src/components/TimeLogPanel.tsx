@@ -1,7 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
+import {
+  AddButton, ErrorBanner, LoadingText, DeleteBtn,
+  EmptyState, EmptyIcon, EmptySub,
+} from '../styles/shared';
 import { timeLogApi } from '../api/timeLogApi';
 import { getDateRange, filterByDateRange } from '../utils/dateFilter';
+import TimeLogForm from './TimeLogForm';
 import type { DateFilterType } from '../utils/dateFilter';
 import type { TimeLog, TimeLogCreateRequest } from '../types';
 
@@ -160,96 +165,6 @@ function formatDate(dateStr: string): string {
   return `${month}월 ${day}일 (${dow})`;
 }
 
-/* ── 시간 기록 인라인 폼 ── */
-
-interface TimeLogFormProps {
-  onSubmit: (data: TimeLogCreateRequest) => Promise<void>;
-  onCancel: () => void;
-}
-
-function TimeLogForm({ onSubmit, onCancel }: TimeLogFormProps) {
-  const today = new Date().toISOString().split('T')[0];
-  const [taskName, setTaskName] = useState('');
-  const [hoursSpent, setHoursSpent] = useState('');
-  const [logDate, setLogDate] = useState(today);
-  const [memo, setMemo] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!taskName.trim()) return alert('작업명을 입력해주세요.');
-    const hours = Number(hoursSpent);
-    if (!hours || hours < 0.1 || hours > 24) return alert('작업시간은 0.1~24시간 사이로 입력해주세요.');
-    if (!logDate) return alert('날짜를 선택해주세요.');
-
-    setSubmitting(true);
-    try {
-      await onSubmit({
-        task_name: taskName.trim(),
-        hours_spent: hours,
-        log_date: logDate,
-        memo: memo.trim() || undefined,
-      });
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  return (
-    <FormCard>
-      <FormTitle>작업시간 기록</FormTitle>
-      <Form onSubmit={handleSubmit}>
-        <FormRow>
-          <FormGroup $flex={2}>
-            <Label>작업명</Label>
-            <Input
-              value={taskName}
-              onChange={(e) => setTaskName(e.target.value)}
-              placeholder="예: 캐릭터 디자인 작업"
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label>작업시간</Label>
-            <Input
-              type="number"
-              step="0.1"
-              min="0.1"
-              max="24"
-              value={hoursSpent}
-              onChange={(e) => setHoursSpent(e.target.value)}
-              placeholder="예: 3.5"
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label>날짜</Label>
-            <Input
-              type="date"
-              value={logDate}
-              onChange={(e) => setLogDate(e.target.value)}
-            />
-          </FormGroup>
-        </FormRow>
-
-        <FormGroup>
-          <Label>메모 (선택)</Label>
-          <Input
-            value={memo}
-            onChange={(e) => setMemo(e.target.value)}
-            placeholder="예: 표정 변형 5종 완성"
-          />
-        </FormGroup>
-
-        <FormActions>
-          <CancelButton type="button" onClick={onCancel}>취소</CancelButton>
-          <SubmitButton type="submit" disabled={submitting}>
-            {submitting ? '저장 중...' : '기록'}
-          </SubmitButton>
-        </FormActions>
-      </Form>
-    </FormCard>
-  );
-}
-
 /* ── styled-components ── */
 
 const Panel = styled.div`
@@ -316,57 +231,6 @@ const FilterButton = styled.button<{ $active: boolean }>`
   &:hover {
     color: #4361ee;
   }
-`;
-
-const AddButton = styled.button`
-  padding: 0.375rem 0.875rem;
-  background: #4361ee;
-  color: #fff;
-  border-radius: 6px;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  transition: background 0.2s;
-
-  &:hover {
-    background: #3a56d4;
-  }
-`;
-
-const ErrorBanner = styled.div`
-  padding: 0.75rem 1rem;
-  background: #fff5f5;
-  color: #ef476f;
-  border: 1px solid #ef476f;
-  border-radius: 8px;
-  font-size: 0.875rem;
-`;
-
-const LoadingText = styled.div`
-  text-align: center;
-  color: #6c757d;
-  padding: 2rem 0;
-`;
-
-const EmptyState = styled.div`
-  text-align: center;
-  padding: 3rem 1rem;
-  color: #6c757d;
-
-  p {
-    font-size: 0.9375rem;
-    font-weight: 500;
-    margin-bottom: 0.25rem;
-  }
-`;
-
-const EmptyIcon = styled.div`
-  font-size: 2.5rem;
-  margin-bottom: 0.75rem;
-`;
-
-const EmptySub = styled.span`
-  font-size: 0.8125rem;
-  color: #adb5bd;
 `;
 
 /* ── 로그 리스트 ── */
@@ -446,119 +310,4 @@ const Memo = styled.span`
   color: #adb5bd;
 `;
 
-const DeleteBtn = styled.button`
-  padding: 0.25rem 0.5rem;
-  background: transparent;
-  color: #ef476f;
-  border: 1px solid #ef476f;
-  border-radius: 4px;
-  font-size: 0.6875rem;
-  transition: all 0.2s;
-  flex-shrink: 0;
 
-  &:hover {
-    background: #ef476f;
-    color: #fff;
-  }
-`;
-
-/* ── 폼 ── */
-
-const FormCard = styled.div`
-  background: #fff;
-  border: 1px solid #dee2e6;
-  border-radius: 10px;
-  padding: 1.25rem;
-`;
-
-const FormTitle = styled.h4`
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: #1a1a2e;
-  margin-bottom: 0.75rem;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-`;
-
-const FormRow = styled.div`
-  display: flex;
-  gap: 0.75rem;
-
-  @media (max-width: 600px) {
-    flex-direction: column;
-  }
-`;
-
-const FormGroup = styled.div<{ $flex?: number }>`
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  flex: ${({ $flex }) => $flex || 1};
-`;
-
-const Label = styled.label`
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: #6c757d;
-`;
-
-const Input = styled.input`
-  padding: 0.5rem 0.625rem;
-  border: 1px solid #dee2e6;
-  border-radius: 6px;
-  font-size: 0.875rem;
-  transition: border-color 0.2s;
-
-  &:focus {
-    border-color: #4361ee;
-    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
-  }
-
-  &::placeholder {
-    color: #adb5bd;
-  }
-`;
-
-const FormActions = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  margin-top: 0.25rem;
-`;
-
-const CancelButton = styled.button`
-  padding: 0.5rem 1rem;
-  background: transparent;
-  color: #6c757d;
-  border: 1px solid #dee2e6;
-  border-radius: 6px;
-  font-size: 0.8125rem;
-  transition: all 0.2s;
-
-  &:hover {
-    border-color: #adb5bd;
-  }
-`;
-
-const SubmitButton = styled.button`
-  padding: 0.5rem 1rem;
-  background: #4361ee;
-  color: #fff;
-  border-radius: 6px;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  transition: background 0.2s;
-
-  &:hover:not(:disabled) {
-    background: #3a56d4;
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-`;

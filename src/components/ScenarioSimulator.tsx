@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
+import { Card } from '../styles/shared';
 import { useDebounce } from '../hooks/useDebounce';
 import { useCalculate } from '../hooks/useCalculate';
 import { formatKRW, formatPercent, formatQuantity } from '../utils/formatNumber';
@@ -144,13 +145,6 @@ function Delta({ value, invert = false }: { value: number; invert?: boolean }) {
   const formatted = value > 0 ? `+${value.toFixed(1)}` : value.toFixed(1);
   return <DeltaSpan $positive={isPositive}> ({formatted})</DeltaSpan>;
 }
-
-const Card = styled.div`
-  background: #fff;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
-`;
 
 const Header = styled.div`
   display: flex;

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { PrimaryButton } from '../styles/shared';
 import { useAuth } from '../hooks/useAuth';
 
 export default function Login() {
@@ -96,24 +97,7 @@ const Input = styled.input`
   }
 `;
 
-const SubmitButton = styled.button`
-  padding: 0.75rem;
-  background: #4361ee;
-  color: #fff;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: background 0.2s;
-
-  &:hover:not(:disabled) {
-    background: #3a56d4;
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-`;
+const SubmitButton = PrimaryButton;
 
 const ErrorMsg = styled.p`
   color: #ef476f;

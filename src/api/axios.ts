@@ -17,13 +17,17 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Response: 401 시 로그아웃 + 리다이렉트
+// Response: 401/403 처리
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    const status = error.response?.status;
+    if (status === 401) {
       localStorage.removeItem('accessToken');
       window.location.href = '/login';
+    }
+    if (status === 403) {
+      console.warn('[API] 403 Forbidden:', error.response?.data?.message || '접근 권한이 없습니다.');
     }
     return Promise.reject(error);
   },

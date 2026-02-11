@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import styled from 'styled-components';
 import {
   LineChart,
   Line,
@@ -10,17 +11,18 @@ import {
   ReferenceDot,
   ResponsiveContainer,
 } from 'recharts';
-import styled from 'styled-components';
-import type { CalculateRequest, CalculateResponse } from '../types/finance';
+import { Card } from '../styles/shared';
+import type { CalculateResponse } from '../types/finance';
 
 interface Props {
-  formData: CalculateRequest;
   result: CalculateResponse;
 }
 
 const POINT_COUNT = 50;
 
-export default function BepChart({ formData, result }: Props) {
+export default function BepChart({ result }: Props) {
+  const fixedCost = result.break_even_point * result.contribution_margin;
+
   const chartData = useMemo(() => {
     const maxQty = Math.max(Math.ceil(result.break_even_point * 2), 10);
     const step = Math.max(1, Math.floor(maxQty / POINT_COUNT));
@@ -29,15 +31,14 @@ export default function BepChart({ formData, result }: Props) {
     for (let q = 0; q <= maxQty; q += step) {
       data.push({
         quantity: q,
-        revenue: formData.price * q,
-        totalCost: formData.fixed_cost + formData.variable_cost * q,
-        fixedCost: formData.fixed_cost,
+        contributionTotal: result.contribution_margin * q,
+        fixedCost,
       });
     }
     return data;
-  }, [formData, result.break_even_point]);
+  }, [result.break_even_point, result.contribution_margin, fixedCost]);
 
-  const bepRevenue = formData.price * result.break_even_point;
+  const bepY = fixedCost;
 
   const formatAxis = (value: number) => {
     if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}M`;
@@ -65,8 +66,7 @@ export default function BepChart({ formData, result }: Props) {
           <Tooltip
             formatter={(value, name) => {
               const labels: Record<string, string> = {
-                revenue: '총 수익',
-                totalCost: '총 비용',
+                contributionTotal: '공헌이익 누적',
                 fixedCost: '고정비',
               };
               const formatted = typeof value === 'number'
@@ -79,8 +79,7 @@ export default function BepChart({ formData, result }: Props) {
           <Legend
             formatter={(value: string) => {
               const labels: Record<string, string> = {
-                revenue: '총 수익',
-                totalCost: '총 비용',
+                contributionTotal: '공헌이익 누적',
                 fixedCost: '고정비',
               };
               return labels[value] ?? value;
@@ -88,15 +87,8 @@ export default function BepChart({ formData, result }: Props) {
           />
           <Line
             type="monotone"
-            dataKey="revenue"
+            dataKey="contributionTotal"
             stroke="#4361ee"
-            strokeWidth={2}
-            dot={false}
-          />
-          <Line
-            type="monotone"
-            dataKey="totalCost"
-            stroke="#ef476f"
             strokeWidth={2}
             dot={false}
           />
@@ -110,7 +102,7 @@ export default function BepChart({ formData, result }: Props) {
           />
           <ReferenceDot
             x={result.break_even_point}
-            y={bepRevenue}
+            y={bepY}
             r={6}
             fill="#4361ee"
             stroke="#fff"
@@ -122,13 +114,6 @@ export default function BepChart({ formData, result }: Props) {
     </Card>
   );
 }
-
-const Card = styled.div`
-  background: #fff;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
-`;
 
 const Title = styled.h3`
   font-size: 1rem;

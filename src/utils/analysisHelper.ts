@@ -1,6 +1,5 @@
 import type { CostCategory, ActionCardDto, CostBreakdownDto, ShadowWageDto } from '../types';
-
-export const MINIMUM_WAGE = 9860;
+export { MINIMUM_WAGE } from '../constants';
 
 export const CATEGORY_LABELS: Record<CostCategory, string> = {
   API_USAGE: 'API 사용료',
