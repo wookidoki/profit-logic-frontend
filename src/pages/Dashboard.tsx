@@ -32,7 +32,7 @@ export default function Dashboard() {
         {result && formData ? (
           <>
             <ResultCards result={result} />
-            <BepChart formData={formData} result={result} />
+            <BepChart result={result} />
             <ScenarioSimulator baseData={formData} baseResult={result} />
           </>
         ) : (

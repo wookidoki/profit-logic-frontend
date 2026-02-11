@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { scriptApi } from '../api/scriptApi';
 import ResultCards from '../components/ResultCards';
 import BepChart from '../components/BepChart';
-import type { CalculateRequest, CalculateResponse } from '../types/finance';
+import type { CalculateResponse } from '../types/finance';
 import type {
   CreatorCategory,
   CategoryInfo,
@@ -128,30 +128,6 @@ export default function ScriptAnalysis() {
       .finally(() => setAnalyzing(false));
   };
 
-  // Convert analysis result to CalculateRequest for BepChart reuse
-  const toBepFormData = (result: CalculateResponse): CalculateRequest | null => {
-    if (!result) return null;
-    // Use contribution_margin to derive price/variable_cost:
-    // contribution_margin = price - variable_cost
-    // BepChart needs price, variable_cost, fixed_cost to draw lines
-    // We derive approximate values from the result
-    const bep = result.break_even_point;
-    const cm = result.contribution_margin;
-    if (bep <= 0 || cm <= 0) return null;
-
-    // fixed_cost = BEP × contribution_margin (approximate)
-    const fixedCost = bep * cm;
-    // Use contribution_margin as price, 0 as variable_cost (simplified for chart)
-    return {
-      price: cm,
-      variable_cost: 0,
-      fixed_cost: fixedCost,
-      work_hours: 0,
-      hourly_wage: 0,
-      target_profit: 0,
-    };
-  };
-
   return (
     <Container>
       {error && <ErrorBanner>{error}</ErrorBanner>}
@@ -227,10 +203,7 @@ export default function ScriptAnalysis() {
 
           <ResultContainer>
             <ResultCards result={analysisResult.result} />
-            {(() => {
-              const bepData = toBepFormData(analysisResult.result);
-              return bepData ? <BepChart formData={bepData} result={analysisResult.result} /> : null;
-            })()}
+            <BepChart result={analysisResult.result} />
           </ResultContainer>
 
           <ButtonRow>
