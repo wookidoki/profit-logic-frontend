@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAuthStore } from '../store/authStore';
 import { useAuth } from '../hooks/useAuth';
@@ -10,6 +11,7 @@ import ScenarioSimulator from '../components/ScenarioSimulator';
 import type { CalculateRequest } from '../types/finance';
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const { nickname } = useAuthStore();
   const { logout } = useAuth();
   const { result, loading, error, calculate } = useCalculate();
@@ -23,7 +25,10 @@ export default function Dashboard() {
   return (
     <Container>
       <Header>
-        <Logo>Profit Logic</Logo>
+        <HeaderLeft>
+          <Logo>Profit Logic</Logo>
+          <NavButton onClick={() => navigate('/scripts')}>맞춤 분석</NavButton>
+        </HeaderLeft>
         <UserArea>
           <Greeting>{nickname}님 환영합니다</Greeting>
           <LogoutButton onClick={logout}>로그아웃</LogoutButton>
@@ -74,10 +79,30 @@ const Header = styled.header`
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 `;
 
+const HeaderLeft = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+`;
+
 const Logo = styled.h1`
   font-size: 1.25rem;
   font-weight: 700;
   color: #4361ee;
+`;
+
+const NavButton = styled.button`
+  padding: 0.375rem 0.75rem;
+  background: linear-gradient(135deg, #7209b7, #4361ee);
+  color: #fff;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.9;
+  }
 `;
 
 const UserArea = styled.div`
