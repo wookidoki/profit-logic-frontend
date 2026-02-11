@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import type { CalculateResponse } from '../types/finance';
 import { formatKRW, formatPercent, formatQuantity } from '../utils/formatNumber';
+import ZoneBadge from './ZoneBadge';
 
 interface Props {
   result: CalculateResponse;
@@ -38,13 +39,26 @@ export default function ResultCards({ result }: Props) {
       value: formatKRW(result.contribution_margin),
       color: result.contribution_margin >= 0 ? '#06d6a0' : '#ef476f',
     },
+    {
+      label: '실질 시급 (Shadow Wage)',
+      value: formatKRW(result.shadow_wage),
+      color: result.shadow_wage >= 9860 ? '#06d6a0' : '#ef476f',
+    },
+    {
+      label: '적용 시급',
+      value: formatKRW(result.applied_hourly_wage),
+      color: '#4361ee',
+    },
   ];
 
   return (
     <Container>
-      <ViabilityBadge $viable={result.is_viable}>
-        {result.is_viable ? '생존 가능' : '생존 불가'}
-      </ViabilityBadge>
+      <BadgeRow>
+        <ViabilityBadge $viable={result.is_viable}>
+          {result.is_viable ? '생존 가능' : '생존 불가'}
+        </ViabilityBadge>
+        <ZoneBadge zone={result.zone} />
+      </BadgeRow>
       <Grid>
         {metrics.map(({ label, value, color }) => (
           <Card key={label} $accentColor={color}>
@@ -63,7 +77,14 @@ const Container = styled.div`
   gap: 1rem;
 `;
 
+const BadgeRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+`;
+
 const ViabilityBadge = styled.div<{ $viable: boolean }>`
+  flex: 1;
   text-align: center;
   padding: 0.75rem;
   border-radius: 12px;
