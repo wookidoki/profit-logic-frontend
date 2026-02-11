@@ -93,6 +93,25 @@ export interface CostDetailCreateRequest {
   memo?: string;
 }
 
+/** 작업시간 기록 */
+export interface TimeLog {
+  id: number;
+  project_id: number;
+  task_name: string;
+  hours_spent: number;
+  log_date: string;
+  memo: string | null;
+  created_at: string;
+}
+
+/** 작업시간 생성 요청 */
+export interface TimeLogCreateRequest {
+  task_name: string;
+  hours_spent: number;
+  log_date: string;
+  memo?: string;
+}
+
 /** 시뮬레이션 기록 */
 export interface SimulationLog {
   id: number;
