@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { scriptApi } from '../api/scriptApi';
 import ResultCards from '../components/ResultCards';
@@ -24,7 +23,6 @@ const CATEGORY_COLORS: Record<CreatorCategory, string> = {
 type Step = 1 | 2 | 3;
 
 export default function ScriptAnalysis() {
-  const navigate = useNavigate();
   const [step, setStep] = useState<Step>(1);
 
   // Step 1
@@ -157,14 +155,6 @@ export default function ScriptAnalysis() {
 
   return (
     <Container>
-      <Header>
-        <HeaderLeft>
-          <Logo onClick={() => navigate('/')}>Profit Logic</Logo>
-          <PageTitle>맞춤 분석</PageTitle>
-        </HeaderLeft>
-        <BackLink onClick={() => navigate('/')}>대시보드로 이동</BackLink>
-      </Header>
-
       {error && <ErrorBanner>{error}</ErrorBanner>}
 
       {/* Step 1: Category Selection */}
@@ -325,53 +315,7 @@ function renderField(
 
 // ── Styled Components ──────────────────────────────
 
-const Container = styled.div`
-  min-height: 100vh;
-  background: #f8f9fa;
-`;
-
-const Header = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background: #fff;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-`;
-
-const HeaderLeft = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-`;
-
-const Logo = styled.h1`
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #4361ee;
-  cursor: pointer;
-`;
-
-const PageTitle = styled.span`
-  font-size: 0.9375rem;
-  font-weight: 500;
-  color: #6c757d;
-`;
-
-const BackLink = styled.button`
-  padding: 0.5rem 1rem;
-  background: transparent;
-  color: #4361ee;
-  border: 1px solid #4361ee;
-  border-radius: 6px;
-  font-size: 0.875rem;
-  transition: all 0.2s;
-
-  &:hover {
-    background: #4361ee;
-    color: #fff;
-  }
-`;
+const Container = styled.div``;
 
 const Section = styled.section`
   max-width: 900px;
