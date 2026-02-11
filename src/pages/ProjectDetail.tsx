@@ -7,10 +7,11 @@ import ResultCards from '../components/ResultCards';
 import BepChart from '../components/BepChart';
 import ScenarioSimulator from '../components/ScenarioSimulator';
 import CostDetailPanel from '../components/CostDetailPanel';
+import TimeLogPanel from '../components/TimeLogPanel';
 import type { Project } from '../types';
 import type { CalculateRequest, CalculateResponse } from '../types/finance';
 
-type Tab = 'overview' | 'costs' | 'analysis' | 'simulation';
+type Tab = 'overview' | 'costs' | 'timelogs' | 'analysis' | 'simulation';
 
 export default function ProjectDetail() {
   const { id } = useParams<{ id: string }>();
@@ -126,6 +127,9 @@ export default function ProjectDetail() {
         <TabItem $active={tab === 'costs'} onClick={() => setTab('costs')}>
           비용 상세
         </TabItem>
+        <TabItem $active={tab === 'timelogs'} onClick={() => setTab('timelogs')}>
+          작업시간
+        </TabItem>
         <TabItem $active={tab === 'analysis'} onClick={() => setTab('analysis')}>
           분석 결과
         </TabItem>
@@ -162,6 +166,10 @@ export default function ProjectDetail() {
 
         {tab === 'costs' && (
           <CostDetailPanel projectId={projectId} />
+        )}
+
+        {tab === 'timelogs' && (
+          <TimeLogPanel projectId={projectId} />
         )}
 
         {tab === 'analysis' && (
