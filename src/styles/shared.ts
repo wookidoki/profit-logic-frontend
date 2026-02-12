@@ -224,6 +224,45 @@ export const FormErrorMsg = styled.span`
   color: ${theme.colors.danger};
 `;
 
+/* ── Layout ── */
+
+export const PageContainer = styled.div`
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+`;
+
+export const WidePageContainer = styled.div`
+  max-width: 1100px;
+  margin: 1.5rem auto;
+  padding: 0 2rem;
+`;
+
+export const LoadingState = styled.div`
+  text-align: center;
+  color: #6c757d;
+  padding: 4rem 0;
+`;
+
+export const ErrorState = styled.div`
+  text-align: center;
+  color: #ef476f;
+  padding: 4rem 0;
+`;
+
+/* ── Metrics ── */
+
+export const MetricLabel = styled.span`
+  font-size: 0.6875rem;
+  color: #adb5bd;
+`;
+
+export const MetricValue = styled.span`
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #1a1a2e;
+`;
+
 /* ── Empty State ── */
 
 export const EmptyState = styled.div`

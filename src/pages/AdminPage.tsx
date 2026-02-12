@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { adminApi } from '../api/adminApi';
 import { extractErrorMessage } from '../api/errorUtils';
-import { ErrorBanner } from '../styles/shared';
+import { ErrorBanner, LoadingState } from '../styles/shared';
 import type { AdminStats, AdminUser } from '../api/adminApi';
 
 export default function AdminPage() {
@@ -36,14 +36,14 @@ export default function AdminPage() {
       await adminApi.deleteUser(userId);
       setUsers((prev) => prev.filter((u) => u.id !== userId));
       if (stats) {
-        setStats({ ...stats, userCount: stats.userCount - 1 });
+        setStats({ ...stats, user_count: stats.user_count - 1 });
       }
     } catch (err: unknown) {
       setError(extractErrorMessage(err, '사용자 삭제에 실패했습니다.'));
     }
   };
 
-  if (loading) return <LoadingText>불러오는 중...</LoadingText>;
+  if (loading) return <LoadingState>불러오는 중...</LoadingState>;
 
   return (
     <Container>
@@ -54,27 +54,27 @@ export default function AdminPage() {
       {stats && (
         <StatsGrid>
           <StatCard>
-            <StatValue>{stats.userCount}</StatValue>
+            <StatValue>{stats.user_count}</StatValue>
             <StatLabel>전체 사용자</StatLabel>
           </StatCard>
           <StatCard>
-            <StatValue>{stats.projectCount}</StatValue>
+            <StatValue>{stats.project_count}</StatValue>
             <StatLabel>프로젝트</StatLabel>
           </StatCard>
           <StatCard>
-            <StatValue>{stats.postCount}</StatValue>
+            <StatValue>{stats.post_count}</StatValue>
             <StatLabel>게시글</StatLabel>
           </StatCard>
           <StatCard>
-            <StatValue>{stats.commentCount}</StatValue>
+            <StatValue>{stats.comment_count}</StatValue>
             <StatLabel>댓글</StatLabel>
           </StatCard>
           <StatCard>
-            <StatValue>{stats.reportCount}</StatValue>
+            <StatValue>{stats.report_count}</StatValue>
             <StatLabel>리포트</StatLabel>
           </StatCard>
           <StatCard>
-            <StatValue>{stats.chatCount}</StatValue>
+            <StatValue>{stats.chat_count}</StatValue>
             <StatLabel>AI 채팅</StatLabel>
           </StatCard>
         </StatsGrid>
@@ -103,9 +103,9 @@ export default function AdminPage() {
               <RoleTd $isAdmin={user.role === 'ROLE_ADMIN'}>
                 {user.role === 'ROLE_ADMIN' ? '관리자' : '사용자'}
               </RoleTd>
-              <Td>{user.bizType ?? '-'}</Td>
-              <Td>{user.projectCount}</Td>
-              <Td>{user.createdAt ? new Date(user.createdAt).toLocaleDateString('ko-KR') : '-'}</Td>
+              <Td>{user.biz_type ?? '-'}</Td>
+              <Td>{user.project_count}</Td>
+              <Td>{user.created_at ? new Date(user.created_at).toLocaleDateString('ko-KR') : '-'}</Td>
               <Td>
                 {user.role !== 'ROLE_ADMIN' && (
                   <DeleteBtn onClick={() => handleDeleteUser(user.id, user.nickname)}>
@@ -134,12 +134,6 @@ const Title = styled.h1`
   font-size: 1.5rem;
   font-weight: 700;
   color: #1a1a2e;
-`;
-
-const LoadingText = styled.div`
-  text-align: center;
-  color: #6c757d;
-  padding: 4rem 0;
 `;
 
 const StatsGrid = styled.div`

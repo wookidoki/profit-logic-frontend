@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { BackButton } from '../styles/shared';
+import { BackButton, PageContainer, LoadingState, ErrorState } from '../styles/shared';
 import { projectApi } from '../api/projectApi';
 import { formatKRW } from '../utils/formatNumber';
 import EnhancedAnalysisPanel from '../components/EnhancedAnalysisPanel';
@@ -92,12 +92,12 @@ export default function ProjectDetail() {
       }
     : null;
 
-  if (loading) return <LoadingContainer>로딩 중...</LoadingContainer>;
-  if (error) return <ErrorContainer>{error}</ErrorContainer>;
-  if (!project) return <ErrorContainer>프로젝트를 찾을 수 없습니다.</ErrorContainer>;
+  if (loading) return <LoadingState>로딩 중...</LoadingState>;
+  if (error) return <ErrorState>{error}</ErrorState>;
+  if (!project) return <ErrorState>프로젝트를 찾을 수 없습니다.</ErrorState>;
 
   return (
-    <Container>
+    <PageContainer>
       <HeaderRow>
         <BackButton onClick={() => navigate('/projects')}>← 목록</BackButton>
         <HeaderRight>
@@ -199,27 +199,9 @@ export default function ProjectDetail() {
           <LoadingText>분석 결과가 필요합니다.</LoadingText>
         )}
       </TabContent>
-    </Container>
+    </PageContainer>
   );
 }
-
-const Container = styled.div`
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 1.5rem 2rem;
-`;
-
-const LoadingContainer = styled.div`
-  text-align: center;
-  color: #6c757d;
-  padding: 4rem 0;
-`;
-
-const ErrorContainer = styled.div`
-  text-align: center;
-  color: #ef476f;
-  padding: 4rem 0;
-`;
 
 const HeaderRow = styled.div`
   display: flex;

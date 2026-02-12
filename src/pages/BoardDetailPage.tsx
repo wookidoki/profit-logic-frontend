@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { communityApi } from '../api/communityApi';
 import { useAuthStore } from '../store/authStore';
 import { extractErrorMessage } from '../api/errorUtils';
-import { BackButton, ErrorBanner } from '../styles/shared';
+import { BackButton, ErrorBanner, LoadingState, ErrorState } from '../styles/shared';
 import type { BoardPost, Comment } from '../types/community';
 
 export default function BoardDetailPage() {
@@ -85,9 +85,9 @@ export default function BoardDetailPage() {
     }
   };
 
-  if (loading) return <LoadingText>불러오는 중...</LoadingText>;
-  if (error && !post) return <ErrorText>{error}</ErrorText>;
-  if (!post) return <ErrorText>게시글을 찾을 수 없습니다.</ErrorText>;
+  if (loading) return <LoadingState>불러오는 중...</LoadingState>;
+  if (error && !post) return <ErrorState>{error}</ErrorState>;
+  if (!post) return <ErrorState>게시글을 찾을 수 없습니다.</ErrorState>;
 
   const isAuthor = nickname === post.author_nickname;
 
@@ -161,18 +161,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-`;
-
-const LoadingText = styled.div`
-  text-align: center;
-  color: #6c757d;
-  padding: 4rem 0;
-`;
-
-const ErrorText = styled.div`
-  text-align: center;
-  color: #ef476f;
-  padding: 4rem 0;
 `;
 
 const PostCard = styled.div`

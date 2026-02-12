@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { LoadingState } from '../styles/shared';
 import { communityApi } from '../api/communityApi';
 import { useAuthStore } from '../store/authStore';
 import type { BoardPost } from '../types/community';
@@ -40,7 +41,7 @@ export default function BoardListPage() {
       </Header>
 
       {loading ? (
-        <LoadingText>불러오는 중...</LoadingText>
+        <LoadingState>불러오는 중...</LoadingState>
       ) : posts.length === 0 ? (
         <EmptyState>
           아직 게시글이 없습니다. 첫 글을 작성해보세요!
@@ -118,12 +119,6 @@ const WriteButton = styled.button`
   &:hover {
     background: #3a56d4;
   }
-`;
-
-const LoadingText = styled.div`
-  text-align: center;
-  color: #6c757d;
-  padding: 3rem 0;
 `;
 
 const EmptyState = styled.div`

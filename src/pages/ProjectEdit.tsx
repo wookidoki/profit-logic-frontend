@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { BackButton, ErrorBanner, FormGroup, FormLabel, FormInput, FormErrorMsg, PrimaryButton } from '../styles/shared';
+import { BackButton, ErrorBanner, FormGroup, FormLabel, FormInput, FormErrorMsg, PrimaryButton, LoadingState } from '../styles/shared';
 import { MINIMUM_WAGE, DEFAULT_WORK_HOURS } from '../constants';
 import { projectApi } from '../api/projectApi';
 import { extractErrorMessage } from '../api/errorUtils';
@@ -76,7 +76,7 @@ export default function ProjectEdit() {
     }
   };
 
-  if (pageLoading) return <LoadingContainer>로딩 중...</LoadingContainer>;
+  if (pageLoading) return <LoadingState>로딩 중...</LoadingState>;
 
   return (
     <Container>
@@ -156,11 +156,6 @@ const Container = styled.div`
   padding: 0 2rem;
 `;
 
-const LoadingContainer = styled.div`
-  text-align: center;
-  color: #6c757d;
-  padding: 4rem 0;
-`;
 
 const FormCard = styled.div`
   background: #fff;
