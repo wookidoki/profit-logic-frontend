@@ -11,6 +11,7 @@ export interface ProjectInsight {
   contributionMarginRate: number;
   status: ProjectStatus;
   topActionCard: ActionCardDto | null;
+  creatorCategory: string | null;
 }
 
 export interface DashboardSummary {

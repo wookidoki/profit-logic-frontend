@@ -14,6 +14,14 @@ const STATUS_CONFIG: Record<ProjectStatus, { label: string; color: string }> = {
   NO_DATA: { label: '분석 필요', color: '#adb5bd' },
 };
 
+const CATEGORY_LABELS: Record<string, { emoji: string; name: string }> = {
+  WEB_NOVEL: { emoji: '\u270D\uFE0F', name: '\uC6F9\uC18C\uC124' },
+  SHORT_FORM: { emoji: '\uD83C\uDFAC', name: '\uC21F\uD3FC' },
+  EMOTICON: { emoji: '\uD83D\uDE0A', name: '\uC774\uBAA8\uD2F0\uCF58' },
+  BLOG: { emoji: '\uD83D\uDCDD', name: '\uBE14\uB85C\uADF8' },
+  INDIE_DEV: { emoji: '\uD83D\uDCBB', name: '\uC778\uB514\uAC1C\uBC1C' },
+};
+
 const ACTION_CARD_STYLE: Record<string, { color: string; bg: string }> = {
   WARNING: { color: '#ef476f', bg: '#fff5f5' },
   POSITIVE: { color: '#06d6a0', bg: '#f0fdf9' },
@@ -57,11 +65,11 @@ export default function Dashboard() {
         <ActionButton onClick={() => navigate('/projects/new')}>
           + 새 프로젝트
         </ActionButton>
-        <ActionButtonSecondary onClick={() => navigate('/scripts')}>
-          맞춤 분석
+        <ActionButtonSecondary onClick={() => navigate('/consult')}>
+          맞춤 상담
         </ActionButtonSecondary>
         <ActionButtonSecondary onClick={() => navigate('/chat')}>
-          AI 상담
+          AI 챗봇
         </ActionButtonSecondary>
       </QuickActions>
 
@@ -72,9 +80,14 @@ export default function Dashboard() {
           <EmptyDesc>
             프로젝트를 생성하면 손익분기점, 실질 시급, 비용 구조를 분석할 수 있습니다.
           </EmptyDesc>
-          <CreateButton onClick={() => navigate('/projects/new')}>
-            프로젝트 만들기
-          </CreateButton>
+          <EmptyActions>
+            <CreateButton onClick={() => navigate('/consult')}>
+              맞춤 상담 시작하기
+            </CreateButton>
+            <EmptySecondaryBtn onClick={() => navigate('/projects/new')}>
+              직접 입력으로 만들기
+            </EmptySecondaryBtn>
+          </EmptyActions>
         </EmptyState>
       ) : (
         <>
@@ -130,7 +143,14 @@ function InsightCard({ insight, onClick }: { insight: ProjectInsight; onClick: (
   return (
     <ProjectCard onClick={onClick} $borderColor={statusConfig.color}>
       <CardHeader>
-        <CardTitle>{insight.title}</CardTitle>
+        <CardTitleRow>
+          {insight.creatorCategory && CATEGORY_LABELS[insight.creatorCategory] && (
+            <CategoryTag>
+              {CATEGORY_LABELS[insight.creatorCategory].emoji} {CATEGORY_LABELS[insight.creatorCategory].name}
+            </CategoryTag>
+          )}
+          <CardTitle>{insight.title}</CardTitle>
+        </CardTitleRow>
         <StatusBadge $color={statusConfig.color}>
           {statusConfig.label}
         </StatusBadge>
@@ -256,8 +276,29 @@ const EmptyDesc = styled.p`
   line-height: 1.5;
 `;
 
-const CreateButton = styled(PrimaryButton)`
+const EmptyActions = styled.div`
+  display: flex;
+  gap: 0.75rem;
   margin-top: 1rem;
+  flex-wrap: wrap;
+`;
+
+const CreateButton = styled(PrimaryButton)``;
+
+const EmptySecondaryBtn = styled.button`
+  padding: 0.75rem 1.5rem;
+  background: #fff;
+  color: #4361ee;
+  border: 1px solid #4361ee;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #4361ee;
+    color: #fff;
+  }
 `;
 
 /* ── Summary Cards ── */
@@ -320,6 +361,21 @@ const CardHeader = styled.div`
   align-items: center;
 `;
 
+const CardTitleRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  min-width: 0;
+  margin-right: 0.5rem;
+`;
+
+const CategoryTag = styled.span`
+  font-size: 0.6875rem;
+  color: #7209b7;
+  font-weight: 500;
+`;
+
 const CardTitle = styled.h3`
   font-size: 0.9375rem;
   font-weight: 600;
@@ -327,8 +383,6 @@ const CardTitle = styled.h3`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  flex: 1;
-  margin-right: 0.5rem;
 `;
 
 const StatusBadge = styled.span<{ $color: string }>`

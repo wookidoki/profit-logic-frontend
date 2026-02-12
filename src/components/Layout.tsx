@@ -19,8 +19,16 @@ export default function Layout({ children }: Props) {
         <HeaderLeft>
           <Logo onClick={() => navigate('/')}>Profit Logic</Logo>
           <Nav>
-            <NavItem $active={location.pathname === '/'} onClick={() => navigate('/')}>
-              대시보드
+            {isAuthenticated && (
+              <NavItem $active={location.pathname === '/'} onClick={() => navigate('/')}>
+                대시보드
+              </NavItem>
+            )}
+            <NavItem
+              $active={location.pathname === '/consult' || location.pathname === '/scripts'}
+              onClick={() => navigate('/consult')}
+            >
+              맞춤 상담
             </NavItem>
             {isAuthenticated && (
               <NavItem
@@ -30,18 +38,12 @@ export default function Layout({ children }: Props) {
                 프로젝트
               </NavItem>
             )}
-            <NavItem
-              $active={location.pathname === '/consult' || location.pathname === '/scripts'}
-              onClick={() => navigate('/consult')}
-            >
-              AI 상담사
-            </NavItem>
             {isAuthenticated && (
               <NavItem
                 $active={location.pathname === '/chat'}
                 onClick={() => navigate('/chat')}
               >
-                프로젝트 채팅
+                AI 챗봇
               </NavItem>
             )}
             <NavItem

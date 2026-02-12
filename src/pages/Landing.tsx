@@ -43,7 +43,7 @@ export default function Landing() {
       <TopNav>
         <NavLogo>Profit Logic</NavLogo>
         <NavActions>
-          <NavLink onClick={() => navigate('/scripts')}>무료 분석</NavLink>
+          <NavLink onClick={() => navigate('/consult')}>맞춤 상담</NavLink>
           <NavLink onClick={() => navigate('/board')}>커뮤니티</NavLink>
           <NavLoginBtn onClick={() => navigate('/login')}>로그인</NavLoginBtn>
         </NavActions>
@@ -68,8 +68,8 @@ export default function Landing() {
           </Title>
 
           <Desc>
-            판매가, 비용, 투입 시간만 입력하면<br />
-            손익분기점 · 실질 시급 · 공헌이익률을 즉시 분석합니다.
+            대화형 AI 상담사가 당신의 사업을 분석합니다.<br />
+            크리에이터 유형에 맞는 맞춤 질문으로 손익분기점 · 실질 시급을 즉시 분석합니다.
           </Desc>
 
           <Buttons>
@@ -77,8 +77,8 @@ export default function Landing() {
               무료로 시작하기
               <BtnArrow>&rarr;</BtnArrow>
             </PrimaryBtn>
-            <SecondaryBtn onClick={() => navigate('/scripts')}>
-              바로 분석해보기
+            <SecondaryBtn onClick={() => navigate('/consult')}>
+              바로 상담해보기
             </SecondaryBtn>
           </Buttons>
 
