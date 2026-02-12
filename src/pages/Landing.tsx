@@ -24,8 +24,10 @@ export default function Landing() {
       if (displayed.length > 0) {
         timer = setTimeout(() => setDisplayed(displayed.slice(0, -1)), 60);
       } else {
-        setDeleting(false);
-        setWordIdx((prev) => (prev + 1) % WORDS.length);
+        timer = setTimeout(() => {
+          setDeleting(false);
+          setWordIdx((prev) => (prev + 1) % WORDS.length);
+        }, 0);
       }
     }
     return () => clearTimeout(timer);
