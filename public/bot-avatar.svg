@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- Background circle -->
+  <circle cx="60" cy="60" r="60" fill="#4361ee"/>
+  <!-- Head -->
+  <rect x="30" y="28" width="60" height="48" rx="12" fill="white"/>
+  <!-- Eyes -->
+  <circle cx="44" cy="48" r="6" fill="#4361ee"/>
+  <circle cx="76" cy="48" r="6" fill="#4361ee"/>
+  <!-- Eye shine -->
+  <circle cx="46" cy="46" r="2" fill="white"/>
+  <circle cx="78" cy="46" r="2" fill="white"/>
+  <!-- Mouth -->
+  <path d="M45 60 Q60 72 75 60" stroke="#4361ee" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <!-- Antenna -->
+  <line x1="60" y1="28" x2="60" y2="18" stroke="white" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="60" cy="14" r="5" fill="#f4a261"/>
+  <!-- Body -->
+  <rect x="38" y="80" width="44" height="20" rx="8" fill="white"/>
+  <!-- Body detail -->
+  <circle cx="52" cy="90" r="3" fill="#4361ee"/>
+  <circle cx="68" cy="90" r="3" fill="#4361ee"/>
+</svg>

@@ -17,11 +17,11 @@ const STATUS_CONFIG: Record<ProjectStatus, { label: string; color: string }> = {
 };
 
 const CATEGORY_LABELS: Record<string, { emoji: string; name: string }> = {
-  WEB_NOVEL: { emoji: '\u270D\uFE0F', name: '\uC6F9\uC18C\uC124' },
-  SHORT_FORM: { emoji: '\uD83C\uDFAC', name: '\uC21F\uD3FC' },
-  EMOTICON: { emoji: '\uD83D\uDE0A', name: '\uC774\uBAA8\uD2F0\uCF58' },
-  BLOG: { emoji: '\uD83D\uDCDD', name: '\uBE14\uB85C\uADF8' },
-  INDIE_DEV: { emoji: '\uD83D\uDCBB', name: '\uC778\uB514\uAC1C\uBC1C' },
+  WEB_NOVEL: { emoji: '✍️', name: '웹소설' },
+  SHORT_FORM: { emoji: '🎬', name: '숟폼' },
+  EMOTICON: { emoji: '😊', name: '이모티콘' },
+  BLOG: { emoji: '📝', name: '블로그' },
+  INDIE_DEV: { emoji: '💻', name: '인디개발' },
 };
 
 const ACTION_CARD_STYLE: Record<string, { color: string; bg: string }> = {
@@ -162,7 +162,7 @@ function InsightCard({ insight, onClick }: { insight: ProjectInsight; onClick: (
         <>
           <MetricsRow>
             <Metric>
-              <MetricLabel>{'\uC6D4 \uCD5C\uC18C \uAC74\uC218'}</MetricLabel>
+              <MetricLabel>{'월 최소 건수'}</MetricLabel>
               <MetricValue>{(insight.bep ?? 0).toLocaleString('ko-KR', { maximumFractionDigits: 0 })}건</MetricValue>
             </Metric>
             <Metric>

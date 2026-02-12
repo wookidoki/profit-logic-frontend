@@ -223,10 +223,10 @@ export default function ScriptAnalysis() {
       if (res.data.success && res.data.data) {
         setSaveSuccess({ id: res.data.data.id, title: res.data.data.title });
       } else {
-        setError(res.data.message || '\uD504\uB85C\uC81D\uD2B8 \uC800\uC7A5\uC5D0 \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4.');
+        setError(res.data.message || '프로젝트 저장에 실패했습니다.');
       }
     } catch {
-      setError('\uD504\uB85C\uC81D\uD2B8 \uC800\uC7A5\uC5D0 \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4.');
+      setError('프로젝트 저장에 실패했습니다.');
     } finally {
       setSaving(false);
     }
@@ -341,7 +341,7 @@ export default function ScriptAnalysis() {
             </SaveSuccessBanner>
           ) : isAuthenticated ? (
             <SaveButton onClick={handleSaveAsProject} disabled={saving}>
-              {saving ? '\uC800\uC7A5 \uC911...' : '\uD504\uB85C\uC81D\uD2B8\uB85C \uC800\uC7A5\uD558\uAE30'}
+              {saving ? '저장 중...' : '프로젝트로 저장하기'}
             </SaveButton>
           ) : (
             <LoginPrompt>
