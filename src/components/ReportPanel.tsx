@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { theme } from '../styles/theme';
 import { PrimaryButton, ErrorBanner } from '../styles/shared';
 import { reportApi } from '../api/reportApi';
 import { extractErrorMessage } from '../api/errorUtils';
@@ -142,12 +143,12 @@ const Container = styled.div`
 
 const LoadingText = styled.div`
   text-align: center;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   padding: 2rem;
 `;
 
 const GenerateSection = styled.div`
-  background: #fff;
+  background: ${theme.colors.surface};
   padding: 1.25rem;
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -159,7 +160,7 @@ const GenerateSection = styled.div`
 const GenerateTitle = styled.h3`
   font-size: 1rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const GenerateRow = styled.div`
@@ -171,12 +172,12 @@ const GenerateRow = styled.div`
 
 const MonthInput = styled.input`
   padding: 0.5rem 0.75rem;
-  border: 1px solid #dee2e6;
+  border: 1px solid ${theme.colors.border};
   border-radius: 8px;
   font-size: 0.875rem;
 
   &:focus {
-    border-color: #4361ee;
+    border-color: ${theme.colors.primary};
     outline: none;
     box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
   }
@@ -191,7 +192,7 @@ const Spinner = styled.span`
   width: 14px;
   height: 14px;
   border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #fff;
+  border-top-color: ${theme.colors.surface};
   border-radius: 50%;
   animation: ${spin} 0.6s linear infinite;
   margin-right: 0.5rem;
@@ -204,7 +205,7 @@ const GenerateButton = styled(PrimaryButton)`
 
 const EmptyState = styled.div`
   text-align: center;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   padding: 3rem 1rem;
   font-size: 0.875rem;
 `;
@@ -220,7 +221,7 @@ const ContentSection = styled.div`
 `;
 
 const ReportList = styled.div`
-  background: #fff;
+  background: ${theme.colors.surface};
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   padding: 1rem;
@@ -232,7 +233,7 @@ const ReportList = styled.div`
 const ListTitle = styled.div`
   font-size: 0.8125rem;
   font-weight: 600;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   margin-bottom: 0.25rem;
 `;
 
@@ -240,30 +241,30 @@ const ReportItem = styled.button<{ $active: boolean }>`
   padding: 0.625rem 0.75rem;
   border-radius: 8px;
   text-align: left;
-  background: ${({ $active }) => ($active ? '#4361ee10' : 'transparent')};
-  border: 1px solid ${({ $active }) => ($active ? '#4361ee' : 'transparent')};
+  background: ${({ $active }) => ($active ? `${theme.colors.primary}10` : 'transparent')};
+  border: 1px solid ${({ $active }) => ($active ? theme.colors.primary : 'transparent')};
   cursor: pointer;
   transition: all 0.2s;
 
   &:hover {
-    background: #f8f9fa;
+    background: ${theme.colors.background};
   }
 `;
 
 const ReportMonth = styled.div`
   font-size: 0.875rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const ReportDate = styled.div`
   font-size: 0.6875rem;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   margin-top: 0.125rem;
 `;
 
 const ReportContent = styled.div`
-  background: #fff;
+  background: ${theme.colors.surface};
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   padding: 1.5rem;
@@ -281,13 +282,13 @@ const ReportHeader = styled.div`
 const ReportHeaderMonth = styled.h3`
   font-size: 1.125rem;
   font-weight: 700;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const TokenBadge = styled.span`
   font-size: 0.6875rem;
-  color: #6c757d;
-  background: #f8f9fa;
+  color: ${theme.colors.textSecondary};
+  background: ${theme.colors.background};
   padding: 0.25rem 0.625rem;
   border-radius: 12px;
 `;
@@ -295,7 +296,7 @@ const TokenBadge = styled.span`
 const MarkdownBody = styled.div`
   font-size: 0.875rem;
   line-height: 1.8;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   white-space: pre-wrap;
   word-break: break-word;
 `;

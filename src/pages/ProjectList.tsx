@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { theme } from '../styles/theme';
 import { ErrorBanner } from '../styles/shared';
+import LoadingSpinner from '../components/LoadingSpinner';
 import { projectApi } from '../api/projectApi';
 import { formatKRW } from '../utils/formatNumber';
 import type { Project } from '../types';
@@ -36,7 +38,7 @@ export default function ProjectList() {
       {error && <ErrorBanner>{error}</ErrorBanner>}
 
       {loading ? (
-        <LoadingText>로딩 중...</LoadingText>
+        <LoadingSpinner />
       ) : projects.length === 0 ? (
         <EmptyState>
           <EmptyIcon>📁</EmptyIcon>
@@ -53,21 +55,21 @@ export default function ProjectList() {
               <CardTitle>{project.title}</CardTitle>
               <MetricRow>
                 <Metric>
-                  <MetricLabel>판매가</MetricLabel>
+                  <MetricLabel>건당 수익</MetricLabel>
                   <MetricValue>{formatKRW(project.price)}</MetricValue>
                 </Metric>
                 <Metric>
-                  <MetricLabel>고정비</MetricLabel>
+                  <MetricLabel>월 고정 지출</MetricLabel>
                   <MetricValue>{formatKRW(project.fixed_cost)}</MetricValue>
                 </Metric>
               </MetricRow>
               <MetricRow>
                 <Metric>
-                  <MetricLabel>변동비</MetricLabel>
+                  <MetricLabel>건당 비용</MetricLabel>
                   <MetricValue>{formatKRW(project.variable_cost)}</MetricValue>
                 </Metric>
                 <Metric>
-                  <MetricLabel>근무시간</MetricLabel>
+                  <MetricLabel>월 투입 시간</MetricLabel>
                   <MetricValue>{project.work_hours}시간</MetricValue>
                 </Metric>
               </MetricRow>
@@ -99,27 +101,21 @@ const HeaderRow = styled.div`
 const Title = styled.h2`
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const CreateButton = styled.button`
   padding: 0.625rem 1.25rem;
-  background: #4361ee;
-  color: #fff;
+  background: ${theme.colors.primary};
+  color: ${theme.colors.surface};
   border-radius: 8px;
   font-size: 0.875rem;
   font-weight: 600;
   transition: background 0.2s;
 
   &:hover {
-    background: #3a56d4;
+    background: ${theme.colors.primaryHover};
   }
-`;
-
-const LoadingText = styled.div`
-  text-align: center;
-  color: #6c757d;
-  padding: 3rem 0;
 `;
 
 const EmptyState = styled.div`
@@ -127,19 +123,19 @@ const EmptyState = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 4rem 2rem;
-  background: #fff;
+  background: ${theme.colors.surface};
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
   text-align: center;
 
   h3 {
     font-size: 1.25rem;
-    color: #1a1a2e;
+    color: ${theme.colors.text};
     margin-bottom: 0.5rem;
   }
 
   p {
-    color: #6c757d;
+    color: ${theme.colors.textSecondary};
     margin-bottom: 1.5rem;
   }
 `;
@@ -156,7 +152,7 @@ const Grid = styled.div`
 `;
 
 const Card = styled.div`
-  background: #fff;
+  background: ${theme.colors.surface};
   padding: 1.25rem;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
@@ -172,7 +168,7 @@ const Card = styled.div`
 const CardTitle = styled.h3`
   font-size: 1.0625rem;
   font-weight: 700;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   margin-bottom: 0.75rem;
 `;
 
@@ -209,8 +205,8 @@ const CardFooter = styled.div`
 
 const PublicBadge = styled.span`
   padding: 0.125rem 0.5rem;
-  background: #06d6a015;
-  color: #06d6a0;
+  background: ${theme.colors.success}15;
+  color: ${theme.colors.success};
   border-radius: 10px;
   font-size: 0.6875rem;
   font-weight: 600;

@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
+import { theme } from '../styles/theme';
 import {
   AddButton, ErrorBanner, LoadingText, DeleteBtn,
   EmptyState, EmptyIcon, EmptySub,
@@ -188,13 +189,13 @@ const PanelLeft = styled.div`
 const PanelTitle = styled.h3`
   font-size: 1rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const TotalBadge = styled.span`
   padding: 0.25rem 0.625rem;
-  background: #4361ee15;
-  color: #4361ee;
+  background: ${theme.colors.primary}15;
+  color: ${theme.colors.primary};
   border-radius: 12px;
   font-size: 0.75rem;
   font-weight: 600;
@@ -202,8 +203,8 @@ const TotalBadge = styled.span`
 
 const FilteredBadge = styled.span`
   padding: 0.25rem 0.625rem;
-  background: #06d6a015;
-  color: #06d6a0;
+  background: ${theme.colors.success}15;
+  color: ${theme.colors.success};
   border-radius: 12px;
   font-size: 0.75rem;
   font-weight: 600;
@@ -212,7 +213,7 @@ const FilteredBadge = styled.span`
 const FilterBar = styled.div`
   display: flex;
   gap: 0.25rem;
-  background: #f8f9fa;
+  background: ${theme.colors.background};
   border-radius: 8px;
   padding: 0.25rem;
   width: fit-content;
@@ -220,8 +221,8 @@ const FilterBar = styled.div`
 
 const FilterButton = styled.button<{ $active: boolean }>`
   padding: 0.375rem 0.75rem;
-  background: ${({ $active }) => ($active ? '#fff' : 'transparent')};
-  color: ${({ $active }) => ($active ? '#4361ee' : '#6c757d')};
+  background: ${({ $active }) => ($active ? theme.colors.surface : 'transparent')};
+  color: ${({ $active }) => ($active ? theme.colors.primary : theme.colors.textSecondary)};
   border-radius: 6px;
   font-size: 0.75rem;
   font-weight: ${({ $active }) => ($active ? '600' : '400')};
@@ -229,7 +230,7 @@ const FilterButton = styled.button<{ $active: boolean }>`
   transition: all 0.2s;
 
   &:hover {
-    color: #4361ee;
+    color: ${theme.colors.primary};
   }
 `;
 
@@ -242,7 +243,7 @@ const LogList = styled.div`
 `;
 
 const DateGroup = styled.div`
-  background: #fff;
+  background: ${theme.colors.surface};
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   overflow: hidden;
@@ -253,7 +254,7 @@ const DateHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0.625rem 1rem;
-  background: #f8f9fa;
+  background: ${theme.colors.background};
   border-bottom: 1px solid #f1f3f5;
 `;
 
@@ -266,7 +267,7 @@ const DateLabel = styled.span`
 const DateTotal = styled.span`
   font-size: 0.75rem;
   font-weight: 600;
-  color: #4361ee;
+  color: ${theme.colors.primary};
 `;
 
 const LogItem = styled.div`
@@ -274,7 +275,7 @@ const LogItem = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0.625rem 1rem;
-  border-bottom: 1px solid #f8f9fa;
+  border-bottom: 1px solid ${theme.colors.background};
 
   &:last-child {
     border-bottom: none;
@@ -290,7 +291,7 @@ const LogMain = styled.div`
 const TaskName = styled.span`
   font-size: 0.875rem;
   font-weight: 500;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const LogMeta = styled.div`
@@ -302,7 +303,7 @@ const LogMeta = styled.div`
 const HoursBadge = styled.span`
   font-size: 0.75rem;
   font-weight: 600;
-  color: #4361ee;
+  color: ${theme.colors.primary};
 `;
 
 const Memo = styled.span`

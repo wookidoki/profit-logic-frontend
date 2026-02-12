@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { theme } from '../styles/theme';
 import {
   InlineFormCard, FormRow, FormGroup, FormLabelSm,
   FormInputSm, FormSelect, FormActions, SecondaryButton, PrimaryButtonSm,
@@ -59,8 +60,8 @@ export default function CostForm({ onSubmit, onCancel }: Props) {
           <FormGroup>
             <FormLabelSm>유형</FormLabelSm>
             <FormSelect value={costType} onChange={(e) => setCostType(e.target.value as CostType)}>
-              <option value="FIXED">고정비</option>
-              <option value="VARIABLE">변동비</option>
+              <option value="FIXED">월 고정 지출</option>
+              <option value="VARIABLE">건당 비용</option>
             </FormSelect>
           </FormGroup>
         </FormRow>
@@ -109,7 +110,7 @@ export default function CostForm({ onSubmit, onCancel }: Props) {
 const FormTitle = styled.h4`
   font-size: 0.9375rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   margin-bottom: 0.75rem;
 `;
 

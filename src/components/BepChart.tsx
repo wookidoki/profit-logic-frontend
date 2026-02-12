@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import styled from 'styled-components';
+import { theme } from '../styles/theme';
 import {
   LineChart,
   Line,
@@ -48,13 +49,13 @@ export default function BepChart({ result }: Props) {
 
   return (
     <Card>
-      <Title>손익분기점 (BEP) 차트</Title>
+      <Title>월 최소 건수 (BEP) 차트</Title>
       <ResponsiveContainer width="100%" height={360}>
         <LineChart data={chartData} margin={{ top: 10, right: 20, left: 10, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#e9ecef" />
           <XAxis
             dataKey="quantity"
-            label={{ value: '판매량 (개)', position: 'insideBottomRight', offset: -5 }}
+            label={{ value: '작업량 (건)', position: 'insideBottomRight', offset: -5 }}
             tickFormatter={formatAxis}
             fontSize={12}
           />
@@ -66,21 +67,21 @@ export default function BepChart({ result }: Props) {
           <Tooltip
             formatter={(value, name) => {
               const labels: Record<string, string> = {
-                contributionTotal: '공헌이익 누적',
-                fixedCost: '고정비',
+                contributionTotal: '건당 순수익 누적',
+                fixedCost: '월 고정 지출',
               };
               const formatted = typeof value === 'number'
                 ? new Intl.NumberFormat('ko-KR').format(Math.round(value)) + '원'
                 : '-';
               return [formatted, labels[name ?? ''] ?? name];
             }}
-            labelFormatter={(qty) => `판매량: ${qty}개`}
+            labelFormatter={(qty) => `작업량: ${qty}건`}
           />
           <Legend
             formatter={(value: string) => {
               const labels: Record<string, string> = {
-                contributionTotal: '공헌이익 누적',
-                fixedCost: '고정비',
+                contributionTotal: '건당 순수익 누적',
+                fixedCost: '월 고정 지출',
               };
               return labels[value] ?? value;
             }}
@@ -88,14 +89,14 @@ export default function BepChart({ result }: Props) {
           <Line
             type="monotone"
             dataKey="contributionTotal"
-            stroke="#4361ee"
+            stroke={theme.colors.primary}
             strokeWidth={2}
             dot={false}
           />
           <Line
             type="monotone"
             dataKey="fixedCost"
-            stroke="#ffd166"
+            stroke={theme.colors.warning}
             strokeWidth={2}
             strokeDasharray="6 3"
             dot={false}
@@ -104,8 +105,8 @@ export default function BepChart({ result }: Props) {
             x={result.break_even_point}
             y={bepY}
             r={6}
-            fill="#4361ee"
-            stroke="#fff"
+            fill={theme.colors.primary}
+            stroke={theme.colors.surface}
             strokeWidth={2}
             label={{ value: 'BEP', position: 'top', fontSize: 12, fontWeight: 700 }}
           />
@@ -118,6 +119,6 @@ export default function BepChart({ result }: Props) {
 const Title = styled.h3`
   font-size: 1rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   margin-bottom: 1rem;
 `;

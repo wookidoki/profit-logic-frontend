@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { theme } from './theme';
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
@@ -11,8 +12,8 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI',
       Roboto, Oxygen, Ubuntu, sans-serif;
     line-height: 1.6;
-    color: #1a1a2e;
-    background-color: #f8f9fa;
+    color: ${theme.colors.text};
+    background-color: ${theme.colors.background};
     min-height: 100vh;
   }
 

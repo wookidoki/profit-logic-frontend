@@ -1,10 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { theme } from '../styles/theme';
 import { communityApi } from '../api/communityApi';
 import { useAuthStore } from '../store/authStore';
 import { extractErrorMessage } from '../api/errorUtils';
-import { BackButton, ErrorBanner } from '../styles/shared';
+import { BackButton, ErrorBanner, ErrorState } from '../styles/shared';
+import LoadingSpinner from '../components/LoadingSpinner';
 import type { BoardPost, Comment } from '../types/community';
 
 export default function BoardDetailPage() {
@@ -85,9 +87,9 @@ export default function BoardDetailPage() {
     }
   };
 
-  if (loading) return <LoadingText>불러오는 중...</LoadingText>;
-  if (error && !post) return <ErrorText>{error}</ErrorText>;
-  if (!post) return <ErrorText>게시글을 찾을 수 없습니다.</ErrorText>;
+  if (loading) return <LoadingSpinner />;
+  if (error && !post) return <ErrorState>{error}</ErrorState>;
+  if (!post) return <ErrorState>게시글을 찾을 수 없습니다.</ErrorState>;
 
   const isAuthor = nickname === post.author_nickname;
 
@@ -163,20 +165,8 @@ const Container = styled.div`
   gap: 1rem;
 `;
 
-const LoadingText = styled.div`
-  text-align: center;
-  color: #6c757d;
-  padding: 4rem 0;
-`;
-
-const ErrorText = styled.div`
-  text-align: center;
-  color: #ef476f;
-  padding: 4rem 0;
-`;
-
 const PostCard = styled.div`
-  background: #fff;
+  background: ${theme.colors.surface};
   padding: 1.5rem;
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -192,7 +182,7 @@ const PostHeader = styled.div`
 const PostTitle = styled.h1`
   font-size: 1.375rem;
   font-weight: 700;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   flex: 1;
   margin-right: 1rem;
 `;
@@ -200,16 +190,16 @@ const PostTitle = styled.h1`
 const DeleteButton = styled.button`
   padding: 0.25rem 0.625rem;
   background: transparent;
-  color: #ef476f;
-  border: 1px solid #ef476f;
+  color: ${theme.colors.danger};
+  border: 1px solid ${theme.colors.danger};
   border-radius: 6px;
   font-size: 0.75rem;
   transition: all 0.2s;
   flex-shrink: 0;
 
   &:hover {
-    background: #ef476f;
-    color: #fff;
+    background: ${theme.colors.danger};
+    color: ${theme.colors.surface};
   }
 `;
 
@@ -225,7 +215,7 @@ const PostMeta = styled.div`
 const Author = styled.span`
   font-size: 0.8125rem;
   font-weight: 500;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const Separator = styled.span`
@@ -237,19 +227,19 @@ const Separator = styled.span`
 
 const MetaText = styled.span`
   font-size: 0.75rem;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
 `;
 
 const PostBody = styled.div`
   font-size: 0.9375rem;
   line-height: 1.8;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   white-space: pre-wrap;
   word-break: break-word;
 `;
 
 const CommentSection = styled.div`
-  background: #fff;
+  background: ${theme.colors.surface};
   padding: 1.25rem;
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -261,7 +251,7 @@ const CommentSection = styled.div`
 const CommentTitle = styled.h3`
   font-size: 0.9375rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const CommentItem = styled.div`
@@ -283,7 +273,7 @@ const CommentHeader = styled.div`
 const CommentAuthor = styled.span`
   font-size: 0.8125rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const CommentDate = styled.span`
@@ -295,21 +285,21 @@ const CommentDeleteBtn = styled.button`
   margin-left: auto;
   padding: 0.125rem 0.375rem;
   background: transparent;
-  color: #ef476f;
-  border: 1px solid #ef476f;
+  color: ${theme.colors.danger};
+  border: 1px solid ${theme.colors.danger};
   border-radius: 4px;
   font-size: 0.6875rem;
   transition: all 0.2s;
 
   &:hover {
-    background: #ef476f;
-    color: #fff;
+    background: ${theme.colors.danger};
+    color: ${theme.colors.surface};
   }
 `;
 
 const CommentBody = styled.div`
   font-size: 0.8125rem;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   line-height: 1.6;
   white-space: pre-wrap;
 `;
@@ -323,13 +313,13 @@ const CommentForm = styled.form`
 const CommentInput = styled.input`
   flex: 1;
   padding: 0.5rem 0.75rem;
-  border: 1px solid #dee2e6;
+  border: 1px solid ${theme.colors.border};
   border-radius: 8px;
   font-size: 0.8125rem;
   transition: border-color 0.2s;
 
   &:focus {
-    border-color: #4361ee;
+    border-color: ${theme.colors.primary};
     outline: none;
     box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
   }
@@ -337,8 +327,8 @@ const CommentInput = styled.input`
 
 const CommentSubmit = styled.button`
   padding: 0.5rem 1rem;
-  background: #4361ee;
-  color: #fff;
+  background: ${theme.colors.primary};
+  color: ${theme.colors.surface};
   border-radius: 8px;
   font-size: 0.8125rem;
   font-weight: 600;
@@ -346,7 +336,7 @@ const CommentSubmit = styled.button`
   flex-shrink: 0;
 
   &:hover:not(:disabled) {
-    background: #3a56d4;
+    background: ${theme.colors.primaryHover};
   }
 
   &:disabled {
@@ -358,8 +348,8 @@ const CommentSubmit = styled.button`
 const LoginPrompt = styled.div`
   text-align: center;
   padding: 1rem;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   font-size: 0.8125rem;
-  background: #f8f9fa;
+  background: ${theme.colors.background};
   border-radius: 8px;
 `;

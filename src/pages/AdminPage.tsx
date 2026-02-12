@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { theme } from '../styles/theme';
 import { adminApi } from '../api/adminApi';
 import { extractErrorMessage } from '../api/errorUtils';
 import { ErrorBanner } from '../styles/shared';
+import LoadingSpinner from '../components/LoadingSpinner';
 import type { AdminStats, AdminUser } from '../api/adminApi';
 
 export default function AdminPage() {
@@ -36,14 +38,14 @@ export default function AdminPage() {
       await adminApi.deleteUser(userId);
       setUsers((prev) => prev.filter((u) => u.id !== userId));
       if (stats) {
-        setStats({ ...stats, userCount: stats.userCount - 1 });
+        setStats({ ...stats, user_count: stats.user_count - 1 });
       }
     } catch (err: unknown) {
       setError(extractErrorMessage(err, '사용자 삭제에 실패했습니다.'));
     }
   };
 
-  if (loading) return <LoadingText>불러오는 중...</LoadingText>;
+  if (loading) return <LoadingSpinner />;
 
   return (
     <Container>
@@ -54,27 +56,27 @@ export default function AdminPage() {
       {stats && (
         <StatsGrid>
           <StatCard>
-            <StatValue>{stats.userCount}</StatValue>
+            <StatValue>{stats.user_count}</StatValue>
             <StatLabel>전체 사용자</StatLabel>
           </StatCard>
           <StatCard>
-            <StatValue>{stats.projectCount}</StatValue>
+            <StatValue>{stats.project_count}</StatValue>
             <StatLabel>프로젝트</StatLabel>
           </StatCard>
           <StatCard>
-            <StatValue>{stats.postCount}</StatValue>
+            <StatValue>{stats.post_count}</StatValue>
             <StatLabel>게시글</StatLabel>
           </StatCard>
           <StatCard>
-            <StatValue>{stats.commentCount}</StatValue>
+            <StatValue>{stats.comment_count}</StatValue>
             <StatLabel>댓글</StatLabel>
           </StatCard>
           <StatCard>
-            <StatValue>{stats.reportCount}</StatValue>
+            <StatValue>{stats.report_count}</StatValue>
             <StatLabel>리포트</StatLabel>
           </StatCard>
           <StatCard>
-            <StatValue>{stats.chatCount}</StatValue>
+            <StatValue>{stats.chat_count}</StatValue>
             <StatLabel>AI 채팅</StatLabel>
           </StatCard>
         </StatsGrid>
@@ -103,9 +105,9 @@ export default function AdminPage() {
               <RoleTd $isAdmin={user.role === 'ROLE_ADMIN'}>
                 {user.role === 'ROLE_ADMIN' ? '관리자' : '사용자'}
               </RoleTd>
-              <Td>{user.bizType ?? '-'}</Td>
-              <Td>{user.projectCount}</Td>
-              <Td>{user.createdAt ? new Date(user.createdAt).toLocaleDateString('ko-KR') : '-'}</Td>
+              <Td>{user.biz_type ?? '-'}</Td>
+              <Td>{user.project_count}</Td>
+              <Td>{user.created_at ? new Date(user.created_at).toLocaleDateString('ko-KR') : '-'}</Td>
               <Td>
                 {user.role !== 'ROLE_ADMIN' && (
                   <DeleteBtn onClick={() => handleDeleteUser(user.id, user.nickname)}>
@@ -133,13 +135,7 @@ const Container = styled.div`
 const Title = styled.h1`
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1a1a2e;
-`;
-
-const LoadingText = styled.div`
-  text-align: center;
-  color: #6c757d;
-  padding: 4rem 0;
+  color: ${theme.colors.text};
 `;
 
 const StatsGrid = styled.div`
@@ -149,7 +145,7 @@ const StatsGrid = styled.div`
 `;
 
 const StatCard = styled.div`
-  background: #fff;
+  background: ${theme.colors.surface};
   padding: 1.25rem;
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -159,25 +155,25 @@ const StatCard = styled.div`
 const StatValue = styled.div`
   font-size: 1.75rem;
   font-weight: 700;
-  color: #4361ee;
+  color: ${theme.colors.primary};
 `;
 
 const StatLabel = styled.div`
   font-size: 0.75rem;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   margin-top: 0.25rem;
 `;
 
 const SectionTitle = styled.h2`
   font-size: 1.125rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   margin-top: 0.5rem;
 `;
 
 const UserTable = styled.table`
   width: 100%;
-  background: #fff;
+  background: ${theme.colors.surface};
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   border-collapse: collapse;
@@ -190,34 +186,34 @@ const Th = styled.th`
   text-align: left;
   font-size: 0.75rem;
   font-weight: 600;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   border-bottom: 1px solid #e9ecef;
   white-space: nowrap;
 `;
 
 const Td = styled.td`
   padding: 0.5rem 0.75rem;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   border-bottom: 1px solid #f1f3f5;
   white-space: nowrap;
 `;
 
 const RoleTd = styled(Td)<{ $isAdmin: boolean }>`
-  color: ${({ $isAdmin }) => ($isAdmin ? '#4361ee' : '#6c757d')};
+  color: ${({ $isAdmin }) => ($isAdmin ? theme.colors.primary : theme.colors.textSecondary)};
   font-weight: ${({ $isAdmin }) => ($isAdmin ? '600' : '400')};
 `;
 
 const DeleteBtn = styled.button`
   padding: 0.25rem 0.5rem;
   background: transparent;
-  color: #ef476f;
-  border: 1px solid #ef476f;
+  color: ${theme.colors.danger};
+  border: 1px solid ${theme.colors.danger};
   border-radius: 4px;
   font-size: 0.6875rem;
   transition: all 0.2s;
 
   &:hover {
-    background: #ef476f;
-    color: #fff;
+    background: ${theme.colors.danger};
+    color: ${theme.colors.surface};
   }
 `;

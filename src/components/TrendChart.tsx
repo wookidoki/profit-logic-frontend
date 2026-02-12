@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
+import { theme } from '../styles/theme';
 import {
   LineChart,
   Line,
@@ -26,23 +27,23 @@ interface MetricConfig {
 
 const METRICS: Record<Metric, MetricConfig> = {
   bep: {
-    label: 'BEP 수량',
+    label: '월 최소 건수',
     dataKey: 'bepQuantity',
-    color: '#4361ee',
+    color: theme.colors.primary,
     format: (v) => `${(v ?? 0).toFixed(1)}개`,
     unit: '개',
   },
   shadowWage: {
     label: '실질 시급',
     dataKey: 'shadowWage',
-    color: '#06d6a0',
+    color: theme.colors.success,
     format: (v) => formatKRW(v),
     unit: '원',
   },
   totalCost: {
     label: '총 비용',
     dataKey: 'totalCost',
-    color: '#ef476f',
+    color: theme.colors.danger,
     format: (v) => formatKRW(v),
     unit: '원',
   },
@@ -127,12 +128,12 @@ export default function TrendChart({ projectId }: Props) {
             <CartesianGrid strokeDasharray="3 3" stroke="#f1f3f5" />
             <XAxis
               dataKey="month"
-              tick={{ fontSize: 12, fill: '#6c757d' }}
+              tick={{ fontSize: 12, fill: theme.colors.textSecondary }}
               axisLine={false}
               tickLine={false}
             />
             <YAxis
-              tick={{ fontSize: 12, fill: '#6c757d' }}
+              tick={{ fontSize: 12, fill: theme.colors.textSecondary }}
               axisLine={false}
               tickLine={false}
               width={60}
@@ -154,7 +155,7 @@ export default function TrendChart({ projectId }: Props) {
               dataKey="value"
               stroke={config.color}
               strokeWidth={2.5}
-              dot={{ r: 4, fill: config.color, stroke: '#fff', strokeWidth: 2 }}
+              dot={{ r: 4, fill: config.color, stroke: theme.colors.surface, strokeWidth: 2 }}
               activeDot={{ r: 6 }}
             />
           </LineChart>
@@ -207,7 +208,7 @@ function generateInsight(
 /* ── styled ── */
 
 const Container = styled.div`
-  background: #fff;
+  background: ${theme.colors.surface};
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   padding: 1.25rem;
@@ -225,7 +226,7 @@ const Header = styled.div`
 const Title = styled.h3`
   font-size: 1rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   margin: 0;
 `;
 
@@ -240,7 +241,7 @@ const MetricTab = styled.button<{ $active: boolean; $color: string }>`
   border-radius: 20px;
   font-size: 0.8125rem;
   font-weight: ${({ $active }) => ($active ? '600' : '400')};
-  color: ${({ $active, $color }) => ($active ? '#fff' : $color)};
+  color: ${({ $active, $color }) => ($active ? theme.colors.surface : $color)};
   background: ${({ $active, $color }) => ($active ? $color : `${$color}15`)};
   border: 1px solid ${({ $active, $color }) => ($active ? $color : 'transparent')};
   transition: all 0.2s;
@@ -257,7 +258,7 @@ const ChartWrapper = styled.div`
 const InsightBox = styled.div<{ $positive: boolean }>`
   padding: 0.75rem 1rem;
   background: ${({ $positive }) => ($positive ? '#f0fdf9' : '#fff5f5')};
-  border-left: 3px solid ${({ $positive }) => ($positive ? '#06d6a0' : '#ef476f')};
+  border-left: 3px solid ${({ $positive }) => ($positive ? theme.colors.success : theme.colors.danger)};
   border-radius: 8px;
 `;
 

@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
+import { theme } from '../styles/theme';
 import { ErrorBanner, LoadingText } from '../styles/shared';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { analysisApi } from '../api/analysisApi';
@@ -18,8 +19,8 @@ import type {
 } from '../types';
 
 const ACTION_CARD_CONFIG: Record<ActionCardType, { color: string; bg: string; icon: string }> = {
-  WARNING: { color: '#ef476f', bg: '#fff5f5', icon: '⚠️' },
-  POSITIVE: { color: '#06d6a0', bg: '#f0fdf9', icon: '✅' },
+  WARNING: { color: theme.colors.danger, bg: '#fff5f5', icon: '⚠️' },
+  POSITIVE: { color: theme.colors.success, bg: '#f0fdf9', icon: '✅' },
   SUGGESTION: { color: '#f4a261', bg: '#fffbf0', icon: '💡' },
 };
 
@@ -112,29 +113,29 @@ export default function EnhancedAnalysisPanel({ projectId, onNavigateTab }: Prop
         <MetricGrid>
           <MetricCard>
             <MetricLabel>실질 시급</MetricLabel>
-            <MetricValue $color={belowMinWage ? '#ef476f' : '#06d6a0'}>
+            <MetricValue $color={belowMinWage ? theme.colors.danger : theme.colors.success}>
               {formatKRW(shadow_wage.real_shadow_wage)}
             </MetricValue>
-            <MetricSub $color={belowMinWage ? '#ef476f' : '#6c757d'}>
+            <MetricSub $color={belowMinWage ? theme.colors.danger : theme.colors.textSecondary}>
               최저임금 대비 {(shadow_wage.minimum_wage_ratio ?? 0).toFixed(1)}%
             </MetricSub>
           </MetricCard>
           <MetricCard>
-            <MetricLabel>BEP 수량</MetricLabel>
-            <MetricValue $color="#4361ee">
+            <MetricLabel>월 최소 건수</MetricLabel>
+            <MetricValue $color={theme.colors.primary}>
               {(bep.bep ?? 0).toLocaleString('ko-KR', { maximumFractionDigits: 1 })}개
             </MetricValue>
             <MetricSub>
-              공헌이익 {formatKRW(bep.contribution_margin)}
+              건당 순수익 {formatKRW(bep.contribution_margin)}
             </MetricSub>
           </MetricCard>
           <MetricCard>
-            <MetricLabel>공헌이익률</MetricLabel>
-            <MetricValue $color={safetyMargin >= 30 ? '#06d6a0' : safetyMargin >= 15 ? '#f4a261' : '#ef476f'}>
+            <MetricLabel>순수익률</MetricLabel>
+            <MetricValue $color={safetyMargin >= 30 ? theme.colors.success : safetyMargin >= 15 ? '#f4a261' : theme.colors.danger}>
               {(safetyMargin ?? 0).toFixed(1)}%
             </MetricValue>
             <MetricSub>
-              적용 고정비 {formatKRW(bep.enhanced_fixed_cost)}
+              적용 월 고정 지출 {formatKRW(bep.enhanced_fixed_cost)}
             </MetricSub>
           </MetricCard>
         </MetricGrid>
@@ -151,11 +152,11 @@ export default function EnhancedAnalysisPanel({ projectId, onNavigateTab }: Prop
                 <CostValue>{formatKRW(cost_breakdown.total_cost)}</CostValue>
               </CostSummaryItem>
               <CostSummaryItem>
-                <MetricLabel>고정비</MetricLabel>
+                <MetricLabel>월 고정 지출</MetricLabel>
                 <CostValue>{formatKRW(cost_breakdown.total_fixed_cost)}</CostValue>
               </CostSummaryItem>
               <CostSummaryItem>
-                <MetricLabel>변동비</MetricLabel>
+                <MetricLabel>건당 비용</MetricLabel>
                 <CostValue>{formatKRW(cost_breakdown.total_variable_cost)}</CostValue>
               </CostSummaryItem>
             </CostSummary>
@@ -191,7 +192,7 @@ export default function EnhancedAnalysisPanel({ projectId, onNavigateTab }: Prop
       <Section>
         <SectionTitle>실질 시급 분석</SectionTitle>
         {!hasTimeData && (
-          <InfoBanner>작업시간 기록이 없어 프로젝트 기본 근무시간으로 계산했습니다.</InfoBanner>
+          <InfoBanner>작업시간 기록이 없어 프로젝트 기본 투입 시간으로 계산했습니다.</InfoBanner>
         )}
         <DetailGrid>
           <DetailItem>
@@ -199,7 +200,7 @@ export default function EnhancedAnalysisPanel({ projectId, onNavigateTab }: Prop
             <DetailValue>{(shadow_wage.total_hours ?? 0).toFixed(1)}시간</DetailValue>
           </DetailItem>
           <DetailItem>
-            <MetricLabel>영업이익</MetricLabel>
+            <MetricLabel>월 수익</MetricLabel>
             <DetailValue>{formatKRW(shadow_wage.operating_profit)}</DetailValue>
           </DetailItem>
           <DetailItem>
@@ -253,13 +254,13 @@ const Section = styled.div`
 const SectionTitle = styled.h3`
   font-size: 1rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const InfoBanner = styled.div`
   padding: 0.625rem 1rem;
   background: #eef2ff;
-  color: #4361ee;
+  color: ${theme.colors.primary};
   border-radius: 8px;
   font-size: 0.8125rem;
 `;
@@ -301,14 +302,14 @@ const GuideLinks = styled.div`
 
 const GuideLink = styled.button`
   background: transparent;
-  color: #4361ee;
+  color: ${theme.colors.primary};
   font-size: 0.8125rem;
   text-align: left;
   padding: 0;
   transition: color 0.2s;
 
   &:hover {
-    color: #3a56d4;
+    color: ${theme.colors.primaryHover};
     text-decoration: underline;
   }
 `;
@@ -326,7 +327,7 @@ const MetricGrid = styled.div`
 `;
 
 const MetricCard = styled.div`
-  background: #fff;
+  background: ${theme.colors.surface};
   padding: 1.25rem;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
@@ -341,7 +342,7 @@ const MetricLabel = styled.div`
 const MetricValue = styled.div<{ $color?: string }>`
   font-size: 1.25rem;
   font-weight: 700;
-  color: ${({ $color }) => $color || '#1a1a2e'};
+  color: ${({ $color }) => $color || theme.colors.text};
 `;
 
 const MetricSub = styled.div<{ $color?: string }>`
@@ -353,7 +354,7 @@ const MetricSub = styled.div<{ $color?: string }>`
 /* ── 비용 구조 차트 ── */
 
 const ChartCard = styled.div`
-  background: #fff;
+  background: ${theme.colors.surface};
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   padding: 1.25rem;
@@ -371,7 +372,7 @@ const CostSummaryItem = styled.div``;
 const CostValue = styled.div`
   font-size: 1rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const ChartWrapper = styled.div`
@@ -389,7 +390,7 @@ const DetailGrid = styled.div`
 const DetailItem = styled.div`
   flex: 1;
   min-width: 100px;
-  background: #fff;
+  background: ${theme.colors.surface};
   padding: 0.75rem 1rem;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
@@ -398,7 +399,7 @@ const DetailItem = styled.div`
 const DetailValue = styled.div`
   font-size: 0.9375rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const WageBar = styled.div`
@@ -411,7 +412,7 @@ const WageBar = styled.div`
 const WageBarFill = styled.div<{ $ratio: number; $over: boolean }>`
   height: 100%;
   width: ${({ $ratio }) => Math.min($ratio / 2, 100)}%;
-  background: ${({ $over }) => ($over ? '#06d6a0' : '#ef476f')};
+  background: ${({ $over }) => ($over ? theme.colors.success : theme.colors.danger)};
   border-radius: 4px;
   transition: width 0.6s ease;
 `;
@@ -422,7 +423,7 @@ const WageBarMark = styled.div`
   left: 50%;
   width: 2px;
   height: 16px;
-  background: #6c757d;
+  background: ${theme.colors.textSecondary};
 `;
 
 const WageBarMarkLabel = styled.span`
@@ -431,7 +432,7 @@ const WageBarMarkLabel = styled.span`
   left: 50%;
   transform: translateX(-50%);
   font-size: 0.625rem;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   white-space: nowrap;
 `;
 

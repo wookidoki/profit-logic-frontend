@@ -224,6 +224,75 @@ export const FormErrorMsg = styled.span`
   color: ${theme.colors.danger};
 `;
 
+/* ── Layout ── */
+
+export const PageContainer = styled.div`
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+`;
+
+export const WidePageContainer = styled.div`
+  max-width: 1100px;
+  margin: 1.5rem auto;
+  padding: 0 2rem;
+`;
+
+export const LoadingState = styled.div`
+  text-align: center;
+  color: ${theme.colors.textSecondary};
+  padding: 4rem 0;
+`;
+
+export const ErrorState = styled.div`
+  text-align: center;
+  color: ${theme.colors.danger};
+  padding: 4rem 0;
+`;
+
+/* ── Metrics ── */
+
+export const MetricLabel = styled.span`
+  font-size: 0.6875rem;
+  color: #adb5bd;
+`;
+
+export const MetricValue = styled.span`
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: ${theme.colors.text};
+`;
+
+/* ── Project Form ── */
+
+export const ProjectFormCard = styled.div`
+  background: ${theme.colors.surface};
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: ${theme.shadow.md};
+`;
+
+export const ProjectForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+`;
+
+export const GoalSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #f1f3f5;
+`;
+
+export const GoalTitle = styled.h3`
+  font-size: ${theme.fontSize.sm};
+  font-weight: 600;
+  color: ${theme.colors.textSecondary};
+  margin: 0;
+`;
+
 /* ── Empty State ── */
 
 export const EmptyState = styled.div`

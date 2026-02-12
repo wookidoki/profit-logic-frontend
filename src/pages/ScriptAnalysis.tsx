@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { theme } from '../styles/theme';
 import { scriptApi } from '../api/scriptApi';
 import { projectApi } from '../api/projectApi';
 import { useAuthStore } from '../store/authStore';
@@ -13,13 +13,57 @@ import type {
   ScriptField,
   ScriptAnalysisResponse,
 } from '../types/script';
+import {
+  Container,
+  Section,
+  SectionTitle,
+  ErrorBanner,
+  LoadingText,
+  AiInputSection,
+  AiInputLabel,
+  AiTextArea,
+  AiButtonRow,
+  AiParseButton,
+  AiSuggestionText,
+  Divider,
+  DividerLine,
+  DividerText,
+  CategoryGrid,
+  CategoryCard,
+  CatName,
+  CatDesc,
+  StepHeader,
+  BackButton,
+  TemplateBadge,
+  FormContainer,
+  FormSection,
+  FormSectionTitle,
+  FieldRow,
+  FieldGroup,
+  FieldLabel,
+  FieldUnit,
+  RequiredMark,
+  FieldInput,
+  Select,
+  AutoCalcBox,
+  HelpText,
+  AnalyzeButton,
+  ResultContainer,
+  ButtonRow,
+  SecondaryButton,
+  SaveButton,
+  SaveSuccessBanner,
+  ViewProjectButton,
+  LoginPrompt,
+  LoginLink,
+} from './styles/ScriptAnalysis.styles';
 
 const CATEGORY_COLORS: Record<CreatorCategory, string> = {
-  WEB_NOVEL: '#7209b7',
-  SHORT_FORM: '#ef476f',
-  EMOTICON: '#ffd166',
-  BLOG: '#06d6a0',
-  INDIE_DEV: '#4361ee',
+  WEB_NOVEL: theme.colors.secondary,
+  SHORT_FORM: theme.colors.danger,
+  EMOTICON: theme.colors.warning,
+  BLOG: theme.colors.success,
+  INDIE_DEV: theme.colors.primary,
 };
 
 type Step = 1 | 2 | 3;
@@ -290,9 +334,9 @@ export default function ScriptAnalysis() {
           {/* 프로젝트 저장 */}
           {saveSuccess ? (
             <SaveSuccessBanner>
-              \u2705 &quot;{saveSuccess.title}&quot; \uD504\uB85C\uC81D\uD2B8\uAC00 \uC0DD\uC131\uB418\uC5C8\uC2B5\uB2C8\uB2E4!
+              &#x2705; &quot;{saveSuccess.title}&quot; &#xD504;&#xB85C;&#xC81D;&#xD2B8;&#xAC00; &#xC0DD;&#xC131;&#xB418;&#xC5C8;&#xC2B5;&#xB2C8;&#xB2E4;!
               <ViewProjectButton onClick={() => navigate(`/projects/${saveSuccess.id}`)}>
-                \uD504\uB85C\uC81D\uD2B8 \uBCF4\uAE30 \u2192
+                &#xD504;&#xB85C;&#xC81D;&#xD2B8; &#xBCF4;&#xAE30; &#x2192;
               </ViewProjectButton>
             </SaveSuccessBanner>
           ) : isAuthenticated ? (
@@ -301,8 +345,8 @@ export default function ScriptAnalysis() {
             </SaveButton>
           ) : (
             <LoginPrompt>
-              <span>\uB85C\uADF8\uC778\uD558\uBA74 \uBD84\uC11D \uACB0\uACFC\uB97C \uD504\uB85C\uC81D\uD2B8\uB85C \uC800\uC7A5\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.</span>
-              <LoginLink onClick={() => navigate('/login')}>\uB85C\uADF8\uC778 \u2192</LoginLink>
+              <span>&#xB85C;&#xADF8;&#xC778;&#xD558;&#xBA74; &#xBD84;&#xC11D; &#xACB0;&#xACFC;&#xB97C; &#xD504;&#xB85C;&#xC81D;&#xD2B8;&#xB85C; &#xC800;&#xC7A5;&#xD560; &#xC218; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;.</span>
+              <LoginLink onClick={() => navigate('/login')}>&#xB85C;&#xADF8;&#xC778; &#x2192;</LoginLink>
             </LoginPrompt>
           )}
 
@@ -384,420 +428,3 @@ function renderField(
     </FieldGroup>
   );
 }
-
-// ── Styled Components ──────────────────────────────
-
-const Container = styled.div``;
-
-const Section = styled.section`
-  max-width: 900px;
-  margin: 1.5rem auto;
-  padding: 0 2rem;
-`;
-
-const SectionTitle = styled.h2`
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #1a1a2e;
-  margin-bottom: 0.5rem;
-`;
-
-
-const ErrorBanner = styled.div`
-  max-width: 900px;
-  margin: 1rem auto;
-  padding: 0.75rem 2rem;
-  background: #fff5f5;
-  color: #ef476f;
-  border: 1px solid #ef476f;
-  border-radius: 8px;
-  font-size: 0.875rem;
-`;
-
-const LoadingText = styled.div`
-  text-align: center;
-  color: #6c757d;
-  padding: 3rem 0;
-`;
-
-// ── Step 1: AI Input ──
-
-const AiInputSection = styled.div`
-  background: #fff;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  margin-bottom: 1.5rem;
-`;
-
-const AiInputLabel = styled.h3`
-  font-size: 1rem;
-  font-weight: 600;
-  color: #1a1a2e;
-  margin-bottom: 0.75rem;
-`;
-
-const AiTextArea = styled.textarea`
-  width: 100%;
-  padding: 0.75rem;
-  border: 1.5px solid #dee2e6;
-  border-radius: 10px;
-  font-size: 0.9375rem;
-  line-height: 1.6;
-  resize: vertical;
-  transition: border-color 0.2s;
-
-  &:focus {
-    border-color: #7209b7;
-    box-shadow: 0 0 0 3px rgba(114, 9, 183, 0.1);
-    outline: none;
-  }
-  &::placeholder { color: #adb5bd; }
-  &:disabled { background: #f8f9fa; cursor: not-allowed; }
-`;
-
-const AiButtonRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 0.75rem;
-  flex-wrap: wrap;
-`;
-
-const AiParseButton = styled.button`
-  padding: 0.625rem 1.5rem;
-  background: linear-gradient(135deg, #7209b7, #4361ee);
-  color: #fff;
-  border-radius: 8px;
-  font-size: 0.9375rem;
-  font-weight: 600;
-  transition: opacity 0.2s;
-  white-space: nowrap;
-
-  &:hover:not(:disabled) { opacity: 0.9; }
-  &:disabled { opacity: 0.5; cursor: not-allowed; }
-`;
-
-const AiSuggestionText = styled.span`
-  font-size: 0.8125rem;
-  color: #7209b7;
-  font-weight: 500;
-`;
-
-const Divider = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin: 1.5rem 0;
-`;
-
-const DividerLine = styled.div`
-  flex: 1;
-  height: 1px;
-  background: #dee2e6;
-`;
-
-const DividerText = styled.span`
-  font-size: 0.8125rem;
-  color: #adb5bd;
-  white-space: nowrap;
-`;
-
-// ── Step 1: Category Grid ──
-
-const CategoryGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1rem;
-`;
-
-const CategoryCard = styled.div<{ $color: string }>`
-  background: #fff;
-  padding: 1.5rem;
-  border-radius: 12px;
-  border-left: 5px solid ${({ $color }) => $color};
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-  }
-`;
-
-const CatName = styled.div`
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: #1a1a2e;
-  margin-bottom: 0.5rem;
-`;
-
-const CatDesc = styled.div`
-  font-size: 0.8125rem;
-  color: #6c757d;
-  line-height: 1.5;
-`;
-
-// ── Step 2: Form ──
-
-const StepHeader = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-`;
-
-const BackButton = styled.button`
-  padding: 0.375rem 0.75rem;
-  background: transparent;
-  color: #6c757d;
-  border: 1px solid #dee2e6;
-  border-radius: 6px;
-  font-size: 0.8125rem;
-  transition: all 0.2s;
-
-  &:hover {
-    border-color: #4361ee;
-    color: #4361ee;
-  }
-`;
-
-const TemplateBadge = styled.span<{ $color: string }>`
-  padding: 0.375rem 0.75rem;
-  background: ${({ $color }) => $color}15;
-  color: ${({ $color }) => $color};
-  border-radius: 20px;
-  font-size: 0.8125rem;
-  font-weight: 600;
-`;
-
-const FormContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-`;
-
-const FormSection = styled.div`
-  background: #fff;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-`;
-
-const FormSectionTitle = styled.h3`
-  font-size: 1rem;
-  font-weight: 700;
-  color: #1a1a2e;
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid #f1f3f5;
-`;
-
-const FieldRow = styled.div`
-  margin-bottom: 0.75rem;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-`;
-
-const FieldGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-`;
-
-const FieldLabel = styled.label`
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: #495057;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-`;
-
-const FieldUnit = styled.span`
-  color: #adb5bd;
-  font-weight: 400;
-`;
-
-const RequiredMark = styled.span`
-  color: #ef476f;
-  font-weight: 700;
-`;
-
-const FieldInput = styled.input`
-  padding: 0.625rem 0.75rem;
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
-  font-size: 0.9375rem;
-  transition: border-color 0.2s;
-
-  &:focus {
-    border-color: #4361ee;
-    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
-  }
-
-  &::placeholder {
-    color: #adb5bd;
-  }
-`;
-
-const Select = styled.select`
-  padding: 0.625rem 0.75rem;
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
-  font-size: 0.9375rem;
-  background: #fff;
-  transition: border-color 0.2s;
-
-  &:focus {
-    border-color: #4361ee;
-    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
-  }
-`;
-
-const AutoCalcBox = styled.div`
-  padding: 0.625rem 0.75rem;
-  background: #f8f9fa;
-  border: 1px dashed #dee2e6;
-  border-radius: 8px;
-  font-size: 0.8125rem;
-  color: #6c757d;
-  font-style: italic;
-`;
-
-const HelpText = styled.span`
-  font-size: 0.75rem;
-  color: #adb5bd;
-`;
-
-const AnalyzeButton = styled.button`
-  padding: 0.875rem;
-  background: #4361ee;
-  color: #fff;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: background 0.2s;
-
-  &:hover:not(:disabled) {
-    background: #3a56d4;
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-`;
-
-// ── Step 3: Results ──
-
-const ResultContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-`;
-
-const ButtonRow = styled.div`
-  display: flex;
-  gap: 0.75rem;
-  margin-top: 1rem;
-`;
-
-const SecondaryButton = styled.button`
-  flex: 1;
-  padding: 0.75rem;
-  background: #fff;
-  color: #4361ee;
-  border: 1px solid #4361ee;
-  border-radius: 8px;
-  font-size: 0.9375rem;
-  font-weight: 600;
-  transition: all 0.2s;
-
-  &:hover {
-    background: #4361ee;
-    color: #fff;
-  }
-`;
-
-const SaveButton = styled.button`
-  width: 100%;
-  padding: 0.875rem;
-  background: #06d6a0;
-  color: #fff;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  margin-top: 1rem;
-  transition: background 0.2s;
-
-  &:hover:not(:disabled) {
-    background: #05c090;
-  }
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-`;
-
-const SaveSuccessBanner = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem 1.25rem;
-  background: #f0fdf9;
-  border: 1px solid #06d6a050;
-  border-radius: 10px;
-  margin-top: 1rem;
-  font-size: 0.9375rem;
-  color: #1a1a2e;
-  flex-wrap: wrap;
-`;
-
-const ViewProjectButton = styled.button`
-  padding: 0.5rem 1rem;
-  background: #4361ee;
-  color: #fff;
-  border-radius: 8px;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  white-space: nowrap;
-  transition: background 0.2s;
-
-  &:hover {
-    background: #3a56d4;
-  }
-`;
-
-const LoginPrompt = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem 1.25rem;
-  background: #eef2ff;
-  border-radius: 10px;
-  margin-top: 1rem;
-  font-size: 0.875rem;
-  color: #495057;
-  flex-wrap: wrap;
-`;
-
-const LoginLink = styled.button`
-  padding: 0.5rem 1rem;
-  background: #4361ee;
-  color: #fff;
-  border-radius: 8px;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  white-space: nowrap;
-  transition: background 0.2s;
-
-  &:hover {
-    background: #3a56d4;
-  }
-`;

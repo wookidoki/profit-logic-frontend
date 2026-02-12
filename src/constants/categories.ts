@@ -1,0 +1,107 @@
+import { formatKRW } from '../utils/formatNumber';
+import { theme } from '../styles/theme';
+import type { CalculateRequest } from '../types/finance';
+import type { CreatorCategory } from '../types/script';
+
+export interface QuestionConfig {
+  field: keyof CalculateRequest;
+  text: string;
+  hint: string;
+  unit: string;
+  confirm: (v: number) => string;
+  transform?: (v: number) => number;
+}
+
+export interface CategoryConfig {
+  key: CreatorCategory;
+  icon: string;
+  name: string;
+  desc: string;
+  color: string;
+  greeting: string;
+  questions: QuestionConfig[];
+  titleTemplate: string;
+}
+
+export const CATEGORIES: CategoryConfig[] = [
+  {
+    key: 'WEB_NOVEL',
+    icon: '\u270D\uFE0F',
+    name: '\uC6F9\uC18C\uC124 \uC791\uAC00',
+    desc: '\uC6F9\uC18C\uC124/\uC6F9\uD234 \uC5F0\uC7AC \uC218\uC775 \uBD84\uC11D',
+    color: theme.colors.secondary,
+    greeting: '\uC6F9\uC18C\uC124 \uC791\uAC00\uC2DC\uAD70\uC694! \uC791\uD488\uC758 \uC218\uC775\uC131\uC744 \uC815\uD655\uD788 \uBD84\uC11D\uD574\uB4DC\uB9AC\uACA0\uC2B5\uB2C8\uB2E4.\n\uBA87 \uAC00\uC9C0 \uC9C8\uBB38\uC744 \uB4DC\uB9B4\uAC8C\uC694.',
+    titleTemplate: '\uC6F9\uC18C\uC124 \uC218\uC775 \uBD84\uC11D',
+    questions: [
+      { field: 'price', text: '\uC791\uD488 \uD55C \uD654(\uD3B8)\uC758 \uD310\uB9E4 \uAC00\uACA9\uC740 \uC5BC\uB9C8\uC778\uAC00\uC694?', hint: '\uC608: 3000', unit: '\uC6D0', confirm: (v) => `\uD654\uB2F9 ${formatKRW(v)}\uC774\uAD70\uC694.` },
+      { field: 'variable_cost', text: '\uD55C \uD654\uB97C \uC791\uC131\uD558\uB294\uB370 \uB4DC\uB294 \uC9C1\uC811 \uBE44\uC6A9\uC774 \uC788\uB098\uC694?\n(\uC608: \uC77C\uB7EC\uC2A4\uD2B8 \uC678\uC8FC\uBE44, \uAD50\uC815\uBE44 \uB4F1)', hint: '\uC5C6\uC73C\uBA74 0', unit: '\uC6D0', confirm: (v) => v > 0 ? `\uD654\uB2F9 \uBCC0\uB3D9\uBE44\uAC00 ${formatKRW(v)}\uC774\uAD70\uC694.` : '\uC9C1\uC811 \uBE44\uC6A9\uC774 \uC5C6\uC73C\uC2DC\uAD70\uC694.' },
+      { field: 'fixed_cost', text: '\uB9E4\uB2EC \uACE0\uC815\uC801\uC73C\uB85C \uB098\uAC00\uB294 \uBE44\uC6A9\uC740 \uC5BC\uB9C8 \uC815\uB3C4\uC778\uAC00\uC694?\n(\uC608: \uC791\uC5C5 \uB3C4\uAD6C \uAD6C\uB3C5\uB8CC, \uC791\uC5C5\uC2E4 \uBE44\uC6A9 \uB4F1)', hint: '\uC608: 50000', unit: '\uC6D0/\uC6D4', confirm: (v) => `\uC6D4 \uACE0\uC815\uBE44\uAC00 ${formatKRW(v)}\uC774\uAD70\uC694.` },
+      { field: 'work_hours', text: '\uD558\uB8E8\uC5D0 \uBCF4\uD1B5 \uBA87 \uC2DC\uAC04 \uC815\uB3C4 \uC791\uC5C5\uD558\uC2DC\uB098\uC694?', hint: '\uC608: 4', unit: '\uC2DC\uAC04', confirm: (v) => `\uD558\uB8E8 ${v}\uC2DC\uAC04, \uC6D4 \uC57D ${v * 22}\uC2DC\uAC04\uC774\uB124\uC694.`, transform: (v) => v * 22 },
+      { field: 'hourly_wage', text: '\uC2DC\uAC04\uB2F9 \uCD5C\uC18C\uD55C \uC5BC\uB9C8\uB294 \uBC8C\uACE0 \uC2F6\uC73C\uC2E0\uAC00\uC694?\n(\uAE30\uD68C\uBE44\uC6A9 \uAE30\uC900)', hint: '\uC608: 15000', unit: '\uC6D0', confirm: (v) => `\uBAA9\uD45C \uC2DC\uAE09 ${formatKRW(v)}\uC73C\uB85C \uC124\uC815\uD558\uACA0\uC2B5\uB2C8\uB2E4.` },
+    ],
+  },
+  {
+    key: 'SHORT_FORM',
+    icon: '\uD83C\uDFAC',
+    name: '\uC21F\uD3FC \uD06C\uB9AC\uC5D0\uC774\uD130',
+    desc: '\uC720\uD29C\uBE0C \uC1FC\uCE20/\uB9B4\uC2A4/\uD2F1\uD1A1 \uC218\uC775 \uBD84\uC11D',
+    color: theme.colors.danger,
+    greeting: '\uC21F\uD3FC \uD06C\uB9AC\uC5D0\uC774\uD130\uC2DC\uAD70\uC694! \uCF58\uD150\uCE20 \uC218\uC775\uC131\uC744 \uBD84\uC11D\uD574\uB4DC\uB9B4\uAC8C\uC694.\n\uBA87 \uAC00\uC9C0 \uC815\uBCF4\uAC00 \uD544\uC694\uD569\uB2C8\uB2E4.',
+    titleTemplate: '\uC21F\uD3FC \uCF58\uD150\uCE20 \uC218\uC775 \uBD84\uC11D',
+    questions: [
+      { field: 'price', text: '\uC601\uC0C1 \uD558\uB098\uB2F9 \uD3C9\uADE0 \uC218\uC775\uC740 \uC5BC\uB9C8\uC778\uAC00\uC694?\n(\uAD11\uACE0 \uC218\uC775, \uD611\uCC2C, \uD6C4\uC6D0 \uB4F1 \uD3EC\uD568)', hint: '\uC608: 50000', unit: '\uC6D0', confirm: (v) => `\uC601\uC0C1\uB2F9 ${formatKRW(v)} \uC218\uC775\uC774\uAD70\uC694.` },
+      { field: 'variable_cost', text: '\uC601\uC0C1 \uD558\uB098\uB97C \uB9CC\uB4DC\uB294\uB370 \uB4DC\uB294 \uC9C1\uC811 \uBE44\uC6A9\uC740?\n(\uC18C\uD488, \uC74C\uC6D0, \uC678\uC8FC \uD3B8\uC9D1 \uB4F1)', hint: '\uC5C6\uC73C\uBA74 0', unit: '\uC6D0', confirm: (v) => v > 0 ? `\uC601\uC0C1\uB2F9 ${formatKRW(v)}\uC758 \uBE44\uC6A9\uC774 \uB4DC\uB294\uAD70\uC694.` : '\uC9C1\uC811 \uBE44\uC6A9\uC774 \uC5C6\uC73C\uC2DC\uAD70\uC694.' },
+      { field: 'fixed_cost', text: '\uB9E4\uB2EC \uACE0\uC815 \uBE44\uC6A9\uC740 \uC5BC\uB9C8\uC778\uAC00\uC694?\n(\uC7A5\uBE44 \uD560\uBD80, \uD3B8\uC9D1 \uD234 \uAD6C\uB3C5, \uC2A4\uD29C\uB514\uC624 \uB4F1)', hint: '\uC608: 100000', unit: '\uC6D0/\uC6D4', confirm: (v) => `\uC6D4 \uACE0\uC815\uBE44\uAC00 ${formatKRW(v)}\uC774\uAD70\uC694.` },
+      { field: 'work_hours', text: '\uD558\uB8E8 \uD3C9\uADE0 \uCF58\uD150\uCE20 \uC791\uC5C5 \uC2DC\uAC04\uC740?', hint: '\uC608: 5', unit: '\uC2DC\uAC04', confirm: (v) => `\uD558\uB8E8 ${v}\uC2DC\uAC04, \uC6D4 \uC57D ${v * 22}\uC2DC\uAC04 \uC791\uC5C5\uD558\uC2DC\uB294\uAD70\uC694.`, transform: (v) => v * 22 },
+      { field: 'hourly_wage', text: '\uC2DC\uAC04\uB2F9 \uCD5C\uC18C \uAE30\uB300 \uC218\uC775\uC740 \uC5BC\uB9C8\uC778\uAC00\uC694?', hint: '\uC608: 20000', unit: '\uC6D0', confirm: (v) => `\uBAA9\uD45C \uC2DC\uAE09 ${formatKRW(v)}\uC73C\uB85C \uBD84\uC11D\uD558\uACA0\uC2B5\uB2C8\uB2E4.` },
+    ],
+  },
+  {
+    key: 'EMOTICON',
+    icon: '\uD83D\uDE0A',
+    name: '\uC774\uBAA8\uD2F0\uCF58 \uC791\uAC00',
+    desc: '\uCE74\uCE74\uC624/\uB77C\uC778 \uC774\uBAA8\uD2F0\uCF58 \uC218\uC775 \uBD84\uC11D',
+    color: theme.colors.warning,
+    greeting: '\uC774\uBAA8\uD2F0\uCF58 \uC791\uAC00\uC2DC\uAD70\uC694! \uC774\uBAA8\uD2F0\uCF58 \uD310\uB9E4 \uC218\uC775\uC131\uC744 \uBD84\uC11D\uD574\uB4DC\uB9B4\uAC8C\uC694.',
+    titleTemplate: '\uC774\uBAA8\uD2F0\uCF58 \uC218\uC775 \uBD84\uC11D',
+    questions: [
+      { field: 'price', text: '\uC774\uBAA8\uD2F0\uCF58 \uC138\uD2B8 \uD558\uB098\uC758 \uD310\uB9E4\uAC00(\uC791\uAC00 \uC218\uC775 \uAE30\uC900)\uB294 \uC5BC\uB9C8\uC778\uAC00\uC694?', hint: '\uC608: 2000', unit: '\uC6D0', confirm: (v) => `\uC138\uD2B8\uB2F9 \uC218\uC775\uC774 ${formatKRW(v)}\uC774\uAD70\uC694.` },
+      { field: 'variable_cost', text: '\uC138\uD2B8 \uD558\uB098\uB97C \uB9CC\uB4DC\uB294\uB370 \uB4DC\uB294 \uC9C1\uC811 \uBE44\uC6A9\uC740?\n(\uD0DC\uBE14\uB9BF \uC18C\uBAA8\uD488, \uC678\uC8FC \uB4F1)', hint: '\uC5C6\uC73C\uBA74 0', unit: '\uC6D0', confirm: (v) => v > 0 ? `\uC138\uD2B8\uB2F9 ${formatKRW(v)}\uC758 \uBCC0\uB3D9\uBE44\uAC00 \uC788\uAD70\uC694.` : '\uC9C1\uC811 \uBE44\uC6A9\uC774 \uC5C6\uC73C\uC2DC\uAD70\uC694.' },
+      { field: 'fixed_cost', text: '\uB9E4\uB2EC \uACE0\uC815\uC801\uC73C\uB85C \uB098\uAC00\uB294 \uBE44\uC6A9\uC740?\n(\uADF8\uB798\uD53D \uD234 \uAD6C\uB3C5, \uD0DC\uBE14\uB9BF \uD560\uBD80 \uB4F1)', hint: '\uC608: 30000', unit: '\uC6D0/\uC6D4', confirm: (v) => `\uC6D4 \uACE0\uC815\uBE44 ${formatKRW(v)}\uC774\uAD70\uC694.` },
+      { field: 'work_hours', text: '\uD558\uB8E8 \uD3C9\uADE0 \uC791\uC5C5 \uC2DC\uAC04\uC740 \uBA87 \uC2DC\uAC04\uC778\uAC00\uC694?', hint: '\uC608: 3', unit: '\uC2DC\uAC04', confirm: (v) => `\uD558\uB8E8 ${v}\uC2DC\uAC04, \uC6D4 \uC57D ${v * 22}\uC2DC\uAC04\uC774\uB124\uC694.`, transform: (v) => v * 22 },
+      { field: 'hourly_wage', text: '\uC2DC\uAC04\uB2F9 \uCD5C\uC18C \uBAA9\uD45C \uC218\uC775\uC740?', hint: '\uC608: 12000', unit: '\uC6D0', confirm: (v) => `\uBAA9\uD45C \uC2DC\uAE09 ${formatKRW(v)}\uC73C\uB85C \uC124\uC815\uD569\uB2C8\uB2E4.` },
+    ],
+  },
+  {
+    key: 'BLOG',
+    icon: '\uD83D\uDCDD',
+    name: '\uBE14\uB85C\uADF8/\uB274\uC2A4\uB808\uD130',
+    desc: '\uBE14\uB85C\uADF8 \uAD11\uACE0/\uAD6C\uB3C5 \uC218\uC775 \uBD84\uC11D',
+    color: theme.colors.success,
+    greeting: '\uBE14\uB85C\uADF8/\uB274\uC2A4\uB808\uD130 \uC6B4\uC601\uC790\uC2DC\uAD70\uC694! \uCF58\uD150\uCE20 \uC218\uC775\uC131\uC744 \uBD84\uC11D\uD574\uB4DC\uB9B4\uAC8C\uC694.',
+    titleTemplate: '\uBE14\uB85C\uADF8 \uC218\uC775 \uBD84\uC11D',
+    questions: [
+      { field: 'price', text: '\uD3EC\uC2A4\uD305 \uD558\uB098\uB2F9 \uD3C9\uADE0 \uC218\uC775\uC740 \uC5BC\uB9C8\uC778\uAC00\uC694?\n(\uC560\uB4DC\uC13C\uC2A4, \uD611\uCC2C, \uAD6C\uB3C5 \uC218\uC775 \uB4F1)', hint: '\uC608: 10000', unit: '\uC6D0', confirm: (v) => `\uD3EC\uC2A4\uD305\uB2F9 ${formatKRW(v)} \uC218\uC775\uC774\uAD70\uC694.` },
+      { field: 'variable_cost', text: '\uD3EC\uC2A4\uD305 \uD558\uB098\uB97C \uB9CC\uB4DC\uB294\uB370 \uB4DC\uB294 \uC9C1\uC811 \uBE44\uC6A9\uC740?\n(\uC774\uBBF8\uC9C0 \uAD6C\uB9E4, \uB3C4\uAD6C \uC0AC\uC6A9 \uB4F1)', hint: '\uC5C6\uC73C\uBA74 0', unit: '\uC6D0', confirm: (v) => v > 0 ? `\uD3EC\uC2A4\uD305\uB2F9 ${formatKRW(v)}\uC758 \uBE44\uC6A9\uC774 \uB4DC\uB294\uAD70\uC694.` : '\uC9C1\uC811 \uBE44\uC6A9\uC774 \uC5C6\uC73C\uC2DC\uAD70\uC694.' },
+      { field: 'fixed_cost', text: '\uB9E4\uB2EC \uACE0\uC815 \uBE44\uC6A9\uC740 \uC5BC\uB9C8\uC778\uAC00\uC694?\n(\uD638\uC2A4\uD305, \uB3C4\uBA54\uC778, \uB3C4\uAD6C \uAD6C\uB3C5 \uB4F1)', hint: '\uC608: 20000', unit: '\uC6D0/\uC6D4', confirm: (v) => `\uC6D4 \uACE0\uC815\uBE44 ${formatKRW(v)}\uC774\uAD70\uC694.` },
+      { field: 'work_hours', text: '\uD558\uB8E8 \uD3C9\uADE0 \uCF58\uD150\uCE20 \uC791\uC5C5 \uC2DC\uAC04\uC740?', hint: '\uC608: 3', unit: '\uC2DC\uAC04', confirm: (v) => `\uD558\uB8E8 ${v}\uC2DC\uAC04, \uC6D4 \uC57D ${v * 22}\uC2DC\uAC04\uC774\uB124\uC694.`, transform: (v) => v * 22 },
+      { field: 'hourly_wage', text: '\uC2DC\uAC04\uB2F9 \uCD5C\uC18C \uAE30\uB300 \uC218\uC775\uC740?', hint: '\uC608: 15000', unit: '\uC6D0', confirm: (v) => `\uBAA9\uD45C \uC2DC\uAE09 ${formatKRW(v)}\uC73C\uB85C \uBD84\uC11D\uD558\uACA0\uC2B5\uB2C8\uB2E4.` },
+    ],
+  },
+  {
+    key: 'INDIE_DEV',
+    icon: '\uD83D\uDCBB',
+    name: '\uC778\uB514 \uAC1C\uBC1C\uC790',
+    desc: 'SaaS/\uC571 \uC11C\uBE44\uC2A4 \uC218\uC775 \uBD84\uC11D',
+    color: theme.colors.primary,
+    greeting: '\uC778\uB514 \uAC1C\uBC1C\uC790\uC2DC\uAD70\uC694! \uC11C\uBE44\uC2A4\uC758 \uC218\uC775\uC131\uC744 \uBD84\uC11D\uD574\uB4DC\uB9AC\uACA0\uC2B5\uB2C8\uB2E4.',
+    titleTemplate: 'SaaS/\uC571 \uC218\uC775 \uBD84\uC11D',
+    questions: [
+      { field: 'price', text: '\uC11C\uBE44\uC2A4\uC758 \uC6D4 \uAD6C\uB3C5\uB8CC \uB610\uB294 \uAC74\uB2F9 \uD310\uB9E4\uAC00\uB294 \uC5BC\uB9C8\uC778\uAC00\uC694?', hint: '\uC608: 9900', unit: '\uC6D0', confirm: (v) => `\uAC74\uB2F9 ${formatKRW(v)}\uC774\uAD70\uC694.` },
+      { field: 'variable_cost', text: '\uACE0\uAC1D 1\uBA85\uB2F9 \uB4DC\uB294 \uBCC0\uB3D9 \uBE44\uC6A9\uC740?\n(\uC11C\uBC84 \uBE44\uC6A9, API \uD638\uCD9C \uBE44\uC6A9 \uB4F1)', hint: '\uC608: 1000', unit: '\uC6D0', confirm: (v) => v > 0 ? `\uACE0\uAC1D\uB2F9 ${formatKRW(v)}\uC758 \uBCC0\uB3D9\uBE44\uAC00 \uC788\uAD70\uC694.` : '\uACE0\uAC1D\uB2F9 \uBCC0\uB3D9\uBE44\uAC00 \uC5C6\uC73C\uC2DC\uAD70\uC694.' },
+      { field: 'fixed_cost', text: '\uB9E4\uB2EC \uACE0\uC815\uC801\uC73C\uB85C \uB098\uAC00\uB294 \uBE44\uC6A9\uC740?\n(\uC11C\uBC84 \uC720\uC9C0\uBE44, \uB3C4\uBA54\uC778, \uB3C4\uAD6C \uAD6C\uB3C5 \uB4F1)', hint: '\uC608: 200000', unit: '\uC6D0/\uC6D4', confirm: (v) => `\uC6D4 \uACE0\uC815\uBE44 ${formatKRW(v)}\uC774\uAD70\uC694.` },
+      { field: 'work_hours', text: '\uD558\uB8E8 \uD3C9\uADE0 \uAC1C\uBC1C/\uC6B4\uC601 \uC2DC\uAC04\uC740?', hint: '\uC608: 6', unit: '\uC2DC\uAC04', confirm: (v) => `\uD558\uB8E8 ${v}\uC2DC\uAC04, \uC6D4 \uC57D ${v * 22}\uC2DC\uAC04\uC774\uB124\uC694.`, transform: (v) => v * 22 },
+      { field: 'hourly_wage', text: '\uC2DC\uAC04\uB2F9 \uCD5C\uC18C \uBAA9\uD45C \uC218\uC775\uC740?\n(\uCDE8\uC5C5\uD588\uC744 \uB54C \uC2DC\uAE09 \uB4F1 \uAE30\uD68C\uBE44\uC6A9 \uAE30\uC900)', hint: '\uC608: 30000', unit: '\uC6D0', confirm: (v) => `\uBAA9\uD45C \uC2DC\uAE09 ${formatKRW(v)}\uC73C\uB85C \uBD84\uC11D\uD558\uACA0\uC2B5\uB2C8\uB2E4.` },
+    ],
+  },
+];

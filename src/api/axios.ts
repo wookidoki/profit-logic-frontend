@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useAuthStore } from '../store/authStore';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api',
@@ -23,8 +24,7 @@ api.interceptors.response.use(
   (error) => {
     const status = error.response?.status;
     if (status === 401) {
-      localStorage.removeItem('accessToken');
-      window.location.href = '/login';
+      useAuthStore.getState().logout();
     }
     if (status === 403) {
       console.warn('[API] 403 Forbidden:', error.response?.data?.message || '접근 권한이 없습니다.');

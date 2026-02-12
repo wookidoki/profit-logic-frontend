@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
+import { theme } from '../styles/theme';
 import {
   AddButton, ErrorBanner, LoadingText, DeleteBtn,
   EmptyState, EmptyIcon, EmptySub,
@@ -163,7 +164,7 @@ const PanelHeader = styled.div`
 const PanelTitle = styled.h3`
   font-size: 1rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 /* ── 테이블 ── */
@@ -171,7 +172,7 @@ const PanelTitle = styled.h3`
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
+  background: ${theme.colors.surface};
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
@@ -182,8 +183,8 @@ const Th = styled.th<{ $align?: string }>`
   text-align: ${({ $align }) => $align || 'left'};
   font-size: 0.75rem;
   font-weight: 600;
-  color: #6c757d;
-  background: #f8f9fa;
+  color: ${theme.colors.textSecondary};
+  background: ${theme.colors.background};
   border-bottom: 1px solid #f1f3f5;
   white-space: nowrap;
 `;
@@ -194,7 +195,7 @@ const Td = styled.td<{ $align?: string; $mono?: boolean; $muted?: boolean }>`
   font-size: 0.8125rem;
   color: ${({ $muted }) => ($muted ? '#adb5bd' : '#495057')};
   font-family: ${({ $mono }) => ($mono ? "'JetBrains Mono', monospace" : 'inherit')};
-  border-bottom: 1px solid #f8f9fa;
+  border-bottom: 1px solid ${theme.colors.background};
   white-space: nowrap;
 `;
 
@@ -211,8 +212,8 @@ const CategoryBadge = styled.span`
 const TypeBadge = styled.span<{ $type: CostType }>`
   display: inline-block;
   padding: 0.125rem 0.5rem;
-  background: ${({ $type }) => ($type === 'FIXED' ? '#4361ee15' : '#06d6a015')};
-  color: ${({ $type }) => ($type === 'FIXED' ? '#4361ee' : '#06d6a0')};
+  background: ${({ $type }) => ($type === 'FIXED' ? `${theme.colors.primary}15` : `${theme.colors.success}15`)};
+  color: ${({ $type }) => ($type === 'FIXED' ? theme.colors.primary : theme.colors.success)};
   border-radius: 4px;
   font-size: 0.75rem;
   font-weight: 500;
@@ -221,7 +222,7 @@ const TypeBadge = styled.span<{ $type: CostType }>`
 /* ── 소계 ── */
 
 const SubtotalSection = styled.div`
-  background: #fff;
+  background: ${theme.colors.surface};
   border-radius: 10px;
   padding: 1rem 1.25rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
@@ -230,7 +231,7 @@ const SubtotalSection = styled.div`
 const SubtotalTitle = styled.h4`
   font-size: 0.8125rem;
   font-weight: 600;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   margin-bottom: 0.75rem;
 `;
 
@@ -244,7 +245,7 @@ const SubtotalItem = styled.div`
   flex: 1;
   min-width: 100px;
   padding: 0.5rem 0.75rem;
-  background: #f8f9fa;
+  background: ${theme.colors.background};
   border-radius: 8px;
 `;
 
@@ -257,15 +258,15 @@ const SubtotalLabel = styled.div`
 const SubtotalValue = styled.div`
   font-size: 0.875rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const TotalItem = styled(SubtotalItem)`
-  background: #4361ee10;
+  background: ${theme.colors.primary}10;
 `;
 
 const TotalValue = styled(SubtotalValue)`
-  color: #4361ee;
+  color: ${theme.colors.primary};
 `;
 
 

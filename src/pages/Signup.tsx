@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { PrimaryButton } from '../styles/shared';
+import { theme } from '../styles/theme';
 import { useAuth } from '../hooks/useAuth';
 
 interface FieldErrors {
@@ -104,11 +105,11 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #f8f9fa;
+  background: ${theme.colors.background};
 `;
 
 const FormCard = styled.div`
-  background: #fff;
+  background: ${theme.colors.surface};
   padding: 2.5rem;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
@@ -119,14 +120,14 @@ const FormCard = styled.div`
 const Title = styled.h1`
   font-size: 1.75rem;
   font-weight: 700;
-  color: #4361ee;
+  color: ${theme.colors.primary};
   text-align: center;
   margin-bottom: 0.25rem;
 `;
 
 const Subtitle = styled.p`
   text-align: center;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   margin-bottom: 1.5rem;
 `;
 
@@ -144,20 +145,20 @@ const FieldGroup = styled.div`
 
 const Input = styled.input<{ $hasError?: boolean }>`
   padding: 0.75rem 1rem;
-  border: 1px solid ${({ $hasError }) => ($hasError ? '#ef476f' : '#dee2e6')};
+  border: 1px solid ${({ $hasError }) => ($hasError ? theme.colors.danger : theme.colors.border)};
   border-radius: 8px;
   font-size: 1rem;
   transition: border-color 0.2s;
 
   &:focus {
-    border-color: ${({ $hasError }) => ($hasError ? '#ef476f' : '#4361ee')};
+    border-color: ${({ $hasError }) => ($hasError ? theme.colors.danger : theme.colors.primary)};
     box-shadow: 0 0 0 3px ${({ $hasError }) =>
       $hasError ? 'rgba(239, 71, 111, 0.1)' : 'rgba(67, 97, 238, 0.1)'};
   }
 `;
 
 const FieldError = styled.span`
-  color: #ef476f;
+  color: ${theme.colors.danger};
   font-size: 0.75rem;
   padding-left: 0.25rem;
 `;
@@ -165,7 +166,7 @@ const FieldError = styled.span`
 const SubmitButton = PrimaryButton;
 
 const ErrorMsg = styled.p`
-  color: #ef476f;
+  color: ${theme.colors.danger};
   font-size: 0.875rem;
   text-align: center;
   margin-bottom: 1rem;
@@ -178,10 +179,10 @@ const LinkText = styled.p`
   text-align: center;
   margin-top: 1rem;
   font-size: 0.875rem;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
 
   a {
-    color: #4361ee;
+    color: ${theme.colors.primary};
     font-weight: 600;
   }
 `;

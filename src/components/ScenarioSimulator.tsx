@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
+import { theme } from '../styles/theme';
 import { Card } from '../styles/shared';
 import { useDebounce } from '../hooks/useDebounce';
 import { useCalculate } from '../hooks/useCalculate';
@@ -17,11 +18,11 @@ interface SliderConfig {
 }
 
 const sliders: SliderConfig[] = [
-  { key: 'price', label: '판매가' },
-  { key: 'variable_cost', label: '변동비' },
-  { key: 'fixed_cost', label: '고정비' },
-  { key: 'work_hours', label: '근무시간' },
-  { key: 'hourly_wage', label: '시급' },
+  { key: 'price', label: '건당 수익' },
+  { key: 'variable_cost', label: '건당 비용' },
+  { key: 'fixed_cost', label: '월 고정 지출' },
+  { key: 'work_hours', label: '월 투입 시간' },
+  { key: 'hourly_wage', label: '본업 시급' },
   { key: 'target_profit', label: '목표이익' },
 ];
 
@@ -113,7 +114,7 @@ export default function ScenarioSimulator({ baseData, baseResult }: Props) {
               </SummaryValue>
             </SummaryItem>
             <SummaryItem>
-              <SummaryLabel>경제적 이윤</SummaryLabel>
+              <SummaryLabel>기회비용 반영 수익</SummaryLabel>
               <SummaryValue>
                 {formatKRW(displayResult.economic_profit)}
                 <Delta value={displayResult.economic_profit - baseResult.economic_profit} />
@@ -127,9 +128,9 @@ export default function ScenarioSimulator({ baseData, baseResult }: Props) {
               </SummaryValue>
             </SummaryItem>
             <SummaryItem>
-              <SummaryLabel>생존가능성</SummaryLabel>
+              <SummaryLabel>지속 가능성</SummaryLabel>
               <ViabilityText $viable={displayResult.is_viable}>
-                {displayResult.is_viable ? '가능' : '불가'}
+                {displayResult.is_viable ? '지속 가능' : '개선 필요'}
               </ViabilityText>
             </SummaryItem>
           </SummaryGrid>
@@ -157,25 +158,25 @@ const Header = styled.div`
 const Title = styled.h3`
   font-size: 1rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const ResetButton = styled.button`
   padding: 0.375rem 0.75rem;
   font-size: 0.75rem;
-  color: #6c757d;
-  border: 1px solid #dee2e6;
+  color: ${theme.colors.textSecondary};
+  border: 1px solid ${theme.colors.border};
   border-radius: 6px;
-  background: #fff;
+  background: ${theme.colors.surface};
 
   &:hover {
-    background: #f8f9fa;
+    background: ${theme.colors.background};
   }
 `;
 
 const Description = styled.p`
   font-size: 0.8125rem;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   margin-bottom: 1.25rem;
 `;
 
@@ -193,7 +194,7 @@ const SliderLabel = styled.div`
   align-items: center;
   font-size: 0.8125rem;
   font-weight: 500;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   margin-bottom: 0.25rem;
 `;
 
@@ -201,14 +202,14 @@ const PctBadge = styled.span<{ $positive: boolean; $negative: boolean }>`
   font-size: 0.75rem;
   font-weight: 600;
   color: ${({ $positive, $negative }) =>
-    $positive ? '#06d6a0' : $negative ? '#ef476f' : '#6c757d'};
+    $positive ? theme.colors.success : $negative ? theme.colors.danger : theme.colors.textSecondary};
 `;
 
 const RangeSlider = styled.input`
   width: 100%;
   height: 6px;
   appearance: none;
-  background: #dee2e6;
+  background: ${theme.colors.border};
   border-radius: 3px;
   outline: none;
   cursor: pointer;
@@ -218,7 +219,7 @@ const RangeSlider = styled.input`
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: #4361ee;
+    background: ${theme.colors.primary};
     cursor: pointer;
   }
 
@@ -226,7 +227,7 @@ const RangeSlider = styled.input`
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: #4361ee;
+    background: ${theme.colors.primary};
     border: none;
     cursor: pointer;
   }
@@ -241,7 +242,7 @@ const ValueRow = styled.div`
 `;
 
 const BaseValue = styled.span`
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
 `;
 
 const Arrow = styled.span`
@@ -250,7 +251,7 @@ const Arrow = styled.span`
 
 const AdjustedValue = styled.span`
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const ResultSummary = styled.div`
@@ -262,7 +263,7 @@ const ResultSummary = styled.div`
 const SummaryTitle = styled.div`
   font-size: 0.875rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   margin-bottom: 0.75rem;
 `;
 
@@ -273,31 +274,31 @@ const SummaryGrid = styled.div`
 `;
 
 const SummaryItem = styled.div`
-  background: #f8f9fa;
+  background: ${theme.colors.background};
   padding: 0.75rem;
   border-radius: 8px;
 `;
 
 const SummaryLabel = styled.div`
   font-size: 0.6875rem;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   margin-bottom: 0.125rem;
 `;
 
 const SummaryValue = styled.div`
   font-size: 0.875rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const DeltaSpan = styled.span<{ $positive: boolean }>`
   font-size: 0.75rem;
   font-weight: 500;
-  color: ${({ $positive }) => ($positive ? '#06d6a0' : '#ef476f')};
+  color: ${({ $positive }) => ($positive ? theme.colors.success : theme.colors.danger)};
 `;
 
 const ViabilityText = styled.div<{ $viable: boolean }>`
   font-size: 0.875rem;
   font-weight: 700;
-  color: ${({ $viable }) => ($viable ? '#06d6a0' : '#ef476f')};
+  color: ${({ $viable }) => ($viable ? theme.colors.success : theme.colors.danger)};
 `;
