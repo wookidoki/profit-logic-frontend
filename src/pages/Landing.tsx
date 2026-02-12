@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 
-const WORDS = ['진짜 수익', '실질 시급', '손익분기점', '공헌이익률'];
+const WORDS = ['진짜 수익', '실질 시급', '월 최소 건수', '순수익률'];
 
 export default function Landing() {
   const navigate = useNavigate();
@@ -71,7 +71,7 @@ export default function Landing() {
 
           <Desc>
             대화형 AI 상담사가 당신의 사이드 프로젝트를 분석합니다.<br />
-            크리에이터 유형에 맞는 맞춤 질문으로 손익분기점 · 실질 시급을 즉시 분석합니다.
+            크리에이터 유형에 맞는 맞춤 질문으로 월 최소 건수 · 실질 시급을 즉시 분석합니다.
           </Desc>
 
           <Buttons>
@@ -90,7 +90,7 @@ export default function Landing() {
         {/* Floating tags */}
         <FloatTag style={{ top: '18%', left: '8%' }} $delay="0s" $dur="6s">BEP</FloatTag>
         <FloatTag style={{ top: '30%', right: '6%' }} $delay="1s" $dur="7s">실질시급</FloatTag>
-        <FloatTag style={{ bottom: '28%', left: '5%' }} $delay="2s" $dur="5s">공헌이익률</FloatTag>
+        <FloatTag style={{ bottom: '28%', left: '5%' }} $delay="2s" $dur="5s">순수익률</FloatTag>
         <FloatTag style={{ bottom: '18%', right: '10%' }} $delay="0.5s" $dur="8s">안전마진</FloatTag>
         <FloatTag style={{ top: '12%', right: '22%' }} $delay="1.5s" $dur="6.5s">월 추이</FloatTag>
         <FloatTag style={{ bottom: '35%', left: '18%' }} $delay="3s" $dur="7.5s">목표 추적</FloatTag>

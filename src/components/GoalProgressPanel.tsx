@@ -108,7 +108,7 @@ export default function GoalProgressPanel({ projectId, onSetGoal }: Props) {
       {/* 핵심 지표 */}
       <MetricGrid>
         <MetricCard>
-          <MetricLabel>BEP 수량</MetricLabel>
+          <MetricLabel>월 최소 건수</MetricLabel>
           <MetricValue $color="#4361ee">
             {(data.bepQuantity ?? 0).toFixed(0)}개
           </MetricValue>

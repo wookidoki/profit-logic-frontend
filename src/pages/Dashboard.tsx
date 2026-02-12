@@ -102,7 +102,7 @@ export default function Dashboard() {
               <SummaryValue>{formatKRW(data!.totalEstimatedRevenue)}</SummaryValue>
             </SummaryCard>
             <SummaryCard>
-              <SummaryLabel>평균 공헌이익률</SummaryLabel>
+              <SummaryLabel>평균 순수익률</SummaryLabel>
               <SummaryValue>{formatPercent(data!.avgContributionMarginRate)}</SummaryValue>
             </SummaryCard>
             <SummaryCard>
@@ -160,11 +160,11 @@ function InsightCard({ insight, onClick }: { insight: ProjectInsight; onClick: (
         <>
           <MetricsRow>
             <Metric>
-              <MetricLabel>BEP</MetricLabel>
-              <MetricValue>{(insight.bep ?? 0).toLocaleString('ko-KR', { maximumFractionDigits: 0 })}개</MetricValue>
+              <MetricLabel>\uC6D4 \uCD5C\uC18C \uAC74\uC218</MetricLabel>
+              <MetricValue>{(insight.bep ?? 0).toLocaleString('ko-KR', { maximumFractionDigits: 0 })}건</MetricValue>
             </Metric>
             <Metric>
-              <MetricLabel>공헌이익률</MetricLabel>
+              <MetricLabel>순수익률</MetricLabel>
               <MetricValue>{formatPercent(insight.contributionMarginRate)}</MetricValue>
             </Metric>
             <Metric>

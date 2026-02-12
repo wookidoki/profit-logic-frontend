@@ -113,7 +113,7 @@ export default function ScenarioSimulator({ baseData, baseResult }: Props) {
               </SummaryValue>
             </SummaryItem>
             <SummaryItem>
-              <SummaryLabel>경제적 이윤</SummaryLabel>
+              <SummaryLabel>기회비용 반영 수익</SummaryLabel>
               <SummaryValue>
                 {formatKRW(displayResult.economic_profit)}
                 <Delta value={displayResult.economic_profit - baseResult.economic_profit} />
@@ -127,9 +127,9 @@ export default function ScenarioSimulator({ baseData, baseResult }: Props) {
               </SummaryValue>
             </SummaryItem>
             <SummaryItem>
-              <SummaryLabel>생존가능성</SummaryLabel>
+              <SummaryLabel>지속 가능성</SummaryLabel>
               <ViabilityText $viable={displayResult.is_viable}>
-                {displayResult.is_viable ? '가능' : '불가'}
+                {displayResult.is_viable ? '지속 가능' : '개선 필요'}
               </ViabilityText>
             </SummaryItem>
           </SummaryGrid>

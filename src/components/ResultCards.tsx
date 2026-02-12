@@ -9,7 +9,7 @@ interface Props {
 export default function ResultCards({ result }: Props) {
   const metrics = [
     {
-      label: '손익분기점 (BEP)',
+      label: '월 최소 건수 (BEP)',
       value: formatQuantity(result.break_even_point),
       color: '#4361ee',
     },
@@ -19,12 +19,12 @@ export default function ResultCards({ result }: Props) {
       color: '#7209b7',
     },
     {
-      label: '영업이익',
+      label: '월 수익',
       value: formatKRW(result.operating_profit),
       color: result.operating_profit >= 0 ? '#06d6a0' : '#ef476f',
     },
     {
-      label: '경제적 이윤',
+      label: '기회비용 반영 수익',
       value: formatKRW(result.economic_profit),
       color: result.economic_profit >= 0 ? '#06d6a0' : '#ef476f',
     },
@@ -34,7 +34,7 @@ export default function ResultCards({ result }: Props) {
       color: result.margin_rate >= 20 ? '#06d6a0' : result.margin_rate >= 0 ? '#ffd166' : '#ef476f',
     },
     {
-      label: '공헌이익 (단위당)',
+      label: '건당 순수익',
       value: formatKRW(result.contribution_margin),
       color: result.contribution_margin >= 0 ? '#06d6a0' : '#ef476f',
     },
@@ -43,7 +43,7 @@ export default function ResultCards({ result }: Props) {
   return (
     <Container>
       <ViabilityBadge $viable={result.is_viable}>
-        {result.is_viable ? '생존 가능' : '생존 불가'}
+        {result.is_viable ? '지속 가능' : '지속 불가'}
       </ViabilityBadge>
       <Grid>
         {metrics.map(({ label, value, color }) => (

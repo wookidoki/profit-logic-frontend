@@ -120,16 +120,16 @@ export default function EnhancedAnalysisPanel({ projectId, onNavigateTab }: Prop
             </MetricSub>
           </MetricCard>
           <MetricCard>
-            <MetricLabel>BEP 수량</MetricLabel>
+            <MetricLabel>월 최소 건수</MetricLabel>
             <MetricValue $color="#4361ee">
               {(bep.bep ?? 0).toLocaleString('ko-KR', { maximumFractionDigits: 1 })}개
             </MetricValue>
             <MetricSub>
-              공헌이익 {formatKRW(bep.contribution_margin)}
+              건당 순수익 {formatKRW(bep.contribution_margin)}
             </MetricSub>
           </MetricCard>
           <MetricCard>
-            <MetricLabel>공헌이익률</MetricLabel>
+            <MetricLabel>순수익률</MetricLabel>
             <MetricValue $color={safetyMargin >= 30 ? '#06d6a0' : safetyMargin >= 15 ? '#f4a261' : '#ef476f'}>
               {(safetyMargin ?? 0).toFixed(1)}%
             </MetricValue>
@@ -199,7 +199,7 @@ export default function EnhancedAnalysisPanel({ projectId, onNavigateTab }: Prop
             <DetailValue>{(shadow_wage.total_hours ?? 0).toFixed(1)}시간</DetailValue>
           </DetailItem>
           <DetailItem>
-            <MetricLabel>영업이익</MetricLabel>
+            <MetricLabel>월 수익</MetricLabel>
             <DetailValue>{formatKRW(shadow_wage.operating_profit)}</DetailValue>
           </DetailItem>
           <DetailItem>

@@ -48,7 +48,7 @@ export default function BepChart({ result }: Props) {
 
   return (
     <Card>
-      <Title>손익분기점 (BEP) 차트</Title>
+      <Title>월 최소 건수 (BEP) 차트</Title>
       <ResponsiveContainer width="100%" height={360}>
         <LineChart data={chartData} margin={{ top: 10, right: 20, left: 10, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#e9ecef" />
@@ -66,7 +66,7 @@ export default function BepChart({ result }: Props) {
           <Tooltip
             formatter={(value, name) => {
               const labels: Record<string, string> = {
-                contributionTotal: '공헌이익 누적',
+                contributionTotal: '건당 순수익 누적',
                 fixedCost: '월 고정 지출',
               };
               const formatted = typeof value === 'number'
@@ -79,7 +79,7 @@ export default function BepChart({ result }: Props) {
           <Legend
             formatter={(value: string) => {
               const labels: Record<string, string> = {
-                contributionTotal: '공헌이익 누적',
+                contributionTotal: '건당 순수익 누적',
                 fixedCost: '월 고정 지출',
               };
               return labels[value] ?? value;

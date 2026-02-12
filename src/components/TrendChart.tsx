@@ -26,7 +26,7 @@ interface MetricConfig {
 
 const METRICS: Record<Metric, MetricConfig> = {
   bep: {
-    label: 'BEP 수량',
+    label: '월 최소 건수',
     dataKey: 'bepQuantity',
     color: '#4361ee',
     format: (v) => `${(v ?? 0).toFixed(1)}개`,
