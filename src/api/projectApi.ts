@@ -1,15 +1,15 @@
 import api from './axios';
 import type { ResponseData, Project, ProjectCreateRequest, ProjectUpdateRequest } from '../types';
-import type { CalculateRequest, CalculateResponse } from '../types/finance';
+import type { CalculateRequest, CalculateResponse, AiParseResponse } from '../types/finance';
 
 export const projectApi = {
   /** 수익성 계산 (비인증) */
   calculate: (data: CalculateRequest) =>
     api.post<ResponseData<CalculateResponse>>('/v1/analysis/calculate', data),
 
-  /** AI 자연어 파싱 (비인증) */
+  /** AI 자연어 파싱 (비인증) - 카테고리 감지 포함 */
   aiParse: (text: string) =>
-    api.post<ResponseData<CalculateRequest>>('/v1/ai/parse', { text }),
+    api.post<ResponseData<AiParseResponse>>('/v1/ai/parse', { text }),
 
   /** 프로젝트 생성 */
   create: (data: ProjectCreateRequest) =>

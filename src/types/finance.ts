@@ -8,6 +8,12 @@ export interface CalculateRequest {
   target_profit: number;
 }
 
+/** AI 파싱 응답 DTO (POST /v1/ai/parse) */
+export interface AiParseResponse extends CalculateRequest {
+  detected_category: string | null;
+  suggestion: string | null;
+}
+
 /** 계산 응답 DTO */
 export interface CalculateResponse {
   break_even_point: number;

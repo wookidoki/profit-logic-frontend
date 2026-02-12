@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { projectApi } from '../api/projectApi';
-import type { CalculateRequest } from '../types/finance';
+import type { AiParseResponse } from '../types/finance';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  onParsed: (data: CalculateRequest) => void;
+  onParsed: (data: AiParseResponse) => void;
 }
 
 export default function AiParseModal({ isOpen, onClose, onParsed }: Props) {

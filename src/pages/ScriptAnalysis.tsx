@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { scriptApi } from '../api/scriptApi';
+import { projectApi } from '../api/projectApi';
 import { useAuthStore } from '../store/authStore';
 import ResultCards from '../components/ResultCards';
 import BepChart from '../components/BepChart';
@@ -44,7 +45,39 @@ export default function ScriptAnalysis() {
   const [saving, setSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState<{ id: number; title: string } | null>(null);
 
+  // AI free text input
+  const [aiText, setAiText] = useState('');
+  const [aiParsing, setAiParsing] = useState(false);
+  const [aiSuggestion, setAiSuggestion] = useState('');
+
   const [error, setError] = useState('');
+
+  // AI free text parse handler
+  const handleAiParse = useCallback(async () => {
+    if (!aiText.trim()) return;
+    setAiParsing(true);
+    setError('');
+    setAiSuggestion('');
+    try {
+      const res = await projectApi.aiParse(aiText);
+      if (res.data.success && res.data.data) {
+        const parsed = res.data.data;
+        if (parsed.suggestion) setAiSuggestion(parsed.suggestion);
+        if (parsed.detected_category) {
+          // Auto-select detected category and move to Step 2
+          handleCategorySelect(parsed.detected_category as CreatorCategory);
+        } else {
+          setAiSuggestion('카테고리를 자동 감지하지 못했습니다. 아래에서 직접 선택해주세요.');
+        }
+      } else {
+        setError('AI 파싱에 실패했습니다. 더 구체적으로 입력해주세요.');
+      }
+    } catch {
+      setError('AI 분석 중 오류가 발생했습니다.');
+    } finally {
+      setAiParsing(false);
+    }
+  }, [aiText]);
 
   // Fetch categories on mount
   useEffect(() => {
@@ -162,10 +195,31 @@ export default function ScriptAnalysis() {
       {/* Step 1: Category Selection */}
       {step === 1 && (
         <Section>
-          <SectionTitle>크리에이터 유형을 선택하세요</SectionTitle>
-          <SectionDesc>
-            유형에 맞는 맞춤 입력 양식이 제공됩니다.
-          </SectionDesc>
+          <SectionTitle>맞춤 수익 분석</SectionTitle>
+
+          <AiInputSection>
+            <AiInputLabel>사업을 설명해보세요</AiInputLabel>
+            <AiTextArea
+              placeholder={'예: 나는 웹소설 작가야. 카카오페이지에서 회당 300원 받고 연재중이야.\n고정비는 월 5만원, 하루 4시간 작업해.'}
+              value={aiText}
+              onChange={(e) => setAiText(e.target.value)}
+              rows={3}
+              disabled={aiParsing}
+            />
+            <AiButtonRow>
+              <AiParseButton onClick={handleAiParse} disabled={aiParsing || !aiText.trim()}>
+                {aiParsing ? '분석 중...' : 'AI로 자동 분석'}
+              </AiParseButton>
+              {aiSuggestion && <AiSuggestionText>{aiSuggestion}</AiSuggestionText>}
+            </AiButtonRow>
+          </AiInputSection>
+
+          <Divider>
+            <DividerLine />
+            <DividerText>또는 직접 선택하세요</DividerText>
+            <DividerLine />
+          </Divider>
+
           {catLoading ? (
             <LoadingText>카테고리 로딩 중...</LoadingText>
           ) : (
@@ -348,10 +402,6 @@ const SectionTitle = styled.h2`
   margin-bottom: 0.5rem;
 `;
 
-const SectionDesc = styled.p`
-  color: #6c757d;
-  margin-bottom: 1.5rem;
-`;
 
 const ErrorBanner = styled.div`
   max-width: 900px;
@@ -368,6 +418,89 @@ const LoadingText = styled.div`
   text-align: center;
   color: #6c757d;
   padding: 3rem 0;
+`;
+
+// ── Step 1: AI Input ──
+
+const AiInputSection = styled.div`
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 1.5rem;
+`;
+
+const AiInputLabel = styled.h3`
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 0.75rem;
+`;
+
+const AiTextArea = styled.textarea`
+  width: 100%;
+  padding: 0.75rem;
+  border: 1.5px solid #dee2e6;
+  border-radius: 10px;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  resize: vertical;
+  transition: border-color 0.2s;
+
+  &:focus {
+    border-color: #7209b7;
+    box-shadow: 0 0 0 3px rgba(114, 9, 183, 0.1);
+    outline: none;
+  }
+  &::placeholder { color: #adb5bd; }
+  &:disabled { background: #f8f9fa; cursor: not-allowed; }
+`;
+
+const AiButtonRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+`;
+
+const AiParseButton = styled.button`
+  padding: 0.625rem 1.5rem;
+  background: linear-gradient(135deg, #7209b7, #4361ee);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+
+  &:hover:not(:disabled) { opacity: 0.9; }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+`;
+
+const AiSuggestionText = styled.span`
+  font-size: 0.8125rem;
+  color: #7209b7;
+  font-weight: 500;
+`;
+
+const Divider = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+`;
+
+const DividerLine = styled.div`
+  flex: 1;
+  height: 1px;
+  background: #dee2e6;
+`;
+
+const DividerText = styled.span`
+  font-size: 0.8125rem;
+  color: #adb5bd;
+  white-space: nowrap;
 `;
 
 // ── Step 1: Category Grid ──
