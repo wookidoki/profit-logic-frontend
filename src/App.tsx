@@ -9,6 +9,7 @@ import ProjectList from './pages/ProjectList';
 import ProjectCreate from './pages/ProjectCreate';
 import ProjectDetail from './pages/ProjectDetail';
 import ProjectEdit from './pages/ProjectEdit';
+import ChatPage from './pages/ChatPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
@@ -61,6 +62,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <Layout><ProjectEdit /></Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/chat"
+          element={
+            <ProtectedRoute>
+              <Layout><ChatPage /></Layout>
             </ProtectedRoute>
           }
         />
