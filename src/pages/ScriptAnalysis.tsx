@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { scriptApi } from '../api/scriptApi';
+import { useAuthStore } from '../store/authStore';
 import ResultCards from '../components/ResultCards';
 import BepChart from '../components/BepChart';
 import type {
@@ -22,6 +24,8 @@ const CATEGORY_COLORS: Record<CreatorCategory, string> = {
 type Step = 1 | 2 | 3;
 
 export default function ScriptAnalysis() {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuthStore();
   const [step, setStep] = useState<Step>(1);
 
   // Step 1
@@ -37,6 +41,8 @@ export default function ScriptAnalysis() {
   // Step 3
   const [analysisResult, setAnalysisResult] = useState<ScriptAnalysisResponse | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState<{ id: number; title: string } | null>(null);
 
   const [error, setError] = useState('');
 
@@ -127,6 +133,28 @@ export default function ScriptAnalysis() {
       .finally(() => setAnalyzing(false));
   };
 
+  const handleSaveAsProject = async () => {
+    if (!selectedCategory || !analysisResult) return;
+    setSaving(true);
+    setError('');
+    try {
+      const inputs: Record<string, unknown> = {};
+      Object.entries(formValues).forEach(([key, val]) => {
+        if (val !== '' && val != null) inputs[key] = val;
+      });
+      const res = await scriptApi.saveAsProject({ category: selectedCategory, inputs });
+      if (res.data.success && res.data.data) {
+        setSaveSuccess({ id: res.data.data.id, title: res.data.data.title });
+      } else {
+        setError(res.data.message || '\uD504\uB85C\uC81D\uD2B8 \uC800\uC7A5\uC5D0 \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4.');
+      }
+    } catch {
+      setError('\uD504\uB85C\uC81D\uD2B8 \uC800\uC7A5\uC5D0 \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
   return (
     <Container>
       {error && <ErrorBanner>{error}</ErrorBanner>}
@@ -205,9 +233,28 @@ export default function ScriptAnalysis() {
             <BepChart result={analysisResult.result} />
           </ResultContainer>
 
+          {/* 프로젝트 저장 */}
+          {saveSuccess ? (
+            <SaveSuccessBanner>
+              \u2705 &quot;{saveSuccess.title}&quot; \uD504\uB85C\uC81D\uD2B8\uAC00 \uC0DD\uC131\uB418\uC5C8\uC2B5\uB2C8\uB2E4!
+              <ViewProjectButton onClick={() => navigate(`/projects/${saveSuccess.id}`)}>
+                \uD504\uB85C\uC81D\uD2B8 \uBCF4\uAE30 \u2192
+              </ViewProjectButton>
+            </SaveSuccessBanner>
+          ) : isAuthenticated ? (
+            <SaveButton onClick={handleSaveAsProject} disabled={saving}>
+              {saving ? '\uC800\uC7A5 \uC911...' : '\uD504\uB85C\uC81D\uD2B8\uB85C \uC800\uC7A5\uD558\uAE30'}
+            </SaveButton>
+          ) : (
+            <LoginPrompt>
+              <span>\uB85C\uADF8\uC778\uD558\uBA74 \uBD84\uC11D \uACB0\uACFC\uB97C \uD504\uB85C\uC81D\uD2B8\uB85C \uC800\uC7A5\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.</span>
+              <LoginLink onClick={() => navigate('/login')}>\uB85C\uADF8\uC778 \u2192</LoginLink>
+            </LoginPrompt>
+          )}
+
           <ButtonRow>
             <SecondaryButton onClick={() => setStep(2)}>입력값 수정</SecondaryButton>
-            <SecondaryButton onClick={() => { setStep(1); setAnalysisResult(null); setTemplate(null); setFormValues({}); }}>
+            <SecondaryButton onClick={() => { setStep(1); setAnalysisResult(null); setTemplate(null); setFormValues({}); setSaveSuccess(null); }}>
               새 분석 시작
             </SecondaryButton>
           </ButtonRow>
@@ -540,5 +587,84 @@ const SecondaryButton = styled.button`
   &:hover {
     background: #4361ee;
     color: #fff;
+  }
+`;
+
+const SaveButton = styled.button`
+  width: 100%;
+  padding: 0.875rem;
+  background: #06d6a0;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  transition: background 0.2s;
+
+  &:hover:not(:disabled) {
+    background: #05c090;
+  }
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+`;
+
+const SaveSuccessBanner = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: #f0fdf9;
+  border: 1px solid #06d6a050;
+  border-radius: 10px;
+  margin-top: 1rem;
+  font-size: 0.9375rem;
+  color: #1a1a2e;
+  flex-wrap: wrap;
+`;
+
+const ViewProjectButton = styled.button`
+  padding: 0.5rem 1rem;
+  background: #4361ee;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #3a56d4;
+  }
+`;
+
+const LoginPrompt = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: #eef2ff;
+  border-radius: 10px;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: #495057;
+  flex-wrap: wrap;
+`;
+
+const LoginLink = styled.button`
+  padding: 0.5rem 1rem;
+  background: #4361ee;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #3a56d4;
   }
 `;

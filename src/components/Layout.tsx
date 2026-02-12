@@ -30,15 +30,18 @@ export default function Layout({ children }: Props) {
                 프로젝트
               </NavItem>
             )}
-            <NavItem $active={location.pathname === '/scripts'} onClick={() => navigate('/scripts')}>
-              맞춤 분석
+            <NavItem
+              $active={location.pathname === '/consult' || location.pathname === '/scripts'}
+              onClick={() => navigate('/consult')}
+            >
+              AI 상담사
             </NavItem>
             {isAuthenticated && (
               <NavItem
                 $active={location.pathname === '/chat'}
                 onClick={() => navigate('/chat')}
               >
-                AI 상담
+                프로젝트 채팅
               </NavItem>
             )}
             <NavItem

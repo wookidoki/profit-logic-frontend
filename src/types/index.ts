@@ -33,6 +33,8 @@ export interface Project {
   work_hours: number;
   hourly_wage: number;
   is_public: boolean;
+  creator_category: string | null;
+  script_inputs: string | null;
   target_revenue: number | null;
   target_month: string | null;
   created_at: string;
@@ -48,6 +50,8 @@ export interface ProjectCreateRequest {
   work_hours: number;
   hourly_wage: number;
   is_public?: boolean;
+  creator_category?: string;
+  script_inputs?: string;
   target_revenue?: number;
   target_month?: string;
 }

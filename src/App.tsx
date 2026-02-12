@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import ScriptAnalysis from './pages/ScriptAnalysis';
+import ConsultPage from './pages/ConsultPage';
 import ProjectList from './pages/ProjectList';
 import ProjectCreate from './pages/ProjectCreate';
 import ProjectDetail from './pages/ProjectDetail';
@@ -35,6 +36,10 @@ export default function App() {
 
         {/* Landing (guest) or Dashboard (authenticated) */}
         <Route path="/" element={<HomePage />} />
+        <Route
+          path="/consult"
+          element={<Layout><ConsultPage /></Layout>}
+        />
         <Route
           path="/scripts"
           element={<Layout><ScriptAnalysis /></Layout>}
