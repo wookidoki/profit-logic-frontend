@@ -94,7 +94,7 @@ export default function TimeLogPanel({ projectId }: Props) {
       <PanelHeader>
         <PanelLeft>
           <PanelTitle>작업시간 기록</PanelTitle>
-          <TotalBadge>누적 {totalHours.toFixed(1)}시간</TotalBadge>
+          <TotalBadge>누적 {(totalHours ?? 0).toFixed(1)}시간</TotalBadge>
           {dateFilter !== 'all' && (
             <FilteredBadge>필터 {filteredHours.toFixed(1)}시간</FilteredBadge>
           )}
@@ -133,7 +133,7 @@ export default function TimeLogPanel({ projectId }: Props) {
               <DateHeader>
                 <DateLabel>{formatDate(date)}</DateLabel>
                 <DateTotal>
-                  {grouped[date].reduce((s, l) => s + l.hours_spent, 0).toFixed(1)}시간
+                  {grouped[date].reduce((s, l) => s + (l.hours_spent ?? 0), 0).toFixed(1)}시간
                 </DateTotal>
               </DateHeader>
               {grouped[date].map((log) => (
@@ -141,7 +141,7 @@ export default function TimeLogPanel({ projectId }: Props) {
                   <LogMain>
                     <TaskName>{log.task_name}</TaskName>
                     <LogMeta>
-                      <HoursBadge>{log.hours_spent.toFixed(1)}h</HoursBadge>
+                      <HoursBadge>{(log.hours_spent ?? 0).toFixed(1)}h</HoursBadge>
                       {log.memo && <Memo>{log.memo}</Memo>}
                     </LogMeta>
                   </LogMain>

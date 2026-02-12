@@ -116,13 +116,13 @@ export default function EnhancedAnalysisPanel({ projectId, onNavigateTab }: Prop
               {formatKRW(shadow_wage.real_shadow_wage)}
             </MetricValue>
             <MetricSub $color={belowMinWage ? '#ef476f' : '#6c757d'}>
-              최저임금 대비 {shadow_wage.minimum_wage_ratio.toFixed(1)}%
+              최저임금 대비 {(shadow_wage.minimum_wage_ratio ?? 0).toFixed(1)}%
             </MetricSub>
           </MetricCard>
           <MetricCard>
             <MetricLabel>BEP 수량</MetricLabel>
             <MetricValue $color="#4361ee">
-              {bep.bep.toLocaleString('ko-KR', { maximumFractionDigits: 1 })}개
+              {(bep.bep ?? 0).toLocaleString('ko-KR', { maximumFractionDigits: 1 })}개
             </MetricValue>
             <MetricSub>
               공헌이익 {formatKRW(bep.contribution_margin)}
@@ -131,7 +131,7 @@ export default function EnhancedAnalysisPanel({ projectId, onNavigateTab }: Prop
           <MetricCard>
             <MetricLabel>공헌이익률</MetricLabel>
             <MetricValue $color={safetyMargin >= 30 ? '#06d6a0' : safetyMargin >= 15 ? '#f4a261' : '#ef476f'}>
-              {safetyMargin.toFixed(1)}%
+              {(safetyMargin ?? 0).toFixed(1)}%
             </MetricValue>
             <MetricSub>
               적용 고정비 {formatKRW(bep.enhanced_fixed_cost)}
@@ -196,7 +196,7 @@ export default function EnhancedAnalysisPanel({ projectId, onNavigateTab }: Prop
         <DetailGrid>
           <DetailItem>
             <MetricLabel>총 투입시간</MetricLabel>
-            <DetailValue>{shadow_wage.total_hours.toFixed(1)}시간</DetailValue>
+            <DetailValue>{(shadow_wage.total_hours ?? 0).toFixed(1)}시간</DetailValue>
           </DetailItem>
           <DetailItem>
             <MetricLabel>영업이익</MetricLabel>
@@ -209,7 +209,7 @@ export default function EnhancedAnalysisPanel({ projectId, onNavigateTab }: Prop
         </DetailGrid>
         <WageBar>
           <WageBarFill
-            $ratio={Math.min(shadow_wage.minimum_wage_ratio, 200)}
+            $ratio={Math.min(shadow_wage.minimum_wage_ratio ?? 0, 200)}
             $over={!belowMinWage}
           />
           <WageBarMark>

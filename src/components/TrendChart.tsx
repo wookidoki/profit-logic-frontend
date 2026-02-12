@@ -29,7 +29,7 @@ const METRICS: Record<Metric, MetricConfig> = {
     label: 'BEP 수량',
     dataKey: 'bepQuantity',
     color: '#4361ee',
-    format: (v) => `${v.toFixed(1)}개`,
+    format: (v) => `${(v ?? 0).toFixed(1)}개`,
     unit: '개',
   },
   shadowWage: {
@@ -50,7 +50,7 @@ const METRICS: Record<Metric, MetricConfig> = {
     label: '안전마진율',
     dataKey: 'safetyMarginRatio',
     color: '#f4a261',
-    format: (v) => `${v.toFixed(1)}%`,
+    format: (v) => `${(v ?? 0).toFixed(1)}%`,
     unit: '%',
   },
 };
@@ -137,7 +137,7 @@ export default function TrendChart({ projectId }: Props) {
               tickLine={false}
               width={60}
               tickFormatter={(v: number) =>
-                config.unit === '원' ? `${(v / 10000).toFixed(0)}만` : String(v)
+                config.unit === '원' ? `${((v ?? 0) / 10000).toFixed(0)}만` : String(v ?? 0)
               }
             />
             <Tooltip
@@ -182,13 +182,13 @@ function generateInsight(
   deltaPercent: number,
 ): string {
   const dir = delta > 0 ? '증가' : delta < 0 ? '감소' : '유지';
-  const pct = Math.abs(deltaPercent).toFixed(1);
+  const pct = Math.abs(deltaPercent ?? 0).toFixed(1);
 
   switch (metric) {
     case 'bep':
       if (delta < 0) return `BEP가 전월 대비 ${pct}% 감소했습니다. 수익 구조가 개선되고 있습니다.`;
       if (delta > 0) return `BEP가 전월 대비 ${pct}% 증가했습니다. 비용 구조를 점검해보세요.`;
-      return `BEP가 ${latest.toFixed(1)}개로 유지되고 있습니다.`;
+      return `BEP가 ${(latest ?? 0).toFixed(1)}개로 유지되고 있습니다.`;
     case 'shadowWage':
       if (delta > 0) return `실질 시급이 전월 대비 ${pct}% ${dir}! 시간 효율이 좋아지고 있습니다.`;
       if (delta < 0) return `실질 시급이 전월 대비 ${pct}% ${dir}했습니다. 투입 시간을 점검해보세요.`;
@@ -200,7 +200,7 @@ function generateInsight(
     case 'safetyMargin':
       if (delta > 0) return `안전마진율이 전월 대비 ${pct}%p 개선되었습니다. 안정적인 구조입니다.`;
       if (delta < 0) return `안전마진율이 전월 대비 ${pct}%p 하락했습니다. 가격 정책을 검토해보세요.`;
-      return `안전마진율이 ${latest.toFixed(1)}%로 유지되고 있습니다.`;
+      return `안전마진율이 ${(latest ?? 0).toFixed(1)}%로 유지되고 있습니다.`;
   }
 }
 

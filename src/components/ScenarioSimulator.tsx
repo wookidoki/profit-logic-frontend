@@ -142,7 +142,8 @@ export default function ScenarioSimulator({ baseData, baseResult }: Props) {
 function Delta({ value, invert = false }: { value: number; invert?: boolean }) {
   if (Math.abs(value) < 0.01) return null;
   const isPositive = invert ? value < 0 : value > 0;
-  const formatted = value > 0 ? `+${value.toFixed(1)}` : value.toFixed(1);
+  const v = value ?? 0;
+  const formatted = v > 0 ? `+${v.toFixed(1)}` : v.toFixed(1);
   return <DeltaSpan $positive={isPositive}> ({formatted})</DeltaSpan>;
 }
 

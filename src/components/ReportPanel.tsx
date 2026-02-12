@@ -118,7 +118,7 @@ export default function ReportPanel({ projectId }: Props) {
               <>
                 <ReportHeader>
                   <ReportHeaderMonth>{selectedReport.year_month} 월간 리포트</ReportHeaderMonth>
-                  <TokenBadge>{selectedReport.tokens_used.toLocaleString()} tokens</TokenBadge>
+                  <TokenBadge>{(selectedReport.tokens_used ?? 0).toLocaleString()} tokens</TokenBadge>
                 </ReportHeader>
                 <MarkdownBody>{selectedReport.content}</MarkdownBody>
               </>

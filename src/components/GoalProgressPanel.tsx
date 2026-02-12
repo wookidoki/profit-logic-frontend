@@ -110,19 +110,19 @@ export default function GoalProgressPanel({ projectId, onSetGoal }: Props) {
         <MetricCard>
           <MetricLabel>BEP 수량</MetricLabel>
           <MetricValue $color="#4361ee">
-            {data.bepQuantity.toFixed(0)}개
+            {(data.bepQuantity ?? 0).toFixed(0)}개
           </MetricValue>
         </MetricCard>
         <MetricCard>
           <MetricLabel>월간 필요 판매량</MetricLabel>
           <MetricValue $color={data.status === 'BEHIND' ? '#ef476f' : '#1a1a2e'}>
-            {data.requiredMonthlySales.toFixed(1)}개/월
+            {(data.requiredMonthlySales ?? 0).toFixed(1)}개/월
           </MetricValue>
         </MetricCard>
         <MetricCard>
           <MetricLabel>일일 판매 페이스</MetricLabel>
           <MetricValue $color="#f4a261">
-            {data.dailySalesTarget.toFixed(1)}개/일
+            {(data.dailySalesTarget ?? 0).toFixed(1)}개/일
           </MetricValue>
         </MetricCard>
         <MetricCard>
@@ -146,9 +146,9 @@ function generateInsight(data: GoalProgressResponse): string {
 
   switch (status) {
     case 'ON_TRACK':
-      return `현재 페이스대로라면 목표 달성이 가능합니다. 일일 ${dailySalesTarget.toFixed(1)}개 판매를 유지하세요.`;
+      return `현재 페이스대로라면 목표 달성이 가능합니다. 일일 ${(dailySalesTarget ?? 0).toFixed(1)}개 판매를 유지하세요.`;
     case 'BEHIND':
-      return `월 ${requiredMonthlySales.toFixed(0)}개 판매가 필요하지만, BEP가 이를 초과합니다. 비용 절감이나 가격 조정을 검토해보세요.`;
+      return `월 ${(requiredMonthlySales ?? 0).toFixed(0)}개 판매가 필요하지만, BEP가 이를 초과합니다. 비용 절감이나 가격 조정을 검토해보세요.`;
     case 'URGENT':
       return `${monthsRemaining}개월 남았습니다. 월 평균 비용 ${formatKRW(monthlyCostAverage)}를 줄이거나 판매 전략을 재검토하세요.`;
     case 'EXPIRED':
