@@ -6,7 +6,9 @@ import { BackButton, ErrorBanner, FormGroup, FormLabel, FormInput, FormErrorMsg,
 import { MINIMUM_WAGE, DEFAULT_WORK_HOURS } from '../constants';
 import { projectApi } from '../api/projectApi';
 import { extractErrorMessage } from '../api/errorUtils';
+import AiParseModal from '../components/AiParseModal';
 import type { ProjectCreateRequest } from '../types';
+import type { CalculateRequest } from '../types/finance';
 
 const fields = [
   { name: 'title' as const, label: '프로젝트 이름', placeholder: '예: 이모티콘 판매', type: 'text' },
@@ -21,12 +23,24 @@ export default function ProjectCreate() {
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [aiModalOpen, setAiModalOpen] = useState(false);
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<ProjectCreateRequest>({ mode: 'onBlur' });
+
+  const handleAiParsed = (data: CalculateRequest) => {
+    if (data.price > 0) setValue('price', data.price);
+    if (data.variable_cost > 0) setValue('variable_cost', data.variable_cost);
+    if (data.fixed_cost > 0) setValue('fixed_cost', data.fixed_cost);
+    if (data.work_hours > 0) setValue('work_hours', data.work_hours);
+    if (data.hourly_wage > 0) setValue('hourly_wage', data.hourly_wage);
+    if (data.target_profit > 0) setValue('target_revenue', data.target_profit);
+    setAiModalOpen(false);
+  };
 
   const onSubmit = async (data: ProjectCreateRequest) => {
     setSubmitting(true);
@@ -49,7 +63,12 @@ export default function ProjectCreate() {
     <Container>
       <BackButton onClick={() => navigate('/projects')}>← 목록으로</BackButton>
       <FormCard>
-        <FormTitle>새 프로젝트</FormTitle>
+        <FormHeader>
+          <FormTitle>새 프로젝트</FormTitle>
+          <AiAutoBtn type="button" onClick={() => setAiModalOpen(true)}>
+            AI 자동 입력
+          </AiAutoBtn>
+        </FormHeader>
 
         {error && <ErrorBanner>{error}</ErrorBanner>}
 
@@ -108,6 +127,11 @@ export default function ProjectCreate() {
           </SubmitButton>
         </Form>
       </FormCard>
+      <AiParseModal
+        isOpen={aiModalOpen}
+        onClose={() => setAiModalOpen(false)}
+        onParsed={handleAiParsed}
+      />
     </Container>
   );
 }
@@ -125,10 +149,30 @@ const FormCard = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
 `;
 
+const FormHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+`;
+
 const FormTitle = styled.h2`
   font-size: 1.25rem;
   color: #1a1a2e;
-  margin-bottom: 1.25rem;
+`;
+
+const AiAutoBtn = styled.button`
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #7209b7, #4361ee);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.9;
+  }
 `;
 
 const Form = styled.form`
