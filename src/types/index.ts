@@ -33,6 +33,8 @@ export interface Project {
   work_hours: number;
   hourly_wage: number;
   is_public: boolean;
+  target_revenue: number | null;
+  target_month: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -46,6 +48,8 @@ export interface ProjectCreateRequest {
   work_hours: number;
   hourly_wage: number;
   is_public?: boolean;
+  target_revenue?: number;
+  target_month?: string;
 }
 
 /** 프로젝트 수정 요청 */
@@ -57,6 +61,8 @@ export interface ProjectUpdateRequest {
   work_hours: number;
   hourly_wage: number;
   is_public: boolean;
+  target_revenue?: number;
+  target_month?: string;
 }
 
 /** 비용 카테고리 */

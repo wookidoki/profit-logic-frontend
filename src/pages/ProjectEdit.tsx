@@ -48,6 +48,8 @@ export default function ProjectEdit() {
             work_hours: p.work_hours,
             hourly_wage: p.hourly_wage,
             is_public: p.is_public,
+            target_revenue: p.target_revenue ?? undefined,
+            target_month: p.target_month ?? undefined,
           });
         } else {
           setError('프로젝트를 찾을 수 없습니다.');
@@ -112,6 +114,33 @@ export default function ProjectEdit() {
             <CheckboxLabel htmlFor="is_public">공개 프로젝트</CheckboxLabel>
           </CheckboxGroup>
 
+          <GoalSection>
+            <GoalTitle>목표 설정 (선택)</GoalTitle>
+            <FormGroup>
+              <FormLabel>목표 매출 (원)</FormLabel>
+              <FormInput
+                type="number"
+                step="any"
+                placeholder="예: 1000000"
+                $hasError={!!errors.target_revenue}
+                {...register('target_revenue', {
+                  min: { value: 0, message: '0 이상 입력해주세요' },
+                  valueAsNumber: true,
+                })}
+              />
+              {errors.target_revenue && <FormErrorMsg>{errors.target_revenue?.message}</FormErrorMsg>}
+            </FormGroup>
+            <FormGroup>
+              <FormLabel>목표 달성 기한</FormLabel>
+              <FormInput
+                type="month"
+                $hasError={!!errors.target_month}
+                {...register('target_month')}
+              />
+              {errors.target_month && <FormErrorMsg>{errors.target_month?.message}</FormErrorMsg>}
+            </FormGroup>
+          </GoalSection>
+
           <SubmitButton type="submit" disabled={submitting}>
             {submitting ? '저장 중...' : '변경사항 저장'}
           </SubmitButton>
@@ -163,6 +192,21 @@ const CheckboxLabel = styled.label`
   font-size: 0.875rem;
   color: #495057;
   cursor: pointer;
+`;
+
+const GoalSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #f1f3f5;
+`;
+
+const GoalTitle = styled.h3`
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6c757d;
+  margin: 0;
 `;
 
 const SubmitButton = styled(PrimaryButton)`
