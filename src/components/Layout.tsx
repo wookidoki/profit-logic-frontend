@@ -10,7 +10,7 @@ interface Props {
 export default function Layout({ children }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { nickname, isAuthenticated } = useAuthStore();
+  const { nickname, isAuthenticated, role } = useAuthStore();
   const { logout } = useAuth();
 
   return (
@@ -47,6 +47,14 @@ export default function Layout({ children }: Props) {
             >
               커뮤니티
             </NavItem>
+            {role === 'ROLE_ADMIN' && (
+              <NavItem
+                $active={location.pathname === '/admin'}
+                onClick={() => navigate('/admin')}
+              >
+                관리
+              </NavItem>
+            )}
           </Nav>
         </HeaderLeft>
         <UserArea>
