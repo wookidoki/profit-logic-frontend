@@ -9,10 +9,11 @@ import ScenarioSimulator from '../components/ScenarioSimulator';
 import CostDetailPanel from '../components/CostDetailPanel';
 import TimeLogPanel from '../components/TimeLogPanel';
 import ReportPanel from '../components/ReportPanel';
+import GoalProgressPanel from '../components/GoalProgressPanel';
 import type { Project } from '../types';
 import type { CalculateRequest, CalculateResponse } from '../types/finance';
 
-type Tab = 'overview' | 'costs' | 'timelogs' | 'analysis' | 'report' | 'simulation';
+type Tab = 'overview' | 'goal' | 'costs' | 'timelogs' | 'analysis' | 'report' | 'simulation';
 
 export default function ProjectDetail() {
   const { id } = useParams<{ id: string }>();
@@ -118,6 +119,9 @@ export default function ProjectDetail() {
         <TabItem $active={tab === 'overview'} onClick={() => setTab('overview')}>
           개요
         </TabItem>
+        <TabItem $active={tab === 'goal'} onClick={() => setTab('goal')}>
+          목표
+        </TabItem>
         <TabItem $active={tab === 'costs'} onClick={() => setTab('costs')}>
           비용 상세
         </TabItem>
@@ -159,6 +163,13 @@ export default function ProjectDetail() {
               <InfoValue>{formatKRW(project.hourly_wage)}</InfoValue>
             </InfoItem>
           </InfoGrid>
+        )}
+
+        {tab === 'goal' && (
+          <GoalProgressPanel
+            projectId={projectId}
+            onSetGoal={() => navigate(`/projects/${projectId}/edit`)}
+          />
         )}
 
         {tab === 'costs' && (

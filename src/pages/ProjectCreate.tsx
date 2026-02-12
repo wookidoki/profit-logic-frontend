@@ -76,6 +76,33 @@ export default function ProjectCreate() {
             </FormGroup>
           ))}
 
+          <GoalSection>
+            <GoalTitle>목표 설정 (선택)</GoalTitle>
+            <FormGroup>
+              <FormLabel>목표 매출 (원)</FormLabel>
+              <FormInput
+                type="number"
+                step="any"
+                placeholder="예: 1000000"
+                $hasError={!!errors.target_revenue}
+                {...register('target_revenue', {
+                  min: { value: 0, message: '0 이상 입력해주세요' },
+                  valueAsNumber: true,
+                })}
+              />
+              {errors.target_revenue && <FormErrorMsg>{errors.target_revenue?.message}</FormErrorMsg>}
+            </FormGroup>
+            <FormGroup>
+              <FormLabel>목표 달성 기한</FormLabel>
+              <FormInput
+                type="month"
+                $hasError={!!errors.target_month}
+                {...register('target_month')}
+              />
+              {errors.target_month && <FormErrorMsg>{errors.target_month?.message}</FormErrorMsg>}
+            </FormGroup>
+          </GoalSection>
+
           <SubmitButton type="submit" disabled={submitting}>
             {submitting ? '생성 중...' : '프로젝트 생성'}
           </SubmitButton>
@@ -108,6 +135,21 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 0.875rem;
+`;
+
+const GoalSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #f1f3f5;
+`;
+
+const GoalTitle = styled.h3`
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6c757d;
+  margin: 0;
 `;
 
 const SubmitButton = styled(PrimaryButton)`
