@@ -8,10 +8,11 @@ import EnhancedAnalysisPanel from '../components/EnhancedAnalysisPanel';
 import ScenarioSimulator from '../components/ScenarioSimulator';
 import CostDetailPanel from '../components/CostDetailPanel';
 import TimeLogPanel from '../components/TimeLogPanel';
+import ReportPanel from '../components/ReportPanel';
 import type { Project } from '../types';
 import type { CalculateRequest, CalculateResponse } from '../types/finance';
 
-type Tab = 'overview' | 'costs' | 'timelogs' | 'analysis' | 'simulation';
+type Tab = 'overview' | 'costs' | 'timelogs' | 'analysis' | 'report' | 'simulation';
 
 export default function ProjectDetail() {
   const { id } = useParams<{ id: string }>();
@@ -126,6 +127,9 @@ export default function ProjectDetail() {
         <TabItem $active={tab === 'analysis'} onClick={() => setTab('analysis')}>
           분석 결과
         </TabItem>
+        <TabItem $active={tab === 'report'} onClick={() => setTab('report')}>
+          리포트
+        </TabItem>
         <TabItem $active={tab === 'simulation'} onClick={() => setTab('simulation')}>
           시뮬레이션
         </TabItem>
@@ -170,6 +174,10 @@ export default function ProjectDetail() {
             projectId={projectId}
             onNavigateTab={(t) => setTab(t as Tab)}
           />
+        )}
+
+        {tab === 'report' && (
+          <ReportPanel projectId={projectId} />
         )}
 
         {tab === 'simulation' && result && formData && (
