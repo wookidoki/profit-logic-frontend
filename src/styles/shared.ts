@@ -240,13 +240,13 @@ export const WidePageContainer = styled.div`
 
 export const LoadingState = styled.div`
   text-align: center;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   padding: 4rem 0;
 `;
 
 export const ErrorState = styled.div`
   text-align: center;
-  color: #ef476f;
+  color: ${theme.colors.danger};
   padding: 4rem 0;
 `;
 
@@ -260,7 +260,37 @@ export const MetricLabel = styled.span`
 export const MetricValue = styled.span`
   font-size: 0.9375rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
+`;
+
+/* ── Project Form ── */
+
+export const ProjectFormCard = styled.div`
+  background: ${theme.colors.surface};
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: ${theme.shadow.md};
+`;
+
+export const ProjectForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+`;
+
+export const GoalSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #f1f3f5;
+`;
+
+export const GoalTitle = styled.h3`
+  font-size: ${theme.fontSize.sm};
+  font-weight: 600;
+  color: ${theme.colors.textSecondary};
+  margin: 0;
 `;
 
 /* ── Empty State ── */

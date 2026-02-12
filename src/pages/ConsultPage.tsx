@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { theme } from '../styles/theme';
 import { projectApi } from '../api/projectApi';
 import { useAuthStore } from '../store/authStore';
 import { formatKRW } from '../utils/formatNumber';
@@ -349,29 +350,29 @@ export default function ConsultPage() {
                 <ResultGrid>
                   <ResultItem>
                     <ResultLabel>\uC6D4 \uCD5C\uC18C \uAC74\uC218 (BEP)</ResultLabel>
-                    <ResultValue $color="#4361ee">{(r.break_even_point ?? 0).toFixed(1)}\uAC74</ResultValue>
+                    <ResultValue $color={theme.colors.primary}>{(r.break_even_point ?? 0).toFixed(1)}\uAC74</ResultValue>
                   </ResultItem>
                   <ResultItem>
                     <ResultLabel>\uC6D4 \uC218\uC775</ResultLabel>
-                    <ResultValue $color={(r.operating_profit ?? 0) >= 0 ? '#06d6a0' : '#ef476f'}>
+                    <ResultValue $color={(r.operating_profit ?? 0) >= 0 ? theme.colors.success : theme.colors.danger}>
                       {formatKRW(r.operating_profit)}
                     </ResultValue>
                   </ResultItem>
                   <ResultItem>
                     <ResultLabel>\uAE30\uD68C\uBE44\uC6A9 \uBC18\uC601 \uC218\uC775</ResultLabel>
-                    <ResultValue $color={(r.economic_profit ?? 0) >= 0 ? '#06d6a0' : '#ef476f'}>
+                    <ResultValue $color={(r.economic_profit ?? 0) >= 0 ? theme.colors.success : theme.colors.danger}>
                       {formatKRW(r.economic_profit)}
                     </ResultValue>
                   </ResultItem>
                   <ResultItem>
                     <ResultLabel>\uC21C\uC218\uC775\uB960</ResultLabel>
-                    <ResultValue $color={(r.margin_rate ?? 0) >= 30 ? '#06d6a0' : '#f4a261'}>
+                    <ResultValue $color={(r.margin_rate ?? 0) >= 30 ? theme.colors.success : '#f4a261'}>
                       {(r.margin_rate ?? 0).toFixed(1)}%
                     </ResultValue>
                   </ResultItem>
                   <ResultItem>
                     <ResultLabel>\uAC74\uB2F9 \uC21C\uC218\uC775</ResultLabel>
-                    <ResultValue $color="#4361ee">
+                    <ResultValue $color={theme.colors.primary}>
                       {formatKRW(r.contribution_margin)}
                     </ResultValue>
                   </ResultItem>

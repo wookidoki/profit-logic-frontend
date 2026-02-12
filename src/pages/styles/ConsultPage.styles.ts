@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import { theme } from '../../styles/theme';
 
 /* ── Main Layout ── */
 
@@ -8,7 +9,7 @@ export const Container = styled.div`
   height: calc(100vh - 52px);
   max-width: 800px;
   margin: 0 auto;
-  background: #fff;
+  background: ${theme.colors.surface};
 `;
 
 export const ChatArea = styled.div`
@@ -45,8 +46,8 @@ export const Bubble = styled.div<{ $role: 'user' | 'assistant' }>`
   max-width: 75%;
   padding: 0.75rem 1rem;
   border-radius: ${({ $role }) => ($role === 'user' ? '16px 16px 4px 16px' : '16px 16px 16px 4px')};
-  background: ${({ $role }) => ($role === 'user' ? '#4361ee' : '#f1f3f5')};
-  color: ${({ $role }) => ($role === 'user' ? '#fff' : '#1a1a2e')};
+  background: ${({ $role }) => ($role === 'user' ? theme.colors.primary : '#f1f3f5')};
+  color: ${({ $role }) => ($role === 'user' ? theme.colors.surface : theme.colors.text)};
   font-size: 0.875rem;
   line-height: 1.6;
   white-space: pre-wrap;
@@ -77,7 +78,7 @@ export const CategoryCard = styled.button<{ $color: string }>`
   align-items: center;
   gap: 0.75rem;
   padding: 0.875rem 1rem;
-  background: #fff;
+  background: ${theme.colors.surface};
   border: 1.5px solid #e9ecef;
   border-radius: 12px;
   text-align: left;
@@ -100,12 +101,12 @@ export const CatInfo = styled.div``;
 export const CatName = styled.div`
   font-size: 0.875rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 export const CatDesc = styled.div`
   font-size: 0.6875rem;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   margin-top: 0.125rem;
 `;
 
@@ -113,14 +114,14 @@ export const FreeInputBtn = styled.button`
   align-self: flex-start;
   padding: 0.5rem 0.875rem;
   background: transparent;
-  color: #4361ee;
-  border: 1px dashed #4361ee;
+  color: ${theme.colors.primary};
+  border: 1px dashed ${theme.colors.primary};
   border-radius: 20px;
   font-size: 0.8125rem;
   transition: all 0.2s;
 
   &:hover {
-    background: #4361ee10;
+    background: ${theme.colors.primary}10;
   }
 `;
 
@@ -152,7 +153,7 @@ export const ResultItem = styled.div`
 
 export const ResultLabel = styled.span`
   font-size: 0.6875rem;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
 `;
 
 export const ResultValue = styled.span<{ $color: string }>`
@@ -167,8 +168,8 @@ export const ViabilityBadge = styled.span<{ $viable: boolean }>`
   border-radius: 20px;
   font-size: 0.8125rem;
   font-weight: 700;
-  background: ${({ $viable }) => ($viable ? '#06d6a015' : '#ef476f15')};
-  color: ${({ $viable }) => ($viable ? '#06d6a0' : '#ef476f')};
+  background: ${({ $viable }) => ($viable ? `${theme.colors.success}15` : `${theme.colors.danger}15`)};
+  color: ${({ $viable }) => ($viable ? theme.colors.success : theme.colors.danger)};
   width: fit-content;
 `;
 
@@ -192,8 +193,8 @@ export const SaveText = styled.div`
 
 export const SaveButton = styled.button`
   padding: 0.75rem 1.5rem;
-  background: #4361ee;
-  color: #fff;
+  background: ${theme.colors.primary};
+  color: ${theme.colors.surface};
   border-radius: 10px;
   font-size: 0.9375rem;
   font-weight: 600;
@@ -201,7 +202,7 @@ export const SaveButton = styled.button`
   width: fit-content;
 
   &:hover:not(:disabled) {
-    background: #3a56d4;
+    background: ${theme.colors.primaryHover};
   }
   &:disabled {
     opacity: 0.6;
@@ -215,7 +216,7 @@ export const SavedSection = styled.div`
   margin-left: 2.5rem;
   padding: 1.25rem;
   background: #f0fdf9;
-  border: 1px solid #06d6a050;
+  border: 1px solid ${theme.colors.success}50;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
@@ -224,7 +225,7 @@ export const SavedSection = styled.div`
 
 export const SavedText = styled.div`
   font-size: 0.875rem;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   line-height: 1.6;
   white-space: pre-wrap;
 `;
@@ -241,9 +242,9 @@ export const ActionBtn = styled.button<{ $secondary?: boolean }>`
   font-size: 0.8125rem;
   font-weight: 600;
   transition: all 0.2s;
-  background: ${({ $secondary }) => ($secondary ? '#fff' : '#4361ee')};
-  color: ${({ $secondary }) => ($secondary ? '#4361ee' : '#fff')};
-  border: 1px solid ${({ $secondary }) => ($secondary ? '#4361ee' : 'transparent')};
+  background: ${({ $secondary }) => ($secondary ? theme.colors.surface : theme.colors.primary)};
+  color: ${({ $secondary }) => ($secondary ? theme.colors.primary : theme.colors.surface)};
+  border: 1px solid ${({ $secondary }) => ($secondary ? theme.colors.primary : 'transparent')};
 
   &:hover {
     opacity: 0.85;
@@ -279,25 +280,25 @@ export const InputArea = styled.form`
   gap: 0.5rem;
   padding: 0.75rem 1rem;
   border-top: 1px solid #e9ecef;
-  background: #fff;
+  background: ${theme.colors.surface};
   flex-shrink: 0;
 `;
 
 export const InputField = styled.input`
   flex: 1;
   padding: 0.75rem 1rem;
-  border: 1.5px solid #dee2e6;
+  border: 1.5px solid ${theme.colors.border};
   border-radius: 12px;
   font-size: 0.9375rem;
   transition: border-color 0.2s;
 
   &:focus {
-    border-color: #4361ee;
+    border-color: ${theme.colors.primary};
     outline: none;
     box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
   }
   &:disabled {
-    background: #f8f9fa;
+    background: ${theme.colors.background};
     cursor: not-allowed;
   }
   &::placeholder {
@@ -307,8 +308,8 @@ export const InputField = styled.input`
 
 export const SendBtn = styled.button`
   padding: 0.75rem 1.5rem;
-  background: #4361ee;
-  color: #fff;
+  background: ${theme.colors.primary};
+  color: ${theme.colors.surface};
   border-radius: 12px;
   font-size: 0.9375rem;
   font-weight: 600;
@@ -316,7 +317,7 @@ export const SendBtn = styled.button`
   transition: background 0.2s;
 
   &:hover:not(:disabled) {
-    background: #3a56d4;
+    background: ${theme.colors.primaryHover};
   }
   &:disabled {
     background: #adb5bd;

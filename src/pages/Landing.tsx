@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
+import { theme } from '../styles/theme';
 
 const WORDS = ['진짜 수익', '실질 시급', '월 최소 건수', '순수익률'];
 
@@ -213,7 +214,7 @@ const TopNav = styled.nav`
 const NavLogo = styled.div`
   font-size: 1.375rem;
   font-weight: 800;
-  color: #fff;
+  color: ${theme.colors.surface};
   letter-spacing: -0.5px;
 `;
 
@@ -229,7 +230,7 @@ const NavLink = styled.button`
   font-size: 0.9rem;
   font-weight: 500;
   transition: color 0.2s;
-  &:hover { color: #fff; }
+  &:hover { color: ${theme.colors.surface}; }
 `;
 
 const NavLoginBtn = styled.button`
@@ -242,9 +243,9 @@ const NavLoginBtn = styled.button`
   font-weight: 600;
   transition: all 0.2s;
   &:hover {
-    background: #4361ee;
-    color: #fff;
-    border-color: #4361ee;
+    background: ${theme.colors.primary};
+    color: ${theme.colors.surface};
+    border-color: ${theme.colors.primary};
   }
 `;
 
@@ -283,7 +284,7 @@ const Badge = styled.span`
 const PulseDot = styled.span`
   width: 8px;
   height: 8px;
-  background: #06d6a0;
+  background: ${theme.colors.success};
   border-radius: 50%;
   display: inline-block;
   animation: ${pulse} 2s ease-in-out infinite;
@@ -292,7 +293,7 @@ const PulseDot = styled.span`
 const Title = styled.h1`
   font-size: 3.25rem;
   font-weight: 800;
-  color: #fff;
+  color: ${theme.colors.surface};
   line-height: 1.35;
   letter-spacing: -1.5px;
   margin-bottom: 1.5rem;
@@ -307,7 +308,7 @@ const TypeWriter = styled.span`
 `;
 
 const Accent = styled.span`
-  background: linear-gradient(135deg, #4361ee, #06d6a0);
+  background: linear-gradient(135deg, ${theme.colors.primary}, ${theme.colors.success});
   background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -316,10 +317,10 @@ const Accent = styled.span`
 `;
 
 const Cursor = styled.span`
-  color: #4361ee;
+  color: ${theme.colors.primary};
   font-weight: 300;
   animation: ${blink} 1s step-end infinite;
-  -webkit-text-fill-color: #4361ee;
+  -webkit-text-fill-color: ${theme.colors.primary};
 `;
 
 const Desc = styled.p`
@@ -343,8 +344,8 @@ const PrimaryBtn = styled.button`
   align-items: center;
   gap: 0.5rem;
   padding: 1rem 2.25rem;
-  background: linear-gradient(135deg, #4361ee, #3a56d4);
-  color: #fff;
+  background: linear-gradient(135deg, ${theme.colors.primary}, ${theme.colors.primaryHover});
+  color: ${theme.colors.surface};
   border-radius: 12px;
   font-size: 1.05rem;
   font-weight: 700;
@@ -376,7 +377,7 @@ const SecondaryBtn = styled.button`
 
   &:hover {
     border-color: rgba(255, 255, 255, 0.4);
-    color: #fff;
+    color: ${theme.colors.surface};
     background: rgba(255, 255, 255, 0.05);
   }
 `;

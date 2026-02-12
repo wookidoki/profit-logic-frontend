@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { theme } from '../styles/theme';
 import { projectApi } from '../api/projectApi';
 import { chatApi } from '../api/chatApi';
 import { extractErrorMessage } from '../api/errorUtils';
@@ -255,7 +256,7 @@ const Container = styled.div`
   height: calc(100vh - 52px);
   max-width: 800px;
   margin: 0 auto;
-  background: #fff;
+  background: ${theme.colors.surface};
 `;
 
 const TopBar = styled.div`
@@ -270,22 +271,22 @@ const TopBar = styled.div`
 const TopBarTitle = styled.h2`
   font-size: 1rem;
   font-weight: 700;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   white-space: nowrap;
 `;
 
 const ProjectSelect = styled.select`
   flex: 1;
   padding: 0.5rem 0.75rem;
-  border: 1px solid #dee2e6;
+  border: 1px solid ${theme.colors.border};
   border-radius: 8px;
   font-size: 0.875rem;
-  color: #1a1a2e;
-  background: #f8f9fa;
+  color: ${theme.colors.text};
+  background: ${theme.colors.background};
   cursor: pointer;
 
   &:focus {
-    border-color: #4361ee;
+    border-color: ${theme.colors.primary};
     outline: none;
     box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
   }
@@ -320,12 +321,12 @@ const EmptyIcon = styled.div`
 const EmptyTitle = styled.div`
   font-size: 1.125rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const EmptyDesc = styled.div`
   font-size: 0.875rem;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   max-width: 320px;
   line-height: 1.5;
 `;
@@ -337,7 +338,7 @@ const ContextBanner = styled.div`
   background: #eef2ff;
   border-radius: 8px;
   font-size: 0.8125rem;
-  color: #4361ee;
+  color: ${theme.colors.primary};
   text-align: center;
   flex-shrink: 0;
 `;
@@ -356,7 +357,7 @@ const SuggestedSection = styled.div`
 
 const SuggestedLabel = styled.span`
   font-size: 0.8125rem;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
 `;
 
 const ChipList = styled.div`
@@ -369,18 +370,18 @@ const ChipList = styled.div`
 
 const Chip = styled.button`
   padding: 0.5rem 0.875rem;
-  background: #f8f9fa;
-  border: 1px solid #dee2e6;
+  background: ${theme.colors.background};
+  border: 1px solid ${theme.colors.border};
   border-radius: 20px;
   font-size: 0.8125rem;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   cursor: pointer;
   transition: all 0.2s;
 
   &:hover {
-    background: #4361ee;
-    color: #fff;
-    border-color: #4361ee;
+    background: ${theme.colors.primary};
+    color: ${theme.colors.surface};
+    border-color: ${theme.colors.primary};
   }
 `;
 
@@ -396,8 +397,8 @@ const Bubble = styled.div<{ $role: 'user' | 'assistant' }>`
   padding: 0.75rem 1rem;
   border-radius: ${({ $role }) =>
     $role === 'user' ? '16px 16px 4px 16px' : '16px 16px 16px 4px'};
-  background: ${({ $role }) => ($role === 'user' ? '#4361ee' : '#f1f3f5')};
-  color: ${({ $role }) => ($role === 'user' ? '#fff' : '#1a1a2e')};
+  background: ${({ $role }) => ($role === 'user' ? theme.colors.primary : '#f1f3f5')};
+  color: ${({ $role }) => ($role === 'user' ? theme.colors.surface : theme.colors.text)};
 `;
 
 const BubbleContent = styled.div`
@@ -441,7 +442,7 @@ const Dot = styled.div<{ $delay: string }>`
 const InputBar = styled.div`
   padding: 0.75rem 1rem;
   border-top: 1px solid #e9ecef;
-  background: #fff;
+  background: ${theme.colors.surface};
   flex-shrink: 0;
 `;
 
@@ -454,7 +455,7 @@ const InputWrapper = styled.div`
 const Textarea = styled.textarea`
   flex: 1;
   padding: 0.625rem 0.875rem;
-  border: 1px solid #dee2e6;
+  border: 1px solid ${theme.colors.border};
   border-radius: 12px;
   font-size: 0.875rem;
   font-family: inherit;
@@ -464,21 +465,21 @@ const Textarea = styled.textarea`
   max-height: 120px;
 
   &:focus {
-    border-color: #4361ee;
+    border-color: ${theme.colors.primary};
     outline: none;
     box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
   }
 
   &:disabled {
-    background: #f8f9fa;
+    background: ${theme.colors.background};
     cursor: not-allowed;
   }
 `;
 
 const SendButton = styled.button`
   padding: 0.625rem 1.25rem;
-  background: #4361ee;
-  color: #fff;
+  background: ${theme.colors.primary};
+  color: ${theme.colors.surface};
   border-radius: 12px;
   font-size: 0.875rem;
   font-weight: 600;
@@ -486,7 +487,7 @@ const SendButton = styled.button`
   transition: background 0.2s;
 
   &:hover:not(:disabled) {
-    background: #3a56d4;
+    background: ${theme.colors.primaryHover};
   }
 
   &:disabled {

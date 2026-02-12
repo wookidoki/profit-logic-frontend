@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { theme } from '../styles/theme';
 import { adminApi } from '../api/adminApi';
 import { extractErrorMessage } from '../api/errorUtils';
-import { ErrorBanner, LoadingState } from '../styles/shared';
+import { ErrorBanner } from '../styles/shared';
+import LoadingSpinner from '../components/LoadingSpinner';
 import type { AdminStats, AdminUser } from '../api/adminApi';
 
 export default function AdminPage() {
@@ -43,7 +45,7 @@ export default function AdminPage() {
     }
   };
 
-  if (loading) return <LoadingState>불러오는 중...</LoadingState>;
+  if (loading) return <LoadingSpinner />;
 
   return (
     <Container>
@@ -133,7 +135,7 @@ const Container = styled.div`
 const Title = styled.h1`
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const StatsGrid = styled.div`
@@ -143,7 +145,7 @@ const StatsGrid = styled.div`
 `;
 
 const StatCard = styled.div`
-  background: #fff;
+  background: ${theme.colors.surface};
   padding: 1.25rem;
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -153,25 +155,25 @@ const StatCard = styled.div`
 const StatValue = styled.div`
   font-size: 1.75rem;
   font-weight: 700;
-  color: #4361ee;
+  color: ${theme.colors.primary};
 `;
 
 const StatLabel = styled.div`
   font-size: 0.75rem;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   margin-top: 0.25rem;
 `;
 
 const SectionTitle = styled.h2`
   font-size: 1.125rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   margin-top: 0.5rem;
 `;
 
 const UserTable = styled.table`
   width: 100%;
-  background: #fff;
+  background: ${theme.colors.surface};
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   border-collapse: collapse;
@@ -184,34 +186,34 @@ const Th = styled.th`
   text-align: left;
   font-size: 0.75rem;
   font-weight: 600;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   border-bottom: 1px solid #e9ecef;
   white-space: nowrap;
 `;
 
 const Td = styled.td`
   padding: 0.5rem 0.75rem;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   border-bottom: 1px solid #f1f3f5;
   white-space: nowrap;
 `;
 
 const RoleTd = styled(Td)<{ $isAdmin: boolean }>`
-  color: ${({ $isAdmin }) => ($isAdmin ? '#4361ee' : '#6c757d')};
+  color: ${({ $isAdmin }) => ($isAdmin ? theme.colors.primary : theme.colors.textSecondary)};
   font-weight: ${({ $isAdmin }) => ($isAdmin ? '600' : '400')};
 `;
 
 const DeleteBtn = styled.button`
   padding: 0.25rem 0.5rem;
   background: transparent;
-  color: #ef476f;
-  border: 1px solid #ef476f;
+  color: ${theme.colors.danger};
+  border: 1px solid ${theme.colors.danger};
   border-radius: 4px;
   font-size: 0.6875rem;
   transition: all 0.2s;
 
   &:hover {
-    background: #ef476f;
-    color: #fff;
+    background: ${theme.colors.danger};
+    color: ${theme.colors.surface};
   }
 `;

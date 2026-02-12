@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { theme } from '../styles/theme';
 import { scriptApi } from '../api/scriptApi';
 import { projectApi } from '../api/projectApi';
 import { useAuthStore } from '../store/authStore';
@@ -58,11 +59,11 @@ import {
 } from './styles/ScriptAnalysis.styles';
 
 const CATEGORY_COLORS: Record<CreatorCategory, string> = {
-  WEB_NOVEL: '#7209b7',
-  SHORT_FORM: '#ef476f',
-  EMOTICON: '#ffd166',
-  BLOG: '#06d6a0',
-  INDIE_DEV: '#4361ee',
+  WEB_NOVEL: theme.colors.secondary,
+  SHORT_FORM: theme.colors.danger,
+  EMOTICON: theme.colors.warning,
+  BLOG: theme.colors.success,
+  INDIE_DEV: theme.colors.primary,
 };
 
 type Step = 1 | 2 | 3;

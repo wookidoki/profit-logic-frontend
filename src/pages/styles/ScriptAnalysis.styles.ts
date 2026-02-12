@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { theme } from '../../styles/theme';
 
 // ── Styled Components ──────────────────────────────
 
@@ -13,7 +14,7 @@ export const Section = styled.section`
 export const SectionTitle = styled.h2`
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   margin-bottom: 0.5rem;
 `;
 
@@ -23,22 +24,22 @@ export const ErrorBanner = styled.div`
   margin: 1rem auto;
   padding: 0.75rem 2rem;
   background: #fff5f5;
-  color: #ef476f;
-  border: 1px solid #ef476f;
+  color: ${theme.colors.danger};
+  border: 1px solid ${theme.colors.danger};
   border-radius: 8px;
   font-size: 0.875rem;
 `;
 
 export const LoadingText = styled.div`
   text-align: center;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   padding: 3rem 0;
 `;
 
 // ── Step 1: AI Input ──
 
 export const AiInputSection = styled.div`
-  background: #fff;
+  background: ${theme.colors.surface};
   padding: 1.5rem;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
@@ -48,14 +49,14 @@ export const AiInputSection = styled.div`
 export const AiInputLabel = styled.h3`
   font-size: 1rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   margin-bottom: 0.75rem;
 `;
 
 export const AiTextArea = styled.textarea`
   width: 100%;
   padding: 0.75rem;
-  border: 1.5px solid #dee2e6;
+  border: 1.5px solid ${theme.colors.border};
   border-radius: 10px;
   font-size: 0.9375rem;
   line-height: 1.6;
@@ -63,12 +64,12 @@ export const AiTextArea = styled.textarea`
   transition: border-color 0.2s;
 
   &:focus {
-    border-color: #7209b7;
+    border-color: ${theme.colors.secondary};
     box-shadow: 0 0 0 3px rgba(114, 9, 183, 0.1);
     outline: none;
   }
   &::placeholder { color: #adb5bd; }
-  &:disabled { background: #f8f9fa; cursor: not-allowed; }
+  &:disabled { background: ${theme.colors.background}; cursor: not-allowed; }
 `;
 
 export const AiButtonRow = styled.div`
@@ -81,8 +82,8 @@ export const AiButtonRow = styled.div`
 
 export const AiParseButton = styled.button`
   padding: 0.625rem 1.5rem;
-  background: linear-gradient(135deg, #7209b7, #4361ee);
-  color: #fff;
+  background: linear-gradient(135deg, ${theme.colors.secondary}, ${theme.colors.primary});
+  color: ${theme.colors.surface};
   border-radius: 8px;
   font-size: 0.9375rem;
   font-weight: 600;
@@ -95,7 +96,7 @@ export const AiParseButton = styled.button`
 
 export const AiSuggestionText = styled.span`
   font-size: 0.8125rem;
-  color: #7209b7;
+  color: ${theme.colors.secondary};
   font-weight: 500;
 `;
 
@@ -109,7 +110,7 @@ export const Divider = styled.div`
 export const DividerLine = styled.div`
   flex: 1;
   height: 1px;
-  background: #dee2e6;
+  background: ${theme.colors.border};
 `;
 
 export const DividerText = styled.span`
@@ -127,7 +128,7 @@ export const CategoryGrid = styled.div`
 `;
 
 export const CategoryCard = styled.div<{ $color: string }>`
-  background: #fff;
+  background: ${theme.colors.surface};
   padding: 1.5rem;
   border-radius: 12px;
   border-left: 5px solid ${({ $color }) => $color};
@@ -144,13 +145,13 @@ export const CategoryCard = styled.div<{ $color: string }>`
 export const CatName = styled.div`
   font-size: 1.125rem;
   font-weight: 700;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   margin-bottom: 0.5rem;
 `;
 
 export const CatDesc = styled.div`
   font-size: 0.8125rem;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   line-height: 1.5;
 `;
 
@@ -166,15 +167,15 @@ export const StepHeader = styled.div`
 export const BackButton = styled.button`
   padding: 0.375rem 0.75rem;
   background: transparent;
-  color: #6c757d;
-  border: 1px solid #dee2e6;
+  color: ${theme.colors.textSecondary};
+  border: 1px solid ${theme.colors.border};
   border-radius: 6px;
   font-size: 0.8125rem;
   transition: all 0.2s;
 
   &:hover {
-    border-color: #4361ee;
-    color: #4361ee;
+    border-color: ${theme.colors.primary};
+    color: ${theme.colors.primary};
   }
 `;
 
@@ -194,7 +195,7 @@ export const FormContainer = styled.div`
 `;
 
 export const FormSection = styled.div`
-  background: #fff;
+  background: ${theme.colors.surface};
   padding: 1.5rem;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
@@ -203,7 +204,7 @@ export const FormSection = styled.div`
 export const FormSectionTitle = styled.h3`
   font-size: 1rem;
   font-weight: 700;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
   border-bottom: 2px solid #f1f3f5;
@@ -238,19 +239,19 @@ export const FieldUnit = styled.span`
 `;
 
 export const RequiredMark = styled.span`
-  color: #ef476f;
+  color: ${theme.colors.danger};
   font-weight: 700;
 `;
 
 export const FieldInput = styled.input`
   padding: 0.625rem 0.75rem;
-  border: 1px solid #dee2e6;
+  border: 1px solid ${theme.colors.border};
   border-radius: 8px;
   font-size: 0.9375rem;
   transition: border-color 0.2s;
 
   &:focus {
-    border-color: #4361ee;
+    border-color: ${theme.colors.primary};
     box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
   }
 
@@ -261,25 +262,25 @@ export const FieldInput = styled.input`
 
 export const Select = styled.select`
   padding: 0.625rem 0.75rem;
-  border: 1px solid #dee2e6;
+  border: 1px solid ${theme.colors.border};
   border-radius: 8px;
   font-size: 0.9375rem;
-  background: #fff;
+  background: ${theme.colors.surface};
   transition: border-color 0.2s;
 
   &:focus {
-    border-color: #4361ee;
+    border-color: ${theme.colors.primary};
     box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
   }
 `;
 
 export const AutoCalcBox = styled.div`
   padding: 0.625rem 0.75rem;
-  background: #f8f9fa;
-  border: 1px dashed #dee2e6;
+  background: ${theme.colors.background};
+  border: 1px dashed ${theme.colors.border};
   border-radius: 8px;
   font-size: 0.8125rem;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   font-style: italic;
 `;
 
@@ -290,15 +291,15 @@ export const HelpText = styled.span`
 
 export const AnalyzeButton = styled.button`
   padding: 0.875rem;
-  background: #4361ee;
-  color: #fff;
+  background: ${theme.colors.primary};
+  color: ${theme.colors.surface};
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
   transition: background 0.2s;
 
   &:hover:not(:disabled) {
-    background: #3a56d4;
+    background: ${theme.colors.primaryHover};
   }
 
   &:disabled {
@@ -324,25 +325,25 @@ export const ButtonRow = styled.div`
 export const SecondaryButton = styled.button`
   flex: 1;
   padding: 0.75rem;
-  background: #fff;
-  color: #4361ee;
-  border: 1px solid #4361ee;
+  background: ${theme.colors.surface};
+  color: ${theme.colors.primary};
+  border: 1px solid ${theme.colors.primary};
   border-radius: 8px;
   font-size: 0.9375rem;
   font-weight: 600;
   transition: all 0.2s;
 
   &:hover {
-    background: #4361ee;
-    color: #fff;
+    background: ${theme.colors.primary};
+    color: ${theme.colors.surface};
   }
 `;
 
 export const SaveButton = styled.button`
   width: 100%;
   padding: 0.875rem;
-  background: #06d6a0;
-  color: #fff;
+  background: ${theme.colors.success};
+  color: ${theme.colors.surface};
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
@@ -365,18 +366,18 @@ export const SaveSuccessBanner = styled.div`
   gap: 1rem;
   padding: 1rem 1.25rem;
   background: #f0fdf9;
-  border: 1px solid #06d6a050;
+  border: 1px solid ${theme.colors.success}50;
   border-radius: 10px;
   margin-top: 1rem;
   font-size: 0.9375rem;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   flex-wrap: wrap;
 `;
 
 export const ViewProjectButton = styled.button`
   padding: 0.5rem 1rem;
-  background: #4361ee;
-  color: #fff;
+  background: ${theme.colors.primary};
+  color: ${theme.colors.surface};
   border-radius: 8px;
   font-size: 0.8125rem;
   font-weight: 600;
@@ -384,7 +385,7 @@ export const ViewProjectButton = styled.button`
   transition: background 0.2s;
 
   &:hover {
-    background: #3a56d4;
+    background: ${theme.colors.primaryHover};
   }
 `;
 
@@ -404,8 +405,8 @@ export const LoginPrompt = styled.div`
 
 export const LoginLink = styled.button`
   padding: 0.5rem 1rem;
-  background: #4361ee;
-  color: #fff;
+  background: ${theme.colors.primary};
+  color: ${theme.colors.surface};
   border-radius: 8px;
   font-size: 0.8125rem;
   font-weight: 600;
@@ -413,6 +414,6 @@ export const LoginLink = styled.button`
   transition: background 0.2s;
 
   &:hover {
-    background: #3a56d4;
+    background: ${theme.colors.primaryHover};
   }
 `;

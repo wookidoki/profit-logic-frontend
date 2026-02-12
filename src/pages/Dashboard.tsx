@@ -2,15 +2,17 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { PrimaryButton } from '../styles/shared';
+import { theme } from '../styles/theme';
+import LoadingSpinner from '../components/LoadingSpinner';
 import { dashboardApi } from '../api/dashboardApi';
 import type { DashboardSummary, ProjectInsight, ProjectStatus } from '../api/dashboardApi';
 import { formatKRW, formatPercent } from '../utils/formatNumber';
 
 const STATUS_CONFIG: Record<ProjectStatus, { label: string; color: string }> = {
-  STABLE: { label: '안정', color: '#06d6a0' },
-  NORMAL: { label: '보통', color: '#4361ee' },
-  WARNING: { label: '주의', color: '#ffd166' },
-  DANGER: { label: '위험', color: '#ef476f' },
+  STABLE: { label: '안정', color: theme.colors.success },
+  NORMAL: { label: '보통', color: theme.colors.primary },
+  WARNING: { label: '주의', color: theme.colors.warning },
+  DANGER: { label: '위험', color: theme.colors.danger },
   NO_DATA: { label: '분석 필요', color: '#adb5bd' },
 };
 
@@ -23,8 +25,8 @@ const CATEGORY_LABELS: Record<string, { emoji: string; name: string }> = {
 };
 
 const ACTION_CARD_STYLE: Record<string, { color: string; bg: string }> = {
-  WARNING: { color: '#ef476f', bg: '#fff5f5' },
-  POSITIVE: { color: '#06d6a0', bg: '#f0fdf9' },
+  WARNING: { color: theme.colors.danger, bg: '#fff5f5' },
+  POSITIVE: { color: theme.colors.success, bg: '#f0fdf9' },
   SUGGESTION: { color: '#f4a261', bg: '#fffbf0' },
 };
 
@@ -53,7 +55,7 @@ export default function Dashboard() {
   }, []);
 
   if (loading) {
-    return <LoadingContainer>대시보드를 불러오는 중...</LoadingContainer>;
+    return <LoadingSpinner text="대시보드를 불러오는 중..." />;
   }
 
   const isEmpty = !data || data.totalProjects === 0;
@@ -199,15 +201,6 @@ const Container = styled.main`
   gap: 1.5rem;
 `;
 
-const LoadingContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 300px;
-  font-size: 0.875rem;
-  color: #6c757d;
-`;
-
 /* ── Quick Actions ── */
 
 const QuickActions = styled.div`
@@ -218,31 +211,31 @@ const QuickActions = styled.div`
 
 const ActionButton = styled.button`
   padding: 0.625rem 1.25rem;
-  background: #4361ee;
-  color: #fff;
+  background: ${theme.colors.primary};
+  color: ${theme.colors.surface};
   border-radius: 8px;
   font-size: 0.875rem;
   font-weight: 600;
   transition: background 0.2s;
 
   &:hover {
-    background: #3a56d4;
+    background: ${theme.colors.primaryHover};
   }
 `;
 
 const ActionButtonSecondary = styled.button`
   padding: 0.625rem 1.25rem;
-  background: #fff;
-  color: #4361ee;
-  border: 1px solid #4361ee;
+  background: ${theme.colors.surface};
+  color: ${theme.colors.primary};
+  border: 1px solid ${theme.colors.primary};
   border-radius: 8px;
   font-size: 0.875rem;
   font-weight: 600;
   transition: all 0.2s;
 
   &:hover {
-    background: #4361ee;
-    color: #fff;
+    background: ${theme.colors.primary};
+    color: ${theme.colors.surface};
   }
 `;
 
@@ -253,7 +246,7 @@ const EmptyState = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #fff;
+  background: ${theme.colors.surface};
   padding: 4rem 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
@@ -267,11 +260,11 @@ const EmptyIcon = styled.div`
 
 const EmptyTitle = styled.h3`
   font-size: 1.25rem;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const EmptyDesc = styled.p`
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   max-width: 360px;
   line-height: 1.5;
 `;
@@ -287,17 +280,17 @@ const CreateButton = styled(PrimaryButton)``;
 
 const EmptySecondaryBtn = styled.button`
   padding: 0.75rem 1.5rem;
-  background: #fff;
-  color: #4361ee;
-  border: 1px solid #4361ee;
+  background: ${theme.colors.surface};
+  color: ${theme.colors.primary};
+  border: 1px solid ${theme.colors.primary};
   border-radius: 8px;
   font-size: 0.9375rem;
   font-weight: 600;
   transition: all 0.2s;
 
   &:hover {
-    background: #4361ee;
-    color: #fff;
+    background: ${theme.colors.primary};
+    color: ${theme.colors.surface};
   }
 `;
 
@@ -310,23 +303,23 @@ const SummaryGrid = styled.div`
 `;
 
 const SummaryCard = styled.div<{ $accent?: boolean }>`
-  background: ${({ $accent }) => ($accent ? '#fff5f5' : '#fff')};
+  background: ${({ $accent }) => ($accent ? '#fff5f5' : theme.colors.surface)};
   padding: 1.25rem;
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  ${({ $accent }) => $accent && 'border: 1px solid #ef476f20;'}
+  ${({ $accent }) => $accent && `border: 1px solid ${theme.colors.danger}20;`}
 `;
 
 const SummaryLabel = styled.div`
   font-size: 0.75rem;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   margin-bottom: 0.375rem;
 `;
 
 const SummaryValue = styled.div<{ $highlight?: boolean }>`
   font-size: 1.25rem;
   font-weight: 700;
-  color: ${({ $highlight }) => ($highlight ? '#ef476f' : '#1a1a2e')};
+  color: ${({ $highlight }) => ($highlight ? theme.colors.danger : theme.colors.text)};
 `;
 
 /* ── Project Insight Card Grid ── */
@@ -338,7 +331,7 @@ const ProjectGrid = styled.div`
 `;
 
 const ProjectCard = styled.div<{ $borderColor: string }>`
-  background: #fff;
+  background: ${theme.colors.surface};
   padding: 1.25rem;
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -372,14 +365,14 @@ const CardTitleRow = styled.div`
 
 const CategoryTag = styled.span`
   font-size: 0.6875rem;
-  color: #7209b7;
+  color: ${theme.colors.secondary};
   font-weight: 500;
 `;
 
 const CardTitle = styled.h3`
   font-size: 0.9375rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -406,14 +399,14 @@ const Metric = styled.div`
 
 const MetricLabel = styled.div`
   font-size: 0.6875rem;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   margin-bottom: 0.125rem;
 `;
 
 const MetricValue = styled.div<{ $warn?: boolean }>`
   font-size: 0.8125rem;
   font-weight: 600;
-  color: ${({ $warn }) => ($warn ? '#ef476f' : '#1a1a2e')};
+  color: ${({ $warn }) => ($warn ? theme.colors.danger : theme.colors.text)};
 `;
 
 const ActionCardBanner = styled.div<{ $bg: string; $color: string }>`

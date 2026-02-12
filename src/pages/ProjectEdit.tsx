@@ -2,20 +2,13 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { BackButton, ErrorBanner, FormGroup, FormLabel, FormInput, FormErrorMsg, PrimaryButton, LoadingState } from '../styles/shared';
-import { MINIMUM_WAGE, DEFAULT_WORK_HOURS } from '../constants';
+import { theme } from '../styles/theme';
+import { BackButton, ErrorBanner, FormGroup, FormLabel, FormInput, FormErrorMsg, PrimaryButton, ProjectFormCard, ProjectForm, GoalSection, GoalTitle } from '../styles/shared';
+import LoadingSpinner from '../components/LoadingSpinner';
+import { PROJECT_FIELDS } from '../constants';
 import { projectApi } from '../api/projectApi';
 import { extractErrorMessage } from '../api/errorUtils';
 import type { ProjectUpdateRequest } from '../types';
-
-const fields = [
-  { name: 'title' as const, label: '프로젝트 이름', placeholder: '예: 이모티콘 판매', type: 'text' },
-  { name: 'price' as const, label: '건당 수익 (원)', placeholder: '예: 회차당 3,000 / 영상당 50,000', type: 'number' },
-  { name: 'variable_cost' as const, label: '건당 비용 (원)', placeholder: '예: 외주 편집비, 소품비 (없으면 0)', type: 'number' },
-  { name: 'fixed_cost' as const, label: '월 고정 지출 (원)', placeholder: '예: 도구 구독, 장비 할부', type: 'number' },
-  { name: 'work_hours' as const, label: '월 투입 시간 (시간/월)', placeholder: `예: ${DEFAULT_WORK_HOURS}`, type: 'number' },
-  { name: 'hourly_wage' as const, label: '본업 시급 (원)', placeholder: `예: ${MINIMUM_WAGE}`, type: 'number' },
-] as const;
 
 export default function ProjectEdit() {
   const { id } = useParams<{ id: string }>();
@@ -76,18 +69,18 @@ export default function ProjectEdit() {
     }
   };
 
-  if (pageLoading) return <LoadingState>로딩 중...</LoadingState>;
+  if (pageLoading) return <LoadingSpinner />;
 
   return (
     <Container>
       <BackButton onClick={() => navigate(`/projects/${projectId}`)}>← 돌아가기</BackButton>
-      <FormCard>
+      <ProjectFormCard>
         <FormTitle>프로젝트 수정</FormTitle>
 
         {error && <ErrorBanner>{error}</ErrorBanner>}
 
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          {fields.map(({ name, label, placeholder, type }) => (
+        <ProjectForm onSubmit={handleSubmit(onSubmit)}>
+          {PROJECT_FIELDS.map(({ name, label, placeholder, type }) => (
             <FormGroup key={name}>
               <FormLabel>{label}</FormLabel>
               <FormInput
@@ -144,8 +137,8 @@ export default function ProjectEdit() {
           <SubmitButton type="submit" disabled={submitting}>
             {submitting ? '저장 중...' : '변경사항 저장'}
           </SubmitButton>
-        </Form>
-      </FormCard>
+        </ProjectForm>
+      </ProjectFormCard>
     </Container>
   );
 }
@@ -157,23 +150,10 @@ const Container = styled.div`
 `;
 
 
-const FormCard = styled.div`
-  background: #fff;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
-`;
-
 const FormTitle = styled.h2`
   font-size: 1.25rem;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   margin-bottom: 1.25rem;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 0.875rem;
 `;
 
 const CheckboxGroup = styled.div`
@@ -187,21 +167,6 @@ const CheckboxLabel = styled.label`
   font-size: 0.875rem;
   color: #495057;
   cursor: pointer;
-`;
-
-const GoalSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.875rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid #f1f3f5;
-`;
-
-const GoalTitle = styled.h3`
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #6c757d;
-  margin: 0;
 `;
 
 const SubmitButton = styled(PrimaryButton)`

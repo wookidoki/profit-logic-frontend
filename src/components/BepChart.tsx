@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import styled from 'styled-components';
+import { theme } from '../styles/theme';
 import {
   LineChart,
   Line,
@@ -88,14 +89,14 @@ export default function BepChart({ result }: Props) {
           <Line
             type="monotone"
             dataKey="contributionTotal"
-            stroke="#4361ee"
+            stroke={theme.colors.primary}
             strokeWidth={2}
             dot={false}
           />
           <Line
             type="monotone"
             dataKey="fixedCost"
-            stroke="#ffd166"
+            stroke={theme.colors.warning}
             strokeWidth={2}
             strokeDasharray="6 3"
             dot={false}
@@ -104,8 +105,8 @@ export default function BepChart({ result }: Props) {
             x={result.break_even_point}
             y={bepY}
             r={6}
-            fill="#4361ee"
-            stroke="#fff"
+            fill={theme.colors.primary}
+            stroke={theme.colors.surface}
             strokeWidth={2}
             label={{ value: 'BEP', position: 'top', fontSize: 12, fontWeight: 700 }}
           />
@@ -118,6 +119,6 @@ export default function BepChart({ result }: Props) {
 const Title = styled.h3`
   font-size: 1rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   margin-bottom: 1rem;
 `;

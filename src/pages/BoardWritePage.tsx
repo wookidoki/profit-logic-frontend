@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { theme } from '../styles/theme';
 import { communityApi } from '../api/communityApi';
 import { projectApi } from '../api/projectApi';
 import { extractErrorMessage } from '../api/errorUtils';
@@ -117,11 +118,11 @@ const Container = styled.div`
 const Title = styled.h1`
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const Form = styled.form`
-  background: #fff;
+  background: ${theme.colors.surface};
   padding: 1.5rem;
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -139,18 +140,18 @@ const FormGroup = styled.div`
 const Label = styled.label`
   font-size: 0.8125rem;
   font-weight: 500;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
 `;
 
 const Input = styled.input`
   padding: 0.625rem 0.75rem;
-  border: 1px solid #dee2e6;
+  border: 1px solid ${theme.colors.border};
   border-radius: 8px;
   font-size: 0.9375rem;
   transition: border-color 0.2s;
 
   &:focus {
-    border-color: #4361ee;
+    border-color: ${theme.colors.primary};
     outline: none;
     box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
   }
@@ -158,14 +159,14 @@ const Input = styled.input`
 
 const Select = styled.select`
   padding: 0.5rem 0.75rem;
-  border: 1px solid #dee2e6;
+  border: 1px solid ${theme.colors.border};
   border-radius: 8px;
   font-size: 0.875rem;
-  background: #fff;
+  background: ${theme.colors.surface};
   transition: border-color 0.2s;
 
   &:focus {
-    border-color: #4361ee;
+    border-color: ${theme.colors.primary};
     outline: none;
     box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
   }
@@ -173,7 +174,7 @@ const Select = styled.select`
 
 const Textarea = styled.textarea`
   padding: 0.75rem;
-  border: 1px solid #dee2e6;
+  border: 1px solid ${theme.colors.border};
   border-radius: 8px;
   font-size: 0.9375rem;
   line-height: 1.6;
@@ -182,7 +183,7 @@ const Textarea = styled.textarea`
   transition: border-color 0.2s;
 
   &:focus {
-    border-color: #4361ee;
+    border-color: ${theme.colors.primary};
     outline: none;
     box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
   }
@@ -198,8 +199,8 @@ const Actions = styled.div`
 const CancelButton = styled.button`
   padding: 0.5rem 1rem;
   background: transparent;
-  color: #6c757d;
-  border: 1px solid #dee2e6;
+  color: ${theme.colors.textSecondary};
+  border: 1px solid ${theme.colors.border};
   border-radius: 8px;
   font-size: 0.875rem;
   transition: all 0.2s;
@@ -211,15 +212,15 @@ const CancelButton = styled.button`
 
 const SubmitButton = styled.button`
   padding: 0.5rem 1.5rem;
-  background: #4361ee;
-  color: #fff;
+  background: ${theme.colors.primary};
+  color: ${theme.colors.surface};
   border-radius: 8px;
   font-size: 0.875rem;
   font-weight: 600;
   transition: background 0.2s;
 
   &:hover:not(:disabled) {
-    background: #3a56d4;
+    background: ${theme.colors.primaryHover};
   }
 
   &:disabled {

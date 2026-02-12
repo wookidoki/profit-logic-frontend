@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { BackButton, PageContainer, LoadingState, ErrorState } from '../styles/shared';
+import { theme } from '../styles/theme';
+import { BackButton, PageContainer, ErrorState } from '../styles/shared';
+import LoadingSpinner from '../components/LoadingSpinner';
 import { projectApi } from '../api/projectApi';
 import { formatKRW } from '../utils/formatNumber';
 import EnhancedAnalysisPanel from '../components/EnhancedAnalysisPanel';
@@ -92,7 +94,7 @@ export default function ProjectDetail() {
       }
     : null;
 
-  if (loading) return <LoadingState>로딩 중...</LoadingState>;
+  if (loading) return <LoadingSpinner />;
   if (error) return <ErrorState>{error}</ErrorState>;
   if (!project) return <ErrorState>프로젝트를 찾을 수 없습니다.</ErrorState>;
 
@@ -218,30 +220,30 @@ const HeaderRight = styled.div`
 const EditButton = styled.button`
   padding: 0.375rem 0.75rem;
   background: transparent;
-  color: #4361ee;
-  border: 1px solid #4361ee;
+  color: ${theme.colors.primary};
+  border: 1px solid ${theme.colors.primary};
   border-radius: 6px;
   font-size: 0.8125rem;
   transition: all 0.2s;
 
   &:hover {
-    background: #4361ee;
-    color: #fff;
+    background: ${theme.colors.primary};
+    color: ${theme.colors.surface};
   }
 `;
 
 const DeleteButton = styled.button`
   padding: 0.375rem 0.75rem;
   background: transparent;
-  color: #ef476f;
-  border: 1px solid #ef476f;
+  color: ${theme.colors.danger};
+  border: 1px solid ${theme.colors.danger};
   border-radius: 6px;
   font-size: 0.8125rem;
   transition: all 0.2s;
 
   &:hover {
-    background: #ef476f;
-    color: #fff;
+    background: ${theme.colors.danger};
+    color: ${theme.colors.surface};
   }
 
   &:disabled {
@@ -260,13 +262,13 @@ const ProjectHeader = styled.div`
 const ProjectTitle = styled.h1`
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const PublicBadge = styled.span`
   padding: 0.25rem 0.625rem;
-  background: #06d6a015;
-  color: #06d6a0;
+  background: ${theme.colors.success}15;
+  color: ${theme.colors.success};
   border-radius: 12px;
   font-size: 0.75rem;
   font-weight: 600;
@@ -277,7 +279,7 @@ const InfoGrid = styled.div`
   flex-wrap: wrap;
   gap: 1rem;
   padding: 1rem 1.25rem;
-  background: #fff;
+  background: ${theme.colors.surface};
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 `;
@@ -296,7 +298,7 @@ const InfoLabel = styled.div`
 const InfoValue = styled.div`
   font-size: 0.9375rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const TabBar = styled.div`
@@ -309,15 +311,15 @@ const TabBar = styled.div`
 const TabItem = styled.button<{ $active: boolean }>`
   padding: 0.625rem 1.25rem;
   background: transparent;
-  color: ${({ $active }) => ($active ? '#4361ee' : '#6c757d')};
+  color: ${({ $active }) => ($active ? theme.colors.primary : theme.colors.textSecondary)};
   font-size: 0.875rem;
   font-weight: ${({ $active }) => ($active ? '600' : '400')};
-  border-bottom: 2px solid ${({ $active }) => ($active ? '#4361ee' : 'transparent')};
+  border-bottom: 2px solid ${({ $active }) => ($active ? theme.colors.primary : 'transparent')};
   margin-bottom: -2px;
   transition: all 0.2s;
 
   &:hover {
-    color: #4361ee;
+    color: ${theme.colors.primary};
   }
 `;
 
@@ -325,6 +327,6 @@ const TabContent = styled.div``;
 
 const LoadingText = styled.div`
   text-align: center;
-  color: #6c757d;
+  color: ${theme.colors.textSecondary};
   padding: 2rem 0;
 `;

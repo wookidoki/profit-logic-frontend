@@ -1,4 +1,5 @@
 import { formatKRW } from '../utils/formatNumber';
+import { theme } from '../styles/theme';
 import type { CalculateRequest } from '../types/finance';
 import type { CreatorCategory } from '../types/script';
 
@@ -28,7 +29,7 @@ export const CATEGORIES: CategoryConfig[] = [
     icon: '\u270D\uFE0F',
     name: '\uC6F9\uC18C\uC124 \uC791\uAC00',
     desc: '\uC6F9\uC18C\uC124/\uC6F9\uD234 \uC5F0\uC7AC \uC218\uC775 \uBD84\uC11D',
-    color: '#7209b7',
+    color: theme.colors.secondary,
     greeting: '\uC6F9\uC18C\uC124 \uC791\uAC00\uC2DC\uAD70\uC694! \uC791\uD488\uC758 \uC218\uC775\uC131\uC744 \uC815\uD655\uD788 \uBD84\uC11D\uD574\uB4DC\uB9AC\uACA0\uC2B5\uB2C8\uB2E4.\n\uBA87 \uAC00\uC9C0 \uC9C8\uBB38\uC744 \uB4DC\uB9B4\uAC8C\uC694.',
     titleTemplate: '\uC6F9\uC18C\uC124 \uC218\uC775 \uBD84\uC11D',
     questions: [
@@ -44,7 +45,7 @@ export const CATEGORIES: CategoryConfig[] = [
     icon: '\uD83C\uDFAC',
     name: '\uC21F\uD3FC \uD06C\uB9AC\uC5D0\uC774\uD130',
     desc: '\uC720\uD29C\uBE0C \uC1FC\uCE20/\uB9B4\uC2A4/\uD2F1\uD1A1 \uC218\uC775 \uBD84\uC11D',
-    color: '#ef476f',
+    color: theme.colors.danger,
     greeting: '\uC21F\uD3FC \uD06C\uB9AC\uC5D0\uC774\uD130\uC2DC\uAD70\uC694! \uCF58\uD150\uCE20 \uC218\uC775\uC131\uC744 \uBD84\uC11D\uD574\uB4DC\uB9B4\uAC8C\uC694.\n\uBA87 \uAC00\uC9C0 \uC815\uBCF4\uAC00 \uD544\uC694\uD569\uB2C8\uB2E4.',
     titleTemplate: '\uC21F\uD3FC \uCF58\uD150\uCE20 \uC218\uC775 \uBD84\uC11D',
     questions: [
@@ -60,7 +61,7 @@ export const CATEGORIES: CategoryConfig[] = [
     icon: '\uD83D\uDE0A',
     name: '\uC774\uBAA8\uD2F0\uCF58 \uC791\uAC00',
     desc: '\uCE74\uCE74\uC624/\uB77C\uC778 \uC774\uBAA8\uD2F0\uCF58 \uC218\uC775 \uBD84\uC11D',
-    color: '#ffd166',
+    color: theme.colors.warning,
     greeting: '\uC774\uBAA8\uD2F0\uCF58 \uC791\uAC00\uC2DC\uAD70\uC694! \uC774\uBAA8\uD2F0\uCF58 \uD310\uB9E4 \uC218\uC775\uC131\uC744 \uBD84\uC11D\uD574\uB4DC\uB9B4\uAC8C\uC694.',
     titleTemplate: '\uC774\uBAA8\uD2F0\uCF58 \uC218\uC775 \uBD84\uC11D',
     questions: [
@@ -76,7 +77,7 @@ export const CATEGORIES: CategoryConfig[] = [
     icon: '\uD83D\uDCDD',
     name: '\uBE14\uB85C\uADF8/\uB274\uC2A4\uB808\uD130',
     desc: '\uBE14\uB85C\uADF8 \uAD11\uACE0/\uAD6C\uB3C5 \uC218\uC775 \uBD84\uC11D',
-    color: '#06d6a0',
+    color: theme.colors.success,
     greeting: '\uBE14\uB85C\uADF8/\uB274\uC2A4\uB808\uD130 \uC6B4\uC601\uC790\uC2DC\uAD70\uC694! \uCF58\uD150\uCE20 \uC218\uC775\uC131\uC744 \uBD84\uC11D\uD574\uB4DC\uB9B4\uAC8C\uC694.',
     titleTemplate: '\uBE14\uB85C\uADF8 \uC218\uC775 \uBD84\uC11D',
     questions: [
@@ -92,7 +93,7 @@ export const CATEGORIES: CategoryConfig[] = [
     icon: '\uD83D\uDCBB',
     name: '\uC778\uB514 \uAC1C\uBC1C\uC790',
     desc: 'SaaS/\uC571 \uC11C\uBE44\uC2A4 \uC218\uC775 \uBD84\uC11D',
-    color: '#4361ee',
+    color: theme.colors.primary,
     greeting: '\uC778\uB514 \uAC1C\uBC1C\uC790\uC2DC\uAD70\uC694! \uC11C\uBE44\uC2A4\uC758 \uC218\uC775\uC131\uC744 \uBD84\uC11D\uD574\uB4DC\uB9AC\uACA0\uC2B5\uB2C8\uB2E4.',
     titleTemplate: 'SaaS/\uC571 \uC218\uC775 \uBD84\uC11D',
     questions: [

@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
+import { theme } from '../styles/theme';
 import { LoadingText, ErrorBanner } from '../styles/shared';
 import { goalApi } from '../api/goalApi';
 import type { GoalProgressResponse, GoalStatus } from '../api/goalApi';
@@ -11,11 +12,11 @@ interface Props {
 }
 
 const STATUS_CONFIG: Record<GoalStatus, { label: string; color: string; bg: string }> = {
-  NO_TARGET: { label: '목표 미설정', color: '#6c757d', bg: '#f1f3f5' },
-  ON_TRACK: { label: '순조로움', color: '#06d6a0', bg: '#f0fdf9' },
+  NO_TARGET: { label: '목표 미설정', color: theme.colors.textSecondary, bg: '#f1f3f5' },
+  ON_TRACK: { label: '순조로움', color: theme.colors.success, bg: '#f0fdf9' },
   BEHIND: { label: '주의 필요', color: '#f4a261', bg: '#fffbf0' },
-  URGENT: { label: '긴급', color: '#ef476f', bg: '#fff5f5' },
-  EXPIRED: { label: '기한 만료', color: '#6c757d', bg: '#f1f3f5' },
+  URGENT: { label: '긴급', color: theme.colors.danger, bg: '#fff5f5' },
+  EXPIRED: { label: '기한 만료', color: theme.colors.textSecondary, bg: '#f1f3f5' },
 };
 
 export default function GoalProgressPanel({ projectId, onSetGoal }: Props) {
@@ -97,7 +98,7 @@ export default function GoalProgressPanel({ projectId, onSetGoal }: Props) {
         <ProgressBarBg>
           <ProgressBarFill
             $percent={timePercent}
-            $color={timePercent >= 80 ? '#ef476f' : timePercent >= 50 ? '#f4a261' : '#4361ee'}
+            $color={timePercent >= 80 ? theme.colors.danger : timePercent >= 50 ? '#f4a261' : theme.colors.primary}
           />
         </ProgressBarBg>
         <ProgressMeta>
@@ -109,13 +110,13 @@ export default function GoalProgressPanel({ projectId, onSetGoal }: Props) {
       <MetricGrid>
         <MetricCard>
           <MetricLabel>월 최소 건수</MetricLabel>
-          <MetricValue $color="#4361ee">
+          <MetricValue $color={theme.colors.primary}>
             {(data.bepQuantity ?? 0).toFixed(0)}개
           </MetricValue>
         </MetricCard>
         <MetricCard>
           <MetricLabel>월간 필요 건수</MetricLabel>
-          <MetricValue $color={data.status === 'BEHIND' ? '#ef476f' : '#1a1a2e'}>
+          <MetricValue $color={data.status === 'BEHIND' ? theme.colors.danger : theme.colors.text}>
             {(data.requiredMonthlySales ?? 0).toFixed(1)}개/월
           </MetricValue>
         </MetricCard>
@@ -127,7 +128,7 @@ export default function GoalProgressPanel({ projectId, onSetGoal }: Props) {
         </MetricCard>
         <MetricCard>
           <MetricLabel>현재 실질 시급</MetricLabel>
-          <MetricValue $color="#06d6a0">
+          <MetricValue $color={theme.colors.success}>
             {formatKRW(data.currentShadowWage)}
           </MetricValue>
         </MetricCard>
@@ -161,7 +162,7 @@ function generateInsight(data: GoalProgressResponse): string {
 /* ── styled ── */
 
 const Container = styled.div`
-  background: #fff;
+  background: ${theme.colors.surface};
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   padding: 1.25rem;
@@ -179,7 +180,7 @@ const Header = styled.div`
 const Title = styled.h3`
   font-size: 1rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   margin: 0;
 `;
 
@@ -212,7 +213,7 @@ const SummaryLabel = styled.div`
 const SummaryValue = styled.div`
   font-size: 0.9375rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const ProgressSection = styled.div`
@@ -236,7 +237,7 @@ const ProgressLabel = styled.span`
 const ProgressPercent = styled.span`
   font-size: 0.875rem;
   font-weight: 700;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
 `;
 
 const ProgressBarBg = styled.div`
@@ -270,7 +271,7 @@ const MetricGrid = styled.div`
 `;
 
 const MetricCard = styled.div`
-  background: #f8f9fa;
+  background: ${theme.colors.background};
   padding: 0.875rem 1rem;
   border-radius: 8px;
 `;
@@ -290,7 +291,7 @@ const MetricValue = styled.div<{ $color: string }>`
 const InsightBox = styled.div<{ $status: GoalStatus }>`
   padding: 0.75rem 1rem;
   background: ${({ $status }) => STATUS_CONFIG[$status]?.bg || '#f1f3f5'};
-  border-left: 3px solid ${({ $status }) => STATUS_CONFIG[$status]?.color || '#6c757d'};
+  border-left: 3px solid ${({ $status }) => STATUS_CONFIG[$status]?.color || theme.colors.textSecondary};
   border-radius: 8px;
   font-size: 0.8125rem;
   color: #495057;
@@ -300,8 +301,8 @@ const InsightBox = styled.div<{ $status: GoalStatus }>`
 /* ── 빈 상태 ── */
 
 const EmptyCard = styled.div`
-  background: #fff;
-  border: 2px dashed #dee2e6;
+  background: ${theme.colors.surface};
+  border: 2px dashed ${theme.colors.border};
   border-radius: 12px;
   padding: 2rem;
   text-align: center;
@@ -328,14 +329,14 @@ const EmptyDesc = styled.p`
 const SetGoalButton = styled.button`
   margin-top: 0.5rem;
   padding: 0.5rem 1.25rem;
-  background: #4361ee;
-  color: #fff;
+  background: ${theme.colors.primary};
+  color: ${theme.colors.surface};
   border-radius: 8px;
   font-size: 0.8125rem;
   font-weight: 600;
   transition: background 0.2s;
 
   &:hover {
-    background: #3a56d4;
+    background: ${theme.colors.primaryHover};
   }
 `;

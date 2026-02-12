@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { theme } from '../styles/theme';
 import {
   InlineFormCard, FormRow, FormGroup, FormLabelSm,
   FormInputSm, FormActions, SecondaryButton, PrimaryButtonSm,
@@ -97,7 +98,7 @@ export default function TimeLogForm({ onSubmit, onCancel }: Props) {
 const FormTitle = styled.h4`
   font-size: 0.9375rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: ${theme.colors.text};
   margin-bottom: 0.75rem;
 `;
 
