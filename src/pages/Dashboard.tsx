@@ -78,7 +78,7 @@ export default function Dashboard() {
           <EmptyIcon>📊</EmptyIcon>
           <EmptyTitle>첫 프로젝트를 만들어보세요!</EmptyTitle>
           <EmptyDesc>
-            프로젝트를 생성하면 손익분기점, 실질 시급, 비용 구조를 분석할 수 있습니다.
+            사이드 프로젝트의 실질 시급을 분석하고, 본업 대비 가치를 확인해보세요.
           </EmptyDesc>
           <EmptyActions>
             <CreateButton onClick={() => navigate('/consult')}>
