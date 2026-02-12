@@ -4,6 +4,7 @@ import { ErrorBanner, LoadingText } from '../styles/shared';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { analysisApi } from '../api/analysisApi';
 import { formatKRW } from '../utils/formatNumber';
+import TrendChart from './TrendChart';
 import {
   toCostChartData,
   isBelowMinimumWage,
@@ -89,6 +90,9 @@ export default function EnhancedAnalysisPanel({ projectId, onNavigateTab }: Prop
           </GuideContent>
         </DataGuideBanner>
       )}
+
+      {/* 월별 추이 차트 */}
+      <TrendChart projectId={projectId} />
 
       {/* 액션 카드 */}
       {sortedCards.length > 0 && (
