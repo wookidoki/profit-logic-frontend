@@ -41,6 +41,12 @@ export default function Layout({ children }: Props) {
                 AI 상담
               </NavItem>
             )}
+            <NavItem
+              $active={location.pathname.startsWith('/board')}
+              onClick={() => navigate('/board')}
+            >
+              커뮤니티
+            </NavItem>
           </Nav>
         </HeaderLeft>
         <UserArea>
