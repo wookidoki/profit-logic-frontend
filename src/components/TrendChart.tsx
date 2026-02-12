@@ -28,28 +28,28 @@ interface MetricConfig {
 const METRICS: Record<Metric, MetricConfig> = {
   bep: {
     label: '월 최소 건수',
-    dataKey: 'bepQuantity',
+    dataKey: 'bep_quantity',
     color: theme.colors.primary,
     format: (v) => `${(v ?? 0).toFixed(1)}개`,
     unit: '개',
   },
   shadowWage: {
     label: '실질 시급',
-    dataKey: 'shadowWage',
+    dataKey: 'shadow_wage',
     color: theme.colors.success,
     format: (v) => formatKRW(v),
     unit: '원',
   },
   totalCost: {
     label: '총 비용',
-    dataKey: 'totalCost',
+    dataKey: 'total_cost',
     color: theme.colors.danger,
     format: (v) => formatKRW(v),
     unit: '원',
   },
   safetyMargin: {
     label: '안전마진율',
-    dataKey: 'safetyMarginRatio',
+    dataKey: 'safety_margin_ratio',
     color: '#f4a261',
     format: (v) => `${(v ?? 0).toFixed(1)}%`,
     unit: '%',

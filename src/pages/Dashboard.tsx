@@ -58,7 +58,7 @@ export default function Dashboard() {
     return <LoadingSpinner text="대시보드를 불러오는 중..." />;
   }
 
-  const isEmpty = !data || data.totalProjects === 0;
+  const isEmpty = !data || data.total_projects === 0;
 
   return (
     <Container>
@@ -97,26 +97,26 @@ export default function Dashboard() {
           <SummaryGrid>
             <SummaryCard>
               <SummaryLabel>총 프로젝트</SummaryLabel>
-              <SummaryValue>{data!.totalProjects}개</SummaryValue>
+              <SummaryValue>{data!.total_projects}개</SummaryValue>
             </SummaryCard>
             <SummaryCard>
               <SummaryLabel>추정 월 매출</SummaryLabel>
-              <SummaryValue>{formatKRW(data!.totalEstimatedRevenue)}</SummaryValue>
+              <SummaryValue>{formatKRW(data!.total_estimated_revenue)}</SummaryValue>
             </SummaryCard>
             <SummaryCard>
               <SummaryLabel>평균 순수익률</SummaryLabel>
-              <SummaryValue>{formatPercent(data!.avgContributionMarginRate)}</SummaryValue>
+              <SummaryValue>{formatPercent(data!.avg_contribution_margin_rate)}</SummaryValue>
             </SummaryCard>
             <SummaryCard>
               <SummaryLabel>평균 실질 시급</SummaryLabel>
-              <SummaryValue $highlight={(data!.avgShadowWage ?? 0) > 0 && (data!.avgShadowWage ?? 0) < 9860}>
-                {formatKRW(data!.avgShadowWage)}
+              <SummaryValue $highlight={(data!.avg_shadow_wage ?? 0) > 0 && (data!.avg_shadow_wage ?? 0) < 9860}>
+                {formatKRW(data!.avg_shadow_wage)}
               </SummaryValue>
             </SummaryCard>
-            {data!.warningCount > 0 && (
+            {data!.warning_count > 0 && (
               <SummaryCard $accent>
                 <SummaryLabel>주의 프로젝트</SummaryLabel>
-                <SummaryValue $highlight>{data!.warningCount}개</SummaryValue>
+                <SummaryValue $highlight>{data!.warning_count}개</SummaryValue>
               </SummaryCard>
             )}
           </SummaryGrid>
@@ -125,9 +125,9 @@ export default function Dashboard() {
           <ProjectGrid>
             {data!.projects.map((insight) => (
               <InsightCard
-                key={insight.projectId}
+                key={insight.project_id}
                 insight={insight}
-                onClick={() => navigate(`/projects/${insight.projectId}`)}
+                onClick={() => navigate(`/projects/${insight.project_id}`)}
               />
             ))}
           </ProjectGrid>
@@ -139,16 +139,16 @@ export default function Dashboard() {
 
 function InsightCard({ insight, onClick }: { insight: ProjectInsight; onClick: () => void }) {
   const statusConfig = STATUS_CONFIG[insight.status] || STATUS_CONFIG.NO_DATA;
-  const topCard = insight.topActionCard;
+  const topCard = insight.top_action_card;
   const cardStyle = topCard ? ACTION_CARD_STYLE[topCard.type] || ACTION_CARD_STYLE.SUGGESTION : null;
 
   return (
     <ProjectCard onClick={onClick} $borderColor={statusConfig.color}>
       <CardHeader>
         <CardTitleRow>
-          {insight.creatorCategory && CATEGORY_LABELS[insight.creatorCategory] && (
+          {insight.creator_category && CATEGORY_LABELS[insight.creator_category] && (
             <CategoryTag>
-              {CATEGORY_LABELS[insight.creatorCategory].emoji} {CATEGORY_LABELS[insight.creatorCategory].name}
+              {CATEGORY_LABELS[insight.creator_category].emoji} {CATEGORY_LABELS[insight.creator_category].name}
             </CategoryTag>
           )}
           <CardTitle>{insight.title}</CardTitle>
@@ -162,17 +162,17 @@ function InsightCard({ insight, onClick }: { insight: ProjectInsight; onClick: (
         <>
           <MetricsRow>
             <Metric>
-              <MetricLabel>\uC6D4 \uCD5C\uC18C \uAC74\uC218</MetricLabel>
+              <MetricLabel>{'\uC6D4 \uCD5C\uC18C \uAC74\uC218'}</MetricLabel>
               <MetricValue>{(insight.bep ?? 0).toLocaleString('ko-KR', { maximumFractionDigits: 0 })}건</MetricValue>
             </Metric>
             <Metric>
               <MetricLabel>순수익률</MetricLabel>
-              <MetricValue>{formatPercent(insight.contributionMarginRate)}</MetricValue>
+              <MetricValue>{formatPercent(insight.contribution_margin_rate)}</MetricValue>
             </Metric>
             <Metric>
               <MetricLabel>실질 시급</MetricLabel>
-              <MetricValue $warn={(insight.shadowWage ?? 0) < 9860}>
-                {formatKRW(insight.shadowWage)}
+              <MetricValue $warn={(insight.shadow_wage ?? 0) < 9860}>
+                {formatKRW(insight.shadow_wage)}
               </MetricValue>
             </Metric>
           </MetricsRow>

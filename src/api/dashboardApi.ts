@@ -4,22 +4,22 @@ import type { ResponseData, ActionCardDto } from '../types';
 export type ProjectStatus = 'STABLE' | 'WARNING' | 'DANGER' | 'NORMAL' | 'NO_DATA';
 
 export interface ProjectInsight {
-  projectId: number;
+  project_id: number;
   title: string;
   bep: number;
-  shadowWage: number;
-  contributionMarginRate: number;
+  shadow_wage: number;
+  contribution_margin_rate: number;
   status: ProjectStatus;
-  topActionCard: ActionCardDto | null;
-  creatorCategory: string | null;
+  top_action_card: ActionCardDto | null;
+  creator_category: string | null;
 }
 
 export interface DashboardSummary {
-  totalProjects: number;
-  totalEstimatedRevenue: number;
-  avgShadowWage: number;
-  avgContributionMarginRate: number;
-  warningCount: number;
+  total_projects: number;
+  total_estimated_revenue: number;
+  avg_shadow_wage: number;
+  avg_contribution_margin_rate: number;
+  warning_count: number;
   projects: ProjectInsight[];
 }
 

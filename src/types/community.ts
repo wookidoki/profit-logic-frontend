@@ -31,8 +31,8 @@ export interface CommentCreateRequest {
 
 export interface PageResponse<T> {
   content: T[];
-  totalPages: number;
-  totalElements: number;
+  total_pages: number;
+  total_elements: number;
   number: number;
   size: number;
   first: boolean;

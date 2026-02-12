@@ -22,7 +22,7 @@ export default function BoardListPage() {
         if (cancelled) return;
         if (res.data.success && res.data.data) {
           setPosts(res.data.data.content);
-          setTotalPages(res.data.data.totalPages);
+          setTotalPages(res.data.data.total_pages);
         }
       })
       .catch(() => { /* ignore */ })
