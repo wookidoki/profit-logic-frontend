@@ -2,12 +2,12 @@ import api from './axios';
 import type { ResponseData } from '../types';
 
 export interface AdminStats {
-  userCount: number;
-  projectCount: number;
-  postCount: number;
-  commentCount: number;
-  reportCount: number;
-  chatCount: number;
+  user_count: number;
+  project_count: number;
+  post_count: number;
+  comment_count: number;
+  report_count: number;
+  chat_count: number;
 }
 
 export interface AdminUser {
@@ -15,9 +15,9 @@ export interface AdminUser {
   email: string;
   nickname: string;
   role: string;
-  bizType: string | null;
-  projectCount: number;
-  createdAt: string;
+  biz_type: string | null;
+  project_count: number;
+  created_at: string;
 }
 
 export const adminApi = {
