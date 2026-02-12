@@ -75,12 +75,12 @@ export default function Landing() {
           </Desc>
 
           <Buttons>
-            <PrimaryBtn onClick={() => navigate('/signup')}>
-              무료로 시작하기
+            <PrimaryBtn onClick={() => navigate('/consult')}>
+              내 사이드 프로젝트 분석하기
               <BtnArrow>&rarr;</BtnArrow>
             </PrimaryBtn>
-            <SecondaryBtn onClick={() => navigate('/consult')}>
-              바로 상담해보기
+            <SecondaryBtn onClick={() => navigate('/signup')}>
+              무료로 시작하기
             </SecondaryBtn>
           </Buttons>
 

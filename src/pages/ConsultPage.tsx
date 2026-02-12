@@ -321,6 +321,7 @@ export default function ConsultPage() {
         fixed_cost: collectedData.fixed_cost || 0,
         work_hours: collectedData.work_hours || 1,
         hourly_wage: collectedData.hourly_wage || 0,
+        creator_category: selectedCategory?.key,
       });
 
       if (res.data.success && res.data.data) {
