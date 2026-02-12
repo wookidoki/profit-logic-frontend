@@ -14,6 +14,8 @@ import BoardListPage from './pages/BoardListPage';
 import BoardWritePage from './pages/BoardWritePage';
 import BoardDetailPage from './pages/BoardDetailPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
+import AdminPage from './pages/AdminPage';
 
 export default function App() {
   return (
@@ -91,6 +93,14 @@ export default function App() {
         <Route
           path="/board/:id"
           element={<Layout><BoardDetailPage /></Layout>}
+        />
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <Layout><AdminPage /></Layout>
+            </AdminRoute>
+          }
         />
 
         <Route path="*" element={<Navigate to="/" replace />} />

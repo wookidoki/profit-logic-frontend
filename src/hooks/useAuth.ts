@@ -31,7 +31,7 @@ export function useAuth() {
       const response = await authApi.login(data);
       const result = response.data.data;
       if (result) {
-        storeLogin(result.access_token, result.email, result.nickname);
+        storeLogin(result.access_token, result.email, result.nickname, result.role);
         navigate('/');
       }
     } catch (err: unknown) {
