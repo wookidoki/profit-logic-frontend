@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import GlobalStyle from './styles/GlobalStyle';
+import ErrorBoundary from './components/ErrorBoundary';
 import Layout from './components/Layout';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
@@ -28,6 +29,7 @@ function HomePage() {
 
 export default function App() {
   return (
+    <ErrorBoundary>
     <BrowserRouter>
       <GlobalStyle />
       <Routes>
@@ -112,5 +114,6 @@ export default function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
+    </ErrorBoundary>
   );
 }
