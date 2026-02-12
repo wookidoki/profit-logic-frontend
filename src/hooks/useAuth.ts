@@ -26,16 +26,18 @@ export function useAuth() {
 
   const login = async (data: LoginRequest) => {
     setLoading(true);
-    setError(null);
     try {
       const response = await authApi.login(data);
       const result = response.data.data;
       if (result) {
+        setError(null);
         storeLogin(result.access_token, result.email, result.nickname, result.role);
         navigate('/');
+      } else {
+        setError('이메일 또는 비밀번호가 올바르지 않습니다.');
       }
     } catch (err: unknown) {
-      setError(extractErrorMessage(err, '로그인에 실패했습니다.'));
+      setError(extractErrorMessage(err, '이메일 또는 비밀번호가 올바르지 않습니다.'));
     } finally {
       setLoading(false);
     }

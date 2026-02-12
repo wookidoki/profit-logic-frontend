@@ -461,8 +461,10 @@ export default function ConsultPage() {
 /* ── Helpers ── */
 
 function parseNumber(text: string): number {
-  const cleaned = text.replace(/[\uC6D0\uC2DC\uAC04\uC77C\uC6D4,\s/]/g, '').trim();
-  return Number(cleaned);
+  // "\uD55C 400\uC6D0\uC815\uB3C4", "\uC57D 3,000\uC6D0" \uB4F1 \uC790\uC5F0\uC5B4\uC5D0\uC11C \uC22B\uC790 \uCD94\uCD9C
+  const match = text.match(/[\d,]+/);
+  if (!match) return NaN;
+  return Number(match[0].replace(/,/g, ''));
 }
 
 function generateComment(r: CalculateResponse): string {
