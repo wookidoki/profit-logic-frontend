@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import GlobalStyle from './styles/GlobalStyle';
 import Layout from './components/Layout';
+import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
@@ -16,6 +17,13 @@ import BoardDetailPage from './pages/BoardDetailPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
 import AdminPage from './pages/AdminPage';
+import { useAuthStore } from './store/authStore';
+
+function HomePage() {
+  const { isAuthenticated } = useAuthStore();
+  if (!isAuthenticated) return <Landing />;
+  return <Layout><Dashboard /></Layout>;
+}
 
 export default function App() {
   return (
@@ -25,15 +33,8 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
-        {/* Layout-wrapped pages */}
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <Layout><Dashboard /></Layout>
-            </ProtectedRoute>
-          }
-        />
+        {/* Landing (guest) or Dashboard (authenticated) */}
+        <Route path="/" element={<HomePage />} />
         <Route
           path="/scripts"
           element={<Layout><ScriptAnalysis /></Layout>}
