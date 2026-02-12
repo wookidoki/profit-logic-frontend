@@ -10,6 +10,9 @@ import ProjectCreate from './pages/ProjectCreate';
 import ProjectDetail from './pages/ProjectDetail';
 import ProjectEdit from './pages/ProjectEdit';
 import ChatPage from './pages/ChatPage';
+import BoardListPage from './pages/BoardListPage';
+import BoardWritePage from './pages/BoardWritePage';
+import BoardDetailPage from './pages/BoardDetailPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
@@ -72,6 +75,22 @@ export default function App() {
               <Layout><ChatPage /></Layout>
             </ProtectedRoute>
           }
+        />
+        <Route
+          path="/board"
+          element={<Layout><BoardListPage /></Layout>}
+        />
+        <Route
+          path="/board/write"
+          element={
+            <ProtectedRoute>
+              <Layout><BoardWritePage /></Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/board/:id"
+          element={<Layout><BoardDetailPage /></Layout>}
         />
 
         <Route path="*" element={<Navigate to="/" replace />} />
