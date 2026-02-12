@@ -197,6 +197,7 @@ export default function ChatPage() {
             {/* 메시지 목록 */}
             {messages.map((msg) => (
               <MessageRow key={msg.id} $role={msg.role}>
+                {msg.role === 'assistant' && <BotAvatar src="/bot-avatar.svg" alt="bot" />}
                 <Bubble $role={msg.role}>
                   <BubbleContent>{msg.content}</BubbleContent>
                   <BubbleTime>
@@ -209,6 +210,7 @@ export default function ChatPage() {
             {/* 타이핑 인디케이터 */}
             {sending && (
               <MessageRow $role="assistant">
+                <BotAvatar src="/bot-avatar.svg" alt="bot" />
                 <Bubble $role="assistant">
                   <TypingDots>
                     <Dot $delay="0s" />
@@ -390,6 +392,15 @@ const Chip = styled.button`
 const MessageRow = styled.div<{ $role: 'user' | 'assistant' }>`
   display: flex;
   justify-content: ${({ $role }) => ($role === 'user' ? 'flex-end' : 'flex-start')};
+  align-items: flex-start;
+  gap: 0.5rem;
+`;
+
+const BotAvatar = styled.img`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  flex-shrink: 0;
 `;
 
 const Bubble = styled.div<{ $role: 'user' | 'assistant' }>`

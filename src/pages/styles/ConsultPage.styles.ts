@@ -30,15 +30,10 @@ export const MessageRow = styled.div<{ $role: 'user' | 'assistant' }>`
   gap: 0.5rem;
 `;
 
-export const AvatarCircle = styled.div`
+export const BotAvatar = styled.img`
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #eef2ff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.875rem;
   flex-shrink: 0;
 `;
 
