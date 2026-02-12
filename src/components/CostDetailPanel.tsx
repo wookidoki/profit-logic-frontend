@@ -6,7 +6,8 @@ import {
 } from '../styles/shared';
 import { costApi } from '../api/costApi';
 import { formatKRW } from '../utils/formatNumber';
-import CostForm, { CATEGORY_LABELS, COST_TYPE_LABELS } from './CostForm';
+import CostForm from './CostForm';
+import { CATEGORY_LABELS, COST_TYPE_LABELS } from '../constants';
 import type { CostDetail, CostDetailCreateRequest, CostCategory, CostType } from '../types';
 
 interface Props {

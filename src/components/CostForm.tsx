@@ -4,22 +4,8 @@ import {
   InlineFormCard, FormRow, FormGroup, FormLabelSm,
   FormInputSm, FormSelect, FormActions, SecondaryButton, PrimaryButtonSm,
 } from '../styles/shared';
+import { CATEGORY_LABELS } from '../constants';
 import type { CostDetailCreateRequest, CostCategory, CostType } from '../types';
-
-export const CATEGORY_LABELS: Record<CostCategory, string> = {
-  API_USAGE: 'API 사용료',
-  SERVER: '서버비',
-  TOOL_SUBSCRIPTION: '도구 구독료',
-  MATERIAL: '재료비',
-  MARKETING: '마케팅비',
-  OUTSOURCING: '외주비',
-  OTHER: '기타',
-};
-
-export const COST_TYPE_LABELS: Record<CostType, string> = {
-  FIXED: '고정비',
-  VARIABLE: '변동비',
-};
 
 const CATEGORIES: CostCategory[] = [
   'API_USAGE', 'SERVER', 'TOOL_SUBSCRIPTION', 'MATERIAL', 'MARKETING', 'OUTSOURCING', 'OTHER',

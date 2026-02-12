@@ -1,15 +1,6 @@
 import type { CostCategory, ActionCardDto, CostBreakdownDto, ShadowWageDto } from '../types';
-export { MINIMUM_WAGE } from '../constants';
-
-export const CATEGORY_LABELS: Record<CostCategory, string> = {
-  API_USAGE: 'API 사용료',
-  SERVER: '서버비',
-  TOOL_SUBSCRIPTION: '도구 구독료',
-  MATERIAL: '재료비',
-  MARKETING: '마케팅비',
-  OUTSOURCING: '외주비',
-  OTHER: '기타',
-};
+import { MINIMUM_WAGE, CATEGORY_LABELS } from '../constants';
+export { MINIMUM_WAGE, CATEGORY_LABELS };
 
 export const CATEGORY_COLORS: Record<CostCategory, string> = {
   API_USAGE: '#FF6B6B',

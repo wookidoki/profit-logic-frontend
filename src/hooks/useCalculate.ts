@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { projectApi } from '../api/projectApi';
 import { extractErrorMessage } from '../api/errorUtils';
 import type { CalculateRequest, CalculateResponse } from '../types/finance';
@@ -8,7 +8,7 @@ export function useCalculate() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const calculate = async (data: CalculateRequest) => {
+  const calculate = useCallback(async (data: CalculateRequest) => {
     setLoading(true);
     setError(null);
     try {
@@ -23,12 +23,12 @@ export function useCalculate() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const reset = () => {
+  const reset = useCallback(() => {
     setResult(null);
     setError(null);
-  };
+  }, []);
 
   return { result, loading, error, calculate, reset };
 }

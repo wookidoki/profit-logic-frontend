@@ -16,7 +16,7 @@ export function useAuth() {
     setError(null);
     try {
       await authApi.signup(data);
-      navigate('/login');
+      navigate('/login?signup=success');
     } catch (err: unknown) {
       setError(extractErrorMessage(err, '회원가입에 실패했습니다.'));
     } finally {

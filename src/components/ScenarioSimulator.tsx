@@ -48,7 +48,7 @@ export default function ScenarioSimulator({ baseData, baseResult }: Props) {
     if (hasChanges) {
       calculate(debouncedData);
     }
-  }, [debouncedData]);
+  }, [debouncedData, hasChanges, calculate]);
 
   const displayResult = hasChanges && simResult ? simResult : baseResult;
 
