@@ -3,11 +3,11 @@ import type { ResponseData } from '../types';
 
 export interface MonthlySnapshot {
   month: string;
-  totalCost: number;
-  totalHours: number;
-  shadowWage: number;
-  bepQuantity: number;
-  safetyMarginRatio: number;
+  total_cost: number;
+  total_hours: number;
+  shadow_wage: number;
+  bep_quantity: number;
+  safety_margin_ratio: number;
 }
 
 export interface MonthlyTrendResponse {
