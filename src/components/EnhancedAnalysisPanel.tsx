@@ -134,7 +134,7 @@ export default function EnhancedAnalysisPanel({ projectId, onNavigateTab }: Prop
               {(safetyMargin ?? 0).toFixed(1)}%
             </MetricValue>
             <MetricSub>
-              적용 고정비 {formatKRW(bep.enhanced_fixed_cost)}
+              적용 월 고정 지출 {formatKRW(bep.enhanced_fixed_cost)}
             </MetricSub>
           </MetricCard>
         </MetricGrid>
@@ -151,11 +151,11 @@ export default function EnhancedAnalysisPanel({ projectId, onNavigateTab }: Prop
                 <CostValue>{formatKRW(cost_breakdown.total_cost)}</CostValue>
               </CostSummaryItem>
               <CostSummaryItem>
-                <MetricLabel>고정비</MetricLabel>
+                <MetricLabel>월 고정 지출</MetricLabel>
                 <CostValue>{formatKRW(cost_breakdown.total_fixed_cost)}</CostValue>
               </CostSummaryItem>
               <CostSummaryItem>
-                <MetricLabel>변동비</MetricLabel>
+                <MetricLabel>건당 비용</MetricLabel>
                 <CostValue>{formatKRW(cost_breakdown.total_variable_cost)}</CostValue>
               </CostSummaryItem>
             </CostSummary>
@@ -191,7 +191,7 @@ export default function EnhancedAnalysisPanel({ projectId, onNavigateTab }: Prop
       <Section>
         <SectionTitle>실질 시급 분석</SectionTitle>
         {!hasTimeData && (
-          <InfoBanner>작업시간 기록이 없어 프로젝트 기본 근무시간으로 계산했습니다.</InfoBanner>
+          <InfoBanner>작업시간 기록이 없어 프로젝트 기본 투입 시간으로 계산했습니다.</InfoBanner>
         )}
         <DetailGrid>
           <DetailItem>

@@ -56,11 +56,11 @@ export default function Landing() {
         <HeroInner>
           <Badge>
             <PulseDot />
-            1인 사업자를 위한 AI 손익 분석
+            1인 크리에이터를 위한 AI 손익 분석
           </Badge>
 
           <Title>
-            내 사업,<br />
+            내 사이드 프로젝트,<br />
             <TypeWriter>
               <Accent>{displayed}</Accent>
               <Cursor>|</Cursor>
@@ -70,7 +70,7 @@ export default function Landing() {
           </Title>
 
           <Desc>
-            대화형 AI 상담사가 당신의 사업을 분석합니다.<br />
+            대화형 AI 상담사가 당신의 사이드 프로젝트를 분석합니다.<br />
             크리에이터 유형에 맞는 맞춤 질문으로 손익분기점 · 실질 시급을 즉시 분석합니다.
           </Desc>
 

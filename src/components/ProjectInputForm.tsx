@@ -12,11 +12,11 @@ interface Props {
 }
 
 const fields = [
-  { name: 'price' as const, label: '판매가 (원)', placeholder: '예: 15000' },
-  { name: 'variable_cost' as const, label: '변동비 (원)', placeholder: '예: 5000' },
-  { name: 'fixed_cost' as const, label: '고정비 (원/월)', placeholder: '예: 500000' },
-  { name: 'work_hours' as const, label: '근무시간 (시간/월)', placeholder: `예: ${DEFAULT_WORK_HOURS}` },
-  { name: 'hourly_wage' as const, label: '시급 (원)', placeholder: `예: ${MINIMUM_WAGE}` },
+  { name: 'price' as const, label: '건당 수익 (원)', placeholder: '예: 15000' },
+  { name: 'variable_cost' as const, label: '건당 비용 (원)', placeholder: '예: 5000' },
+  { name: 'fixed_cost' as const, label: '월 고정 지출 (원/월)', placeholder: '예: 500000' },
+  { name: 'work_hours' as const, label: '월 투입 시간 (시간/월)', placeholder: `예: ${DEFAULT_WORK_HOURS}` },
+  { name: 'hourly_wage' as const, label: '본업 시급 (원)', placeholder: `예: ${MINIMUM_WAGE}` },
   { name: 'target_profit' as const, label: '목표이익 (원/월)', placeholder: '예: 2000000' },
 ] as const;
 

@@ -10,11 +10,11 @@ import type { ProjectUpdateRequest } from '../types';
 
 const fields = [
   { name: 'title' as const, label: '프로젝트 이름', placeholder: '예: 이모티콘 판매', type: 'text' },
-  { name: 'price' as const, label: '판매가 (원)', placeholder: '예: 15000', type: 'number' },
-  { name: 'variable_cost' as const, label: '변동비 (원)', placeholder: '예: 5000', type: 'number' },
-  { name: 'fixed_cost' as const, label: '고정비 (원/월)', placeholder: '예: 500000', type: 'number' },
-  { name: 'work_hours' as const, label: '근무시간 (시간/월)', placeholder: `예: ${DEFAULT_WORK_HOURS}`, type: 'number' },
-  { name: 'hourly_wage' as const, label: '시급 (원)', placeholder: `예: ${MINIMUM_WAGE}`, type: 'number' },
+  { name: 'price' as const, label: '건당 수익 (원)', placeholder: '예: 15000', type: 'number' },
+  { name: 'variable_cost' as const, label: '건당 비용 (원)', placeholder: '예: 5000', type: 'number' },
+  { name: 'fixed_cost' as const, label: '월 고정 지출 (원/월)', placeholder: '예: 500000', type: 'number' },
+  { name: 'work_hours' as const, label: '월 투입 시간 (시간/월)', placeholder: `예: ${DEFAULT_WORK_HOURS}`, type: 'number' },
+  { name: 'hourly_wage' as const, label: '본업 시급 (원)', placeholder: `예: ${MINIMUM_WAGE}`, type: 'number' },
 ] as const;
 
 export default function ProjectEdit() {

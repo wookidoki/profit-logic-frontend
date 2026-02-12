@@ -143,23 +143,23 @@ export default function ProjectDetail() {
         {tab === 'overview' && (
           <InfoGrid>
             <InfoItem>
-              <InfoLabel>판매가</InfoLabel>
+              <InfoLabel>건당 수익</InfoLabel>
               <InfoValue>{formatKRW(project.price)}</InfoValue>
             </InfoItem>
             <InfoItem>
-              <InfoLabel>변동비</InfoLabel>
+              <InfoLabel>건당 비용</InfoLabel>
               <InfoValue>{formatKRW(project.variable_cost)}</InfoValue>
             </InfoItem>
             <InfoItem>
-              <InfoLabel>고정비</InfoLabel>
+              <InfoLabel>월 고정 지출</InfoLabel>
               <InfoValue>{formatKRW(project.fixed_cost)}</InfoValue>
             </InfoItem>
             <InfoItem>
-              <InfoLabel>근무시간</InfoLabel>
+              <InfoLabel>월 투입 시간</InfoLabel>
               <InfoValue>{project.work_hours}시간/월</InfoValue>
             </InfoItem>
             <InfoItem>
-              <InfoLabel>시급</InfoLabel>
+              <InfoLabel>본업 시급</InfoLabel>
               <InfoValue>{formatKRW(project.hourly_wage)}</InfoValue>
             </InfoItem>
           </InfoGrid>

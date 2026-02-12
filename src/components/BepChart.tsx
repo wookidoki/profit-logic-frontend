@@ -54,7 +54,7 @@ export default function BepChart({ result }: Props) {
           <CartesianGrid strokeDasharray="3 3" stroke="#e9ecef" />
           <XAxis
             dataKey="quantity"
-            label={{ value: '판매량 (개)', position: 'insideBottomRight', offset: -5 }}
+            label={{ value: '작업량 (건)', position: 'insideBottomRight', offset: -5 }}
             tickFormatter={formatAxis}
             fontSize={12}
           />
@@ -67,20 +67,20 @@ export default function BepChart({ result }: Props) {
             formatter={(value, name) => {
               const labels: Record<string, string> = {
                 contributionTotal: '공헌이익 누적',
-                fixedCost: '고정비',
+                fixedCost: '월 고정 지출',
               };
               const formatted = typeof value === 'number'
                 ? new Intl.NumberFormat('ko-KR').format(Math.round(value)) + '원'
                 : '-';
               return [formatted, labels[name ?? ''] ?? name];
             }}
-            labelFormatter={(qty) => `판매량: ${qty}개`}
+            labelFormatter={(qty) => `작업량: ${qty}건`}
           />
           <Legend
             formatter={(value: string) => {
               const labels: Record<string, string> = {
                 contributionTotal: '공헌이익 누적',
-                fixedCost: '고정비',
+                fixedCost: '월 고정 지출',
               };
               return labels[value] ?? value;
             }}

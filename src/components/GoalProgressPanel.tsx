@@ -51,7 +51,7 @@ export default function GoalProgressPanel({ projectId, onSetGoal }: Props) {
       <EmptyCard>
         <EmptyTitle>목표를 설정해보세요</EmptyTitle>
         <EmptyDesc>
-          목표 매출과 달성 기한을 설정하면 일일 판매 페이스와 진행률을 추적할 수 있습니다.
+          목표 매출과 달성 기한을 설정하면 일일 작업 페이스와 진행률을 추적할 수 있습니다.
         </EmptyDesc>
         {onSetGoal && (
           <SetGoalButton onClick={onSetGoal}>목표 설정하기</SetGoalButton>
@@ -114,13 +114,13 @@ export default function GoalProgressPanel({ projectId, onSetGoal }: Props) {
           </MetricValue>
         </MetricCard>
         <MetricCard>
-          <MetricLabel>월간 필요 판매량</MetricLabel>
+          <MetricLabel>월간 필요 건수</MetricLabel>
           <MetricValue $color={data.status === 'BEHIND' ? '#ef476f' : '#1a1a2e'}>
             {(data.requiredMonthlySales ?? 0).toFixed(1)}개/월
           </MetricValue>
         </MetricCard>
         <MetricCard>
-          <MetricLabel>일일 판매 페이스</MetricLabel>
+          <MetricLabel>일일 작업 페이스</MetricLabel>
           <MetricValue $color="#f4a261">
             {(data.dailySalesTarget ?? 0).toFixed(1)}개/일
           </MetricValue>
@@ -146,11 +146,11 @@ function generateInsight(data: GoalProgressResponse): string {
 
   switch (status) {
     case 'ON_TRACK':
-      return `현재 페이스대로라면 목표 달성이 가능합니다. 일일 ${(dailySalesTarget ?? 0).toFixed(1)}개 판매를 유지하세요.`;
+      return `현재 페이스대로라면 목표 달성이 가능합니다. 일일 ${(dailySalesTarget ?? 0).toFixed(1)}건 작업을 유지하세요.`;
     case 'BEHIND':
-      return `월 ${(requiredMonthlySales ?? 0).toFixed(0)}개 판매가 필요하지만, BEP가 이를 초과합니다. 비용 절감이나 가격 조정을 검토해보세요.`;
+      return `월 ${(requiredMonthlySales ?? 0).toFixed(0)}건 필요하지만, BEP가 이를 초과합니다. 비용 절감이나 건당 수익 조정을 검토해보세요.`;
     case 'URGENT':
-      return `${monthsRemaining}개월 남았습니다. 월 평균 비용 ${formatKRW(monthlyCostAverage)}를 줄이거나 판매 전략을 재검토하세요.`;
+      return `${monthsRemaining}개월 남았습니다. 월 평균 비용 ${formatKRW(monthlyCostAverage)}를 줄이거나 수익 전략을 재검토하세요.`;
     case 'EXPIRED':
       return '목표 기한이 지났습니다. 새로운 목표를 설정해보세요.';
     default:

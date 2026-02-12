@@ -59,8 +59,8 @@ export default function CostForm({ onSubmit, onCancel }: Props) {
           <FormGroup>
             <FormLabelSm>유형</FormLabelSm>
             <FormSelect value={costType} onChange={(e) => setCostType(e.target.value as CostType)}>
-              <option value="FIXED">고정비</option>
-              <option value="VARIABLE">변동비</option>
+              <option value="FIXED">월 고정 지출</option>
+              <option value="VARIABLE">건당 비용</option>
             </FormSelect>
           </FormGroup>
         </FormRow>

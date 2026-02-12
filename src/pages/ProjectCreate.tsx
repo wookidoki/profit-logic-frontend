@@ -13,11 +13,11 @@ type Mode = 'choose' | 'direct' | 'ai';
 
 const fields = [
   { name: 'title' as const, label: '프로젝트 이름', placeholder: '예: 이모티콘 판매', type: 'text' },
-  { name: 'price' as const, label: '판매가 (원)', placeholder: '예: 15000', type: 'number' },
-  { name: 'variable_cost' as const, label: '변동비 (원)', placeholder: '예: 5000', type: 'number' },
-  { name: 'fixed_cost' as const, label: '고정비 (원/월)', placeholder: '예: 500000', type: 'number' },
-  { name: 'work_hours' as const, label: '근무시간 (시간/월)', placeholder: `예: ${DEFAULT_WORK_HOURS}`, type: 'number' },
-  { name: 'hourly_wage' as const, label: '시급 (원)', placeholder: `예: ${MINIMUM_WAGE}`, type: 'number' },
+  { name: 'price' as const, label: '건당 수익 (원)', placeholder: '예: 15000', type: 'number' },
+  { name: 'variable_cost' as const, label: '건당 비용 (원)', placeholder: '예: 5000', type: 'number' },
+  { name: 'fixed_cost' as const, label: '월 고정 지출 (원/월)', placeholder: '예: 500000', type: 'number' },
+  { name: 'work_hours' as const, label: '월 투입 시간 (시간/월)', placeholder: `예: ${DEFAULT_WORK_HOURS}`, type: 'number' },
+  { name: 'hourly_wage' as const, label: '본업 시급 (원)', placeholder: `예: ${MINIMUM_WAGE}`, type: 'number' },
 ] as const;
 
 export default function ProjectCreate() {
@@ -116,7 +116,7 @@ export default function ProjectCreate() {
             <ModeIcon>✏️</ModeIcon>
             <ModeInfo>
               <ModeName>직접 입력</ModeName>
-              <ModeDesc>판매가/비용을 직접 입력합니다</ModeDesc>
+              <ModeDesc>건당 수익/비용을 직접 입력합니다</ModeDesc>
             </ModeInfo>
             <ModeArrow>→</ModeArrow>
           </ModeCard>
@@ -125,7 +125,7 @@ export default function ProjectCreate() {
             <ModeIcon>🤖</ModeIcon>
             <ModeInfo>
               <ModeName>AI 자동 입력</ModeName>
-              <ModeDesc>사업을 설명하면 AI가 자동으로 분석합니다</ModeDesc>
+              <ModeDesc>프로젝트를 설명하면 AI가 자동으로 분석합니다</ModeDesc>
             </ModeInfo>
             <ModeArrow>→</ModeArrow>
           </ModeCard>
@@ -142,8 +142,8 @@ export default function ProjectCreate() {
         <FormCard>
           <FormTitle>AI 자동 입력</FormTitle>
           <AiDescription>
-            하시는 사업에 대해 자유롭게 설명해주세요.
-            AI가 판매가, 비용, 시급 등을 자동으로 추출합니다.
+            사이드 프로젝트에 대해 자유롭게 설명해주세요.
+            AI가 건당 수익, 비용, 본업 시급 등을 자동으로 추출합니다.
           </AiDescription>
 
           {error && <ErrorBanner>{error}</ErrorBanner>}

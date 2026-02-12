@@ -3,7 +3,7 @@ import type { CostCategory, CostType } from '../types';
 /** 2025년 최저임금 (원/시간) */
 export const MINIMUM_WAGE = 9_860;
 
-/** 월 기본 근무시간 */
+/** 월 기본 투입 시간 */
 export const DEFAULT_WORK_HOURS = 160;
 
 export const CATEGORY_LABELS: Record<CostCategory, string> = {
@@ -17,6 +17,6 @@ export const CATEGORY_LABELS: Record<CostCategory, string> = {
 };
 
 export const COST_TYPE_LABELS: Record<CostType, string> = {
-  FIXED: '고정비',
-  VARIABLE: '변동비',
+  FIXED: '월 고정 지출',
+  VARIABLE: '건당 비용',
 };

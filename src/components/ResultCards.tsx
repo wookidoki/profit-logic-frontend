@@ -14,7 +14,7 @@ export default function ResultCards({ result }: Props) {
       color: '#4361ee',
     },
     {
-      label: '목표 판매량',
+      label: '목표 건수',
       value: formatQuantity(result.target_quantity),
       color: '#7209b7',
     },

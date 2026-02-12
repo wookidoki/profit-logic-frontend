@@ -17,11 +17,11 @@ interface SliderConfig {
 }
 
 const sliders: SliderConfig[] = [
-  { key: 'price', label: '판매가' },
-  { key: 'variable_cost', label: '변동비' },
-  { key: 'fixed_cost', label: '고정비' },
-  { key: 'work_hours', label: '근무시간' },
-  { key: 'hourly_wage', label: '시급' },
+  { key: 'price', label: '건당 수익' },
+  { key: 'variable_cost', label: '건당 비용' },
+  { key: 'fixed_cost', label: '월 고정 지출' },
+  { key: 'work_hours', label: '월 투입 시간' },
+  { key: 'hourly_wage', label: '본업 시급' },
   { key: 'target_profit', label: '목표이익' },
 ];
 

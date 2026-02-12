@@ -48,12 +48,12 @@ export default function AiParseModal({ isOpen, onClose, onParsed }: Props) {
       <Modal>
         <ModalTitle>AI 자동 입력</ModalTitle>
         <Description>
-          사업 내용을 자유롭게 입력하세요. AI가 판매가, 비용 등을 자동으로 추출합니다.
+          프로젝트 내용을 자유롭게 입력하세요. AI가 건당 수익, 비용 등을 자동으로 추출합니다.
         </Description>
         <TextArea
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="예: 핸드메이드 양초를 개당 15,000원에 판매합니다. 재료비는 개당 5,000원이고, 월 임대료와 전기세 등 고정비가 50만원입니다. 하루 8시간씩 20일 일하고, 시급 9,860원 기준으로 월 200만원 이익을 목표로 합니다."
+          placeholder="예: 이모티콘 세트를 개당 2,500원에 판매합니다. 일러스트 외주비가 세트당 5,000원이고, 프로크리에이트 구독 등 월 고정 지출이 3만원입니다. 하루 4시간씩 20일 작업하고, 본업 시급 15,000원 기준으로 월 100만원 수익을 목표로 합니다."
           rows={6}
           disabled={loading}
         />

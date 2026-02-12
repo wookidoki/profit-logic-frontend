@@ -53,21 +53,21 @@ export default function ProjectList() {
               <CardTitle>{project.title}</CardTitle>
               <MetricRow>
                 <Metric>
-                  <MetricLabel>판매가</MetricLabel>
+                  <MetricLabel>건당 수익</MetricLabel>
                   <MetricValue>{formatKRW(project.price)}</MetricValue>
                 </Metric>
                 <Metric>
-                  <MetricLabel>고정비</MetricLabel>
+                  <MetricLabel>월 고정 지출</MetricLabel>
                   <MetricValue>{formatKRW(project.fixed_cost)}</MetricValue>
                 </Metric>
               </MetricRow>
               <MetricRow>
                 <Metric>
-                  <MetricLabel>변동비</MetricLabel>
+                  <MetricLabel>건당 비용</MetricLabel>
                   <MetricValue>{formatKRW(project.variable_cost)}</MetricValue>
                 </Metric>
                 <Metric>
-                  <MetricLabel>근무시간</MetricLabel>
+                  <MetricLabel>월 투입 시간</MetricLabel>
                   <MetricValue>{project.work_hours}시간</MetricValue>
                 </Metric>
               </MetricRow>

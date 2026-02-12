@@ -7,10 +7,10 @@ import type { Project } from '../types';
 import type { ChatMessage, ChatResponse } from '../types/chat';
 
 const SUGGESTED_QUESTIONS = [
-  '내 사업 수익성은 어때?',
+  '사이드 프로젝트 수익성은 어때?',
   '비용을 줄일 방법이 있을까?',
-  '가격을 올려도 될까?',
-  '손익분기점까지 얼마나 남았어?',
+  '건당 수익을 올려도 될까?',
+  '월 최소 몇 건을 해야 본전이야?',
 ];
 
 function historyToMessages(history: ChatResponse[]): ChatMessage[] {
