@@ -82,7 +82,7 @@ export default function ChatPage() {
     if (!text.trim() || !selectedProjectId || sending) return;
 
     const userMsg: ChatMessage = {
-      id: crypto.randomUUID(),
+      id: Date.now().toString(36) + Math.random().toString(36).substring(2),
       role: 'user',
       content: text.trim(),
       timestamp: new Date(),
@@ -103,7 +103,7 @@ export default function ChatPage() {
       });
       if (res.data.success && res.data.data) {
         const assistantMsg: ChatMessage = {
-          id: crypto.randomUUID(),
+          id: Date.now().toString(36) + Math.random().toString(36).substring(2),
           role: 'assistant',
           content: res.data.data.answer,
           timestamp: new Date(),
@@ -122,7 +122,7 @@ export default function ChatPage() {
 
   const addErrorMessage = (text = '죄송합니다. 잠시 후 다시 시도해주세요.') => {
     setMessages((prev) => [...prev, {
-      id: crypto.randomUUID(),
+      id: Date.now().toString(36) + Math.random().toString(36).substring(2),
       role: 'assistant',
       content: text,
       timestamp: new Date(),

@@ -164,13 +164,13 @@ export default function ConsultPage() {
   }, [phase, currentQuestionIndex]);
 
   const addMsg = useCallback((msg: Omit<ConsultMessage, 'id'>) => {
-    setMessages((prev) => [...prev, { ...msg, id: crypto.randomUUID() }]);
+    setMessages((prev) => [...prev, { ...msg, id: Date.now().toString(36) + Math.random().toString(36).substring(2) }]);
   }, []);
 
   const addDelayed = useCallback((msg: Omit<ConsultMessage, 'id'>, delay = 500) => {
     return new Promise<void>((resolve) => {
       setTimeout(() => {
-        setMessages((prev) => [...prev, { ...msg, id: crypto.randomUUID() }]);
+        setMessages((prev) => [...prev, { ...msg, id: Date.now().toString(36) + Math.random().toString(36).substring(2) }]);
         resolve();
       }, delay);
     });
@@ -351,8 +351,8 @@ export default function ConsultPage() {
     setAnalysisResult(null);
     setPhase('greeting');
     setMessages([
-      { id: crypto.randomUUID(), role: 'assistant', content: '\uC0C8\uB85C\uC6B4 \uBD84\uC11D\uC744 \uC2DC\uC791\uD560\uAC8C\uC694.\n\uC5B4\uB5A4 \uBD84\uC57C\uC758 \uC0AC\uC5C5\uC744 \uD558\uACE0 \uACC4\uC2E0\uAC00\uC694?', type: 'text' },
-      { id: crypto.randomUUID(), role: 'assistant', content: '', type: 'categories' },
+      { id: Date.now().toString(36) + Math.random().toString(36).substring(2), role: 'assistant', content: '\uC0C8\uB85C\uC6B4 \uBD84\uC11D\uC744 \uC2DC\uC791\uD560\uAC8C\uC694.\n\uC5B4\uB5A4 \uBD84\uC57C\uC758 \uC0AC\uC5C5\uC744 \uD558\uACE0 \uACC4\uC2E0\uAC00\uC694?', type: 'text' },
+      { id: Date.now().toString(36) + Math.random().toString(36).substring(2), role: 'assistant', content: '', type: 'categories' },
     ]);
   }, []);
 
