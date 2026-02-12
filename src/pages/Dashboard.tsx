@@ -94,7 +94,7 @@ export default function Dashboard() {
             </SummaryCard>
             <SummaryCard>
               <SummaryLabel>평균 실질 시급</SummaryLabel>
-              <SummaryValue $highlight={data!.avgShadowWage > 0 && data!.avgShadowWage < 9860}>
+              <SummaryValue $highlight={(data!.avgShadowWage ?? 0) > 0 && (data!.avgShadowWage ?? 0) < 9860}>
                 {formatKRW(data!.avgShadowWage)}
               </SummaryValue>
             </SummaryCard>
@@ -141,7 +141,7 @@ function InsightCard({ insight, onClick }: { insight: ProjectInsight; onClick: (
           <MetricsRow>
             <Metric>
               <MetricLabel>BEP</MetricLabel>
-              <MetricValue>{insight.bep.toLocaleString('ko-KR', { maximumFractionDigits: 0 })}개</MetricValue>
+              <MetricValue>{(insight.bep ?? 0).toLocaleString('ko-KR', { maximumFractionDigits: 0 })}개</MetricValue>
             </Metric>
             <Metric>
               <MetricLabel>공헌이익률</MetricLabel>
@@ -149,7 +149,7 @@ function InsightCard({ insight, onClick }: { insight: ProjectInsight; onClick: (
             </Metric>
             <Metric>
               <MetricLabel>실질 시급</MetricLabel>
-              <MetricValue $warn={insight.shadowWage < 9860}>
+              <MetricValue $warn={(insight.shadowWage ?? 0) < 9860}>
                 {formatKRW(insight.shadowWage)}
               </MetricValue>
             </Metric>
