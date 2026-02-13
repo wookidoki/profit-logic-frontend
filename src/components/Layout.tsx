@@ -53,6 +53,14 @@ export default function Layout({ children }: Props) {
             >
               커뮤니티
             </NavItem>
+            {isAuthenticated && (
+              <NavItem
+                $active={location.pathname === '/mypage'}
+                onClick={() => navigate('/mypage')}
+              >
+                마이페이지
+              </NavItem>
+            )}
             {role === 'ROLE_ADMIN' && (
               <NavItem
                 $active={location.pathname === '/admin'}
