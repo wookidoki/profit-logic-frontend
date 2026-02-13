@@ -18,7 +18,7 @@ const STATUS_CONFIG: Record<ProjectStatus, { label: string; color: string }> = {
 
 const CATEGORY_LABELS: Record<string, { emoji: string; name: string }> = {
   WEB_NOVEL: { emoji: '✍️', name: '웹소설' },
-  SHORT_FORM: { emoji: '🎬', name: '숟폼' },
+  SHORT_FORM: { emoji: '🎬', name: '숏폼' },
   EMOTICON: { emoji: '😊', name: '이모티콘' },
   BLOG: { emoji: '📝', name: '블로그' },
   INDIE_DEV: { emoji: '💻', name: '인디개발' },

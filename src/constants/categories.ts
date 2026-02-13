@@ -43,11 +43,11 @@ export const CATEGORIES: CategoryConfig[] = [
   {
     key: 'SHORT_FORM',
     icon: '🎬',
-    name: '숟폼 크리에이터',
+    name: '숏폼 크리에이터',
     desc: '유튜브 쇼츠/릴스/틱톡 수익 분석',
     color: theme.colors.danger,
-    greeting: '숟폼 크리에이터시군요! 콘텐츠 수익성을 분석해드릴게요.\n몇 가지 정보가 필요합니다.',
-    titleTemplate: '숟폼 콘텐츠 수익 분석',
+    greeting: '숏폼 크리에이터시군요! 콘텐츠 수익성을 분석해드릴게요.\n몇 가지 정보가 필요합니다.',
+    titleTemplate: '숏폼 콘텐츠 수익 분석',
     questions: [
       { field: 'price', text: '영상 하나당 평균 수익은 얼마인가요?\n(광고 수익, 협찬, 후원 등 포함)', hint: '예: 50000', unit: '원', confirm: (v) => `영상당 ${formatKRW(v)} 수익이군요.` },
       { field: 'variable_cost', text: '영상 하나를 만드는데 드는 직접 비용은?\n(소품, 음원, 외주 편집 등)', hint: '없으면 0', unit: '원', confirm: (v) => v > 0 ? `영상당 ${formatKRW(v)}의 비용이 드는군요.` : '직접 비용이 없으시군요.' },

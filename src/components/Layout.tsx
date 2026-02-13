@@ -1,8 +1,10 @@
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAuthStore } from '../store/authStore';
 import { useAuth } from '../hooks/useAuth';
 import { theme } from '../styles/theme';
+import api from '../api/axios';
 
 interface Props {
   children: React.ReactNode;
@@ -13,6 +15,19 @@ export default function Layout({ children }: Props) {
   const location = useLocation();
   const { nickname, isAuthenticated, role } = useAuthStore();
   const { logout } = useAuth();
+  const [llmAvailable, setLlmAvailable] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    api.get('/health')
+      .then((res) => {
+        if (res.data?.data?.llm_available) {
+          setLlmAvailable(true);
+        } else {
+          setLlmAvailable(false);
+        }
+      })
+      .catch(() => setLlmAvailable(false));
+  }, []);
 
   return (
     <Container>
@@ -83,6 +98,11 @@ export default function Layout({ children }: Props) {
         </UserArea>
       </Header>
       <Main>{children}</Main>
+      {llmAvailable !== null && (
+        <LlmBadge $active={llmAvailable} title={llmAvailable ? 'Gemini AI 연결됨' : 'AI 오프라인'}>
+          {llmAvailable ? '\u2728' : '\u26AA'}
+        </LlmBadge>
+      )}
     </Container>
   );
 }
@@ -174,3 +194,26 @@ const LoginButton = styled.button`
 `;
 
 const Main = styled.main``;
+
+const LlmBadge = styled.div<{ $active: boolean }>`
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: ${({ $active }) => ($active ? `${theme.colors.primary}20` : `${theme.colors.textSecondary}15`)};
+  border: 2px solid ${({ $active }) => ($active ? theme.colors.primary : theme.colors.textSecondary)};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  cursor: default;
+  opacity: 0.6;
+  z-index: 100;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 1;
+  }
+`;
