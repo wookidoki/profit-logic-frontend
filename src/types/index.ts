@@ -165,6 +165,15 @@ export interface ActionCardDto {
   priority: number;
 }
 
+/** CSV 업로드 응답 */
+export interface CsvUploadResponse {
+  total_rows: number;
+  imported_count: number;
+  skipped_count: number;
+  imported_items: CostDetail[];
+  errors: string[];
+}
+
 /** 시뮬레이션 기록 */
 export interface SimulationLog {
   id: number;

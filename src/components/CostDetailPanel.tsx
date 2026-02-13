@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import { theme } from '../styles/theme';
 import {
@@ -9,7 +9,7 @@ import { costApi } from '../api/costApi';
 import { formatKRW } from '../utils/formatNumber';
 import CostForm from './CostForm';
 import { CATEGORY_LABELS, COST_TYPE_LABELS } from '../constants';
-import type { CostDetail, CostDetailCreateRequest, CostCategory, CostType } from '../types';
+import type { CostDetail, CostDetailCreateRequest, CostCategory, CostType, CsvUploadResponse } from '../types';
 
 interface Props {
   projectId: number;
@@ -20,6 +20,9 @@ export default function CostDetailPanel({ projectId }: Props) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showForm, setShowForm] = useState(false);
+  const [csvUploading, setCsvUploading] = useState(false);
+  const [csvResult, setCsvResult] = useState<CsvUploadResponse | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const fetchCosts = useCallback(async () => {
     try {
@@ -62,6 +65,39 @@ export default function CostDetailPanel({ projectId }: Props) {
     }
   };
 
+  const handleCsvUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.name.toLowerCase().endsWith('.csv')) {
+      alert('CSV 파일만 업로드 가능합니다.');
+      return;
+    }
+
+    if (file.size > 1024 * 1024) {
+      alert('파일 크기는 1MB 이하여야 합니다.');
+      return;
+    }
+
+    setCsvUploading(true);
+    setCsvResult(null);
+    try {
+      const res = await costApi.uploadCsv(projectId, file);
+      if (res.data.success && res.data.data) {
+        setCsvResult(res.data.data);
+        // 목록 새로고침
+        await fetchCosts();
+      } else {
+        alert(res.data.message || 'CSV 업로드에 실패했습니다.');
+      }
+    } catch {
+      alert('CSV 업로드에 실패했습니다.');
+    } finally {
+      setCsvUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
+
   // 카테고리별 소계
   const subtotals = costs.reduce<Record<string, number>>((acc, c) => {
     acc[c.category] = (acc[c.category] || 0) + c.amount;
@@ -76,8 +112,39 @@ export default function CostDetailPanel({ projectId }: Props) {
     <Panel>
       <PanelHeader>
         <PanelTitle>비용 상세 내역</PanelTitle>
-        <AddButton onClick={() => setShowForm(true)}>+ 비용 추가</AddButton>
+        <ButtonGroup>
+          <CsvButton onClick={() => fileInputRef.current?.click()} disabled={csvUploading}>
+            {csvUploading ? '업로드 중...' : 'CSV 업로드'}
+          </CsvButton>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".csv"
+            style={{ display: 'none' }}
+            onChange={handleCsvUpload}
+          />
+          <AddButton onClick={() => setShowForm(true)}>+ 비용 추가</AddButton>
+        </ButtonGroup>
       </PanelHeader>
+
+      {csvResult && (
+        <CsvResultBanner $hasErrors={csvResult.errors.length > 0}>
+          <CsvResultHeader>
+            <span>CSV 업로드 완료: {csvResult.imported_count}건 등록</span>
+            <CsvResultClose onClick={() => setCsvResult(null)}>x</CsvResultClose>
+          </CsvResultHeader>
+          {csvResult.skipped_count > 0 && (
+            <CsvResultDetail>{csvResult.skipped_count}건 스킵됨</CsvResultDetail>
+          )}
+          {csvResult.errors.length > 0 && (
+            <CsvErrorList>
+              {csvResult.errors.map((err, i) => (
+                <li key={i}>{err}</li>
+              ))}
+            </CsvErrorList>
+          )}
+        </CsvResultBanner>
+      )}
 
       {error && <ErrorBanner>{error}</ErrorBanner>}
 
@@ -267,6 +334,80 @@ const TotalItem = styled(SubtotalItem)`
 
 const TotalValue = styled(SubtotalValue)`
   color: ${theme.colors.primary};
+`;
+
+/* ── CSV 업로드 ── */
+
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+`;
+
+const CsvButton = styled.button`
+  padding: 0.375rem 0.875rem;
+  background: transparent;
+  color: ${theme.colors.primary};
+  border: 1px solid ${theme.colors.primary};
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  transition: all 0.2s;
+
+  &:hover:not(:disabled) {
+    background: ${theme.colors.primary};
+    color: ${theme.colors.surface};
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+`;
+
+const CsvResultBanner = styled.div<{ $hasErrors: boolean }>`
+  padding: 0.75rem 1rem;
+  background: ${({ $hasErrors }) => ($hasErrors ? '#fff8e1' : '#e8f5e9')};
+  border: 1px solid ${({ $hasErrors }) => ($hasErrors ? '#ffd54f' : '#81c784')};
+  border-radius: 8px;
+  font-size: 0.8125rem;
+`;
+
+const CsvResultHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  color: ${theme.colors.text};
+`;
+
+const CsvResultClose = styled.button`
+  background: transparent;
+  color: ${theme.colors.textSecondary};
+  font-size: 0.875rem;
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+`;
+
+const CsvResultDetail = styled.div`
+  font-size: 0.75rem;
+  color: ${theme.colors.textSecondary};
+  margin-top: 0.25rem;
+`;
+
+const CsvErrorList = styled.ul`
+  margin: 0.5rem 0 0 1rem;
+  padding: 0;
+  font-size: 0.75rem;
+  color: ${theme.colors.danger};
+
+  li {
+    margin-bottom: 0.125rem;
+  }
 `;
 
 
