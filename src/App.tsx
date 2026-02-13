@@ -19,6 +19,7 @@ import BoardDetailPage from './pages/BoardDetailPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
 import AdminPage from './pages/AdminPage';
+import MyPage from './pages/MyPage';
 import { useAuthStore } from './store/authStore';
 
 function HomePage() {
@@ -101,6 +102,14 @@ export default function App() {
         <Route
           path="/board/:id"
           element={<Layout><BoardDetailPage /></Layout>}
+        />
+        <Route
+          path="/mypage"
+          element={
+            <ProtectedRoute>
+              <Layout><MyPage /></Layout>
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/admin"

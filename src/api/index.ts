@@ -12,4 +12,5 @@ export { reportApi } from './reportApi';
 export { scriptApi } from './scriptApi';
 export { timeLogApi } from './timeLogApi';
 export { trendApi } from './trendApi';
+export { myPageApi } from './myPageApi';
 export { extractErrorMessage } from './errorUtils';
