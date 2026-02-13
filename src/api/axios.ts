@@ -27,7 +27,7 @@ api.interceptors.response.use(
       useAuthStore.getState().logout();
     }
     if (status === 403) {
-      console.warn('[API] 403 Forbidden:', error.response?.data?.message || '접근 권한이 없습니다.');
+      // 접근 권한 없음 — 별도 처리 없이 reject
     }
     return Promise.reject(error);
   },
